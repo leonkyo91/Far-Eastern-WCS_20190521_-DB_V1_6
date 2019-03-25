@@ -1,0 +1,293 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{53FA8D59-2E21-483E-9588-9C85FAECBBB1}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Mirle.WinPLCCommu</RootNamespace>
+    <AssemblyName>WinPLCCommu</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>發行\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\MainControl.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="clsDB_C, Version=1.2.1509.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DLL\clsDB_C.dll</HintPath>
+    </Reference>
+    <Reference Include="clsErrDef, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DLL\clsErrDef.dll</HintPath>
+    </Reference>
+    <Reference Include="clsLog, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DLL\clsLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="clsTraceLogEventArgs.cs" />
+    <Compile Include="frmBufferInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBufferInfo.Designer.cs">
+      <DependentUpon>frmBufferInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCloseProgram.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCloseProgram.Designer.cs">
+      <DependentUpon>frmCloseProgram.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmEquCmd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEquCmd.Designer.cs">
+      <DependentUpon>frmEquCmd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMvsShow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPLCModify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPLCModify.Designer.cs">
+      <DependentUpon>frmPLCModify.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmWinPLCCommu_funAutoMoveCmd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWinPLCCommu_funAutoRun.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWinPLCCommu_funInsert.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWinPLCCommu_funLocToLoc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWinPLCCommu_funEquCmd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWinPLCCommu_funStnToStn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWinPLCCommu_funWritePLC.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWinPLCCommu_funUpdate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWinPLCCommu_funStockIn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWinPLCCommu_funShow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWinPLCCommu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWinPLCCommu.Designer.cs">
+      <DependentUpon>frmWinPLCCommu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmWinPLCCommu_funStockOut.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="x64\SQLite.Interop.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x86\SQLite.Interop.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="frmBufferInfo.resx">
+      <DependentUpon>frmBufferInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCloseProgram.resx">
+      <DependentUpon>frmCloseProgram.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEquCmd.resx">
+      <DependentUpon>frmEquCmd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPLCModify.resx">
+      <DependentUpon>frmPLCModify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmWinPLCCommu.resx">
+      <DependentUpon>frmWinPLCCommu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Content Include="Resources\MainControl.ico" />
+    <Content Include="WinPLCCommu.DB">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Content Include="WinPLCCommu.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="ACTMULTILib">
+      <Guid>{A306B141-AE98-11D3-83AE-00A024BDBF2B}</Guid>
+      <VersionMajor>3</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\clsDef\clsDef.csproj">
+      <Project>{6c03414d-f6e0-4c9d-8c71-e0b35a788e38}</Project>
+      <Name>clsDef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\clsIniSys\clsIniSys.csproj">
+      <Project>{3d90de02-de2f-417e-851f-4a5a1e69e337}</Project>
+      <Name>clsIniSys</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\uclBuffer\uclBuffer.csproj">
+      <Project>{949AD65C-3EE1-495D-8790-1C49FC0E6484}</Project>
+      <Name>uclBuffer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\uclWeight\uclWeight.csproj">
+      <Project>{2174ac57-4aa1-4104-9969-8c213059dbca}</Project>
+      <Name>uclWeight</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bottom.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Left.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Right.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Top.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 和 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
