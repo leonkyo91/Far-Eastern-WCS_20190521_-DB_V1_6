@@ -19,7 +19,7 @@ namespace Mirle.WinPLCCommu
         private enuReadNotice objReadNotice = enuReadNotice.None;
         private enuFunNotice objFunNotice = enuFunNotice.None;
         private enuStnChange objStnChange = enuStnChange.None;
-        private enuAvail objAvail = enuAvail.None;
+        private enuPalletNo objPalletNo = enuPalletNo.None;
         private int intFunNotice = 0;
         private string strError = string.Empty;
         private bool bolError = false;
@@ -81,8 +81,9 @@ namespace Mirle.WinPLCCommu
         public enum enuReadNotice
         {
             None = 0,
-            Left = 1,
-            Both = 3,
+            Read = 1,
+            ReadPass = 2,
+            ReadFail = 3
         }
         /// <summary>
         /// 功能通知列舉
@@ -90,8 +91,8 @@ namespace Mirle.WinPLCCommu
         public enum enuFunNotice
         {
             None = 0,
-            Height = 1,
-            Low = 2
+            Go = 2,
+            Back = 3
         }
         /// <summary>
         /// 站口切換列舉
@@ -104,7 +105,7 @@ namespace Mirle.WinPLCCommu
         /// <summary>
         /// 站口切換列舉
         /// </summary>
-        public enum enuAvail
+        public enum enuPalletNo
         {
             None = 0,
             A25 = 1,
@@ -405,25 +406,25 @@ namespace Mirle.WinPLCCommu
         }
 
         /// <summary>
-        /// 使用率 1:25% , 2:50% , 3:75% ,4:100%
+        /// 棧板號 
         /// </summary>
-        [Category("自訂屬性"), Description("使用率")]
-        public enuAvail Avail
+        [Category("自訂屬性"), Description("棧板號")]
+        public enuPalletNo PalletNo
         {
            get
             {
-                return objAvail;
+                return objPalletNo;
             }
             set
             {
-                objAvail = value;
-                if (((int)objAvail) != 0)
+                objPalletNo = value;
+                if (((int)objPalletNo) != 0)
                 {
-                    funUpdate(lblAvail, ((int)objAvail).ToString(), Color.Lime);
+                    funUpdate(lblPalletNo, ((int)objPalletNo).ToString(), Color.Lime);
                 }
                 else
                 {
-                    funUpdate(lblAvail, string.Empty, Color.White);
+                    funUpdate(lblPalletNo, string.Empty, Color.White);
                 }
             }
                 
@@ -661,7 +662,7 @@ namespace Mirle.WinPLCCommu
             string strFunNotice = "功能通知:H高儲位:L低儲位";
             string strError = "Error Code";
             string strtLoad = "荷有";
-            string strAvail = "使用率:1:25% 2:50% 3:75% 4:100%";
+            string strPalletNo = "棧板號";
             string strStnChange = "站口模式切換";
             string strAuto = "自動";
             string strManual = "手動";
@@ -684,7 +685,7 @@ namespace Mirle.WinPLCCommu
             objToolTip.SetToolTip(lblReadNotice, strReadNotice);
             objToolTip.SetToolTip(lblFunNotice, strFunNotice);
             objToolTip.SetToolTip(lblStnChanges, strStnChange);
-            objToolTip.SetToolTip(lblAvail, strAvail);
+            objToolTip.SetToolTip(lblPalletNo, strPalletNo);
             objToolTip.SetToolTip(lblLeftLoad, strtLoad);
             objToolTip.SetToolTip(lblAuto,strAuto);
             objToolTip.SetToolTip(lblManual,strManual);

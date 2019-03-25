@@ -107,7 +107,7 @@ namespace Mirle.WinPLCCommu
         /// <param name="e"></param>
         private void frmWinPLCCommu_Load(object sender, EventArgs e)
         {
-            this.Text = "Mirle AS/RS System Communication" + " (V." + Application.ProductVersion + ")";
+            this.Text = "Far Eastern AS/RS System Communication" + " (V." + Application.ProductVersion + ")";
             btnAutoPause.Text = "Pause";
             bolAutoPaseFlag = true;
 
@@ -180,7 +180,7 @@ namespace Mirle.WinPLCCommu
                                     BufferControl.Error = objBufferData.PLC2PCBuffer[intItem].Error.ToString();
                                     BufferControl.LeftLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Load;
                                     BufferControl.RightLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_RightLoad;
-                                    BufferControl.Avail = clsTool.funGetEnumValue<uclBuffer.enuAvail>(((int)objBufferData.PLC2PCBuffer[intItem].Avail).ToString());
+                                    BufferControl.PalletNo = clsTool.funGetEnumValue<uclBuffer.enuPalletNo>(((int)objBufferData.PLC2PCBuffer[intItem].Avail).ToString());
                                     BufferControl.Auto = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Auto;
                                     BufferControl.Manual = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Manual;
                                     //v1.0.0.9決定顯示字幕機的時機
@@ -454,7 +454,7 @@ namespace Mirle.WinPLCCommu
                                 BufferControl.Error = objBufferData.PLC2PCBuffer[intItem].Error.ToString();
                                 BufferControl.LeftLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Load;
                                 BufferControl.RightLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_RightLoad;
-                                BufferControl.Avail = clsTool.funGetEnumValue<uclBuffer.enuAvail>(((int)objBufferData.PLC2PCBuffer[intItem].Avail).ToString());
+                                BufferControl.PalletNo = clsTool.funGetEnumValue<uclBuffer.enuPalletNo>(((int)objBufferData.PLC2PCBuffer[intItem].Avail).ToString());
                                 BufferControl.Auto = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Auto;
                                 BufferControl.Manual = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Manual;
                             }
@@ -566,7 +566,7 @@ namespace Mirle.WinPLCCommu
                                 BufferControl.Error = objBufferData.PLC2PCBuffer[intItem].Error.ToString();
                                 BufferControl.LeftLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Load;
                                 BufferControl.RightLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_RightLoad;
-                                BufferControl.Avail = clsTool.funGetEnumValue<uclBuffer.enuAvail>(((int)objBufferData.PLC2PCBuffer[intItem].Avail).ToString());
+                                BufferControl.PalletNo = clsTool.funGetEnumValue<uclBuffer.enuPalletNo>(((int)objBufferData.PLC2PCBuffer[intItem].Avail).ToString());
                                 BufferControl.Auto = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Auto;
                                 BufferControl.Manual = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Manual;                           
                             }

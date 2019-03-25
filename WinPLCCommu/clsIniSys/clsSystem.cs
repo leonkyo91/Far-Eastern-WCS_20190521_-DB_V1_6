@@ -83,11 +83,11 @@ namespace Mirle.Library
         /// <summary>
         /// Crane 數量
         /// </summary>
-        public static int gintRMQty = 3;//for Largan
+        public static int gintRMQty = 11;// for Far Eastern
         /// <summary>
         /// 站口數量
         /// </summary>
-        public static int gintStnQty = 12;//for Largan
+        public static int gintStnQty = 12;// for Far Eastern
         /// <summary>
         /// Buffer數量(不含站口)
         /// </summary>

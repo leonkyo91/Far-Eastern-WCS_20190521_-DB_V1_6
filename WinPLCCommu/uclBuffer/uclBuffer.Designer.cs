@@ -41,7 +41,7 @@
             this.lblError = new System.Windows.Forms.Label();
             this.btnBuffer = new System.Windows.Forms.Button();
             this.tlpBuffer = new System.Windows.Forms.TableLayoutPanel();
-            this.lblAvail = new System.Windows.Forms.Label();
+            this.lblPalletNo = new System.Windows.Forms.Label();
             this.tlpBuffer.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -225,7 +225,7 @@
             this.tlpBuffer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlpBuffer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlpBuffer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlpBuffer.Controls.Add(this.lblAvail, 3, 1);
+            this.tlpBuffer.Controls.Add(this.lblPalletNo, 3, 1);
             this.tlpBuffer.Controls.Add(this.lblReady, 0, 3);
             this.tlpBuffer.Controls.Add(this.lblError, 3, 2);
             this.tlpBuffer.Controls.Add(this.lblReadNotice, 1, 3);
@@ -250,18 +250,18 @@
             this.tlpBuffer.TabIndex = 2;
             this.tlpBuffer.Click += new System.EventHandler(this.uclBuffer_Click);
             // 
-            // lblAvail
+            // lblPalletNo
             // 
-            this.lblAvail.BackColor = System.Drawing.Color.White;
-            this.lblAvail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblAvail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblAvail.Font = new System.Drawing.Font("微軟正黑體", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.lblAvail.Location = new System.Drawing.Point(60, 14);
-            this.lblAvail.Margin = new System.Windows.Forms.Padding(0);
-            this.lblAvail.Name = "lblAvail";
-            this.lblAvail.Size = new System.Drawing.Size(26, 14);
-            this.lblAvail.TabIndex = 483;
-            this.lblAvail.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblPalletNo.BackColor = System.Drawing.Color.White;
+            this.lblPalletNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblPalletNo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblPalletNo.Font = new System.Drawing.Font("微軟正黑體", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.lblPalletNo.Location = new System.Drawing.Point(60, 14);
+            this.lblPalletNo.Margin = new System.Windows.Forms.Padding(0);
+            this.lblPalletNo.Name = "lblPalletNo";
+            this.lblPalletNo.Size = new System.Drawing.Size(26, 14);
+            this.lblPalletNo.TabIndex = 483;
+            this.lblPalletNo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // uclBuffer
             // 
@@ -293,6 +293,6 @@
         private System.Windows.Forms.Label lblLeftLoad;
         private System.Windows.Forms.Button btnBuffer;
         private System.Windows.Forms.TableLayoutPanel tlpBuffer;
-        private System.Windows.Forms.Label lblAvail;
+        private System.Windows.Forms.Label lblPalletNo;
     }
 }
