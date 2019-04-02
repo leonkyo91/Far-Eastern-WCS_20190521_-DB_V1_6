@@ -40,8 +40,8 @@ namespace Mirle.WinPLCCommu
                 else
                     StnDef = lstOutModeStnDef.Find(p => p.StnIndex == StnIndex);
 
-                if(!objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_LeftLoad &&
-                    !objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_RightLoad &&
+                if(!objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_CargoLoad &&
+                    //!objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_RightLoad &&
                     objBufferData.PLC2PCBuffer[StnDef.BufferIndex].Ready == (int)clsPLC2PCBuffer.enuReady.OutReady &&
                     string.IsNullOrWhiteSpace(objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno) &&
                     string.IsNullOrWhiteSpace(objBufferData.PLC2PCBuffer[StnDef.BufferIndex].RightCmdSno) &&

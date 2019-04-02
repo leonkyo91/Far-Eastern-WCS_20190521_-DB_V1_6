@@ -10,14 +10,15 @@ namespace Mirle.WinPLCCommu
     {
         #region 列舉
         /// <summary>
+        //讀取通知列舉 : 0: 無 1: 升降台高位通知讀取
         /// 讀取通知列舉 : 0: 無 1: 通知PC讀取RFID 2: 板號正確 3: 板號不符
         /// </summary>
         public enum enuReadNotice
         {
             None = 0,
             Read = 1,
-            IDPass = 2,
-            IDFail = 3,
+            OK = 2,
+            NG = 3,
         }
 
         /// <summary>
@@ -55,10 +56,10 @@ namespace Mirle.WinPLCCommu
         /// <summary>
         /// 初始通知列舉
         /// </summary>
-        public enum enuFunNotice
+        public enum enuPalletLoad
         {
             None = 0,
-            Init = 1
+            Init = 1,
         }
         #endregion 列舉
 
@@ -128,9 +129,9 @@ namespace Mirle.WinPLCCommu
         }
 
         /// <summary>
-        /// 功能通知: 0:無 1:接收到初始訊號(需在自動下可出始,並判斷荷無)
+        /// 功能通知: 0: 無 1:高儲位 2:低儲位
         /// </summary>
-        public int FunNotice
+        public int PalletLoad
         {
             get;
             set;
@@ -146,7 +147,7 @@ namespace Mirle.WinPLCCommu
         }
 
         /// <summary>
-        /// 讀取通知列舉 : 0: 無 1: 通知PC讀取RFID 2: 板號正確 3: 板號不符
+        /// 讀取通知; 0:無 1:升降台高位通知讀取
         /// </summary>
         public int ReadNotice
         {
@@ -186,6 +187,7 @@ namespace Mirle.WinPLCCommu
             get;
             set;
         }
+
         /// <summary>
         /// 站口模式碼 Bit0:無模式
         /// </summary>
@@ -293,7 +295,7 @@ namespace Mirle.WinPLCCommu
         {
             LeftCmdSno = string.Empty;
             RightCmdSno = string.Empty;
-            //FunNotice = 0;
+            //PalletLoad = 0;
             //CmdMode = 0;
             //StnMode = 0;
             //ReadNotice = 0;

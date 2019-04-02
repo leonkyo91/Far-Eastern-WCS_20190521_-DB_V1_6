@@ -91,6 +91,7 @@ namespace Mirle.WinPLCCommu
                         strSQL = "SELECT Distinct LOC,CMD_SNO,CMD_MODE,Prty From CMD_MST ";
                         strSQL += "WHERE CMD_STS='0' AND CMD_MODE IN ('2','3') AND STN_NO ='" + StnDef.StnNo + "'";
                         strSQL += "";
+                        // LOC 需根據遠紡調整 By Leon
                         switch (StnDef.CraneNo)
                         {
                             case 1:
@@ -137,13 +138,14 @@ namespace Mirle.WinPLCCommu
 
                             }
 
-                            if (!objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_Load &&
+                            if (!objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_CargoLoad &&
                                 objBufferData.PLC2PCBuffer[StnDef.BufferIndex].Ready == (int)clsPLC2PCBuffer.enuReady.OutReady &&
                                 string.IsNullOrWhiteSpace(objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno) &&
                                 objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnMode == (int)clsPLC2PCBuffer.enuStnMode.None)
                             {
                                 if (bolCheckLoc && !string.IsNullOrWhiteSpace(strOutsideLoc))
                                 {
+                                    // 遠紡single deep 不需庫對庫
                                     #region 檢查內儲位是否需要進行庫對庫作業
                                     if (!funCheckInsideLocIsEmpty(strOutsideLoc, strPrty, ref bolOut))
                                     {
@@ -438,11 +440,11 @@ namespace Mirle.WinPLCCommu
                 }
                 try
                 {
-                    if (!objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_Load &&
+                    if (!objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_CargoLoad &&
                         !string.IsNullOrWhiteSpace(objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno))
 
                         //大立光--------------------------------------------------------
-                        if (!objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_Load &&
+                        if (!objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_CargoLoad &&
                             !string.IsNullOrWhiteSpace(objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno) &&
                             objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnMode == 2)
                         {

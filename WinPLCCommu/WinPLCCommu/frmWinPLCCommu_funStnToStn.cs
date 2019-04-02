@@ -322,7 +322,7 @@ namespace Mirle.WinPLCCommu
                             {
                                 intBufferIndex_Out = clsTool.funConvertToInt(objDataTable.Rows[0]["BufferIndex"].ToString());
 
-                                if (!objBufferData.PLC2PCBuffer[intBufferIndex_Out].StnModeCode_Load &&
+                                if (!objBufferData.PLC2PCBuffer[intBufferIndex_Out].StnModeCode_CargoLoad &&
                                 objBufferData.PLC2PCBuffer[intBufferIndex_Out].Ready == (int)clsPLC2PCBuffer.enuReady.OutReady &&
                                 string.IsNullOrWhiteSpace(objBufferData.PLC2PCBuffer[intBufferIndex_Out].LeftCmdSno) &&
                                 objBufferData.PLC2PCBuffer[intBufferIndex_Out].StnMode == (int)clsPLC2PCBuffer.enuStnMode.None)

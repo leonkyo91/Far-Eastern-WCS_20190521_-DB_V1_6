@@ -260,8 +260,8 @@ namespace Mirle.WinPLCCommu
     {
         public const string cstrNone = "0";
         public const string cstrInitial = "1";
-        public const string cstrCheckOK = "1";
-        public const string cstrCheckNG = "2";
+        public const string cstrCheckOK = "2";
+        public const string cstrCheckNG = "3";
         public const string cstrStnInMode = "1";
         public const string cstrStnOutMode = "2";
         public const string cstrNoCMD = "1";

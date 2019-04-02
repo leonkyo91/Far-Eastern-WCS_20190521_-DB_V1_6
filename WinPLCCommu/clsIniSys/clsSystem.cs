@@ -87,20 +87,20 @@ namespace Mirle.Library
         /// <summary>
         /// 站口數量
         /// </summary>
-        public static int gintStnQty = 12;// for Far Eastern
+        public static int gintStnQty = 22;// for Far Eastern
         /// <summary>
         /// Buffer數量(不含站口)
         /// </summary>
-        public static int gintBufferQty_1 = 24;
+        public static int gintBufferQty_1 = 22;// for Far Eastern
         /// <summary>
         /// PLC->PC Buffer Word Total 長度
         /// </summary>
-        public static int gintPLC2PCBufferTotalWord_1 = 20;
+        public static int gintPLC2PCBufferTotalWord_1 = 10;// for Far Eastern
         /// <summary>
         /// PLC->PC PLC1 Word Total 長度
         /// </summary>
         //public static int gintPLC2PCTotalWord_1 = 483;//for Largan
-        public static int gintPLC2PCTotalWord_1 = 500;//for Largan
+        public static int gintPLC2PCTotalWord_1 = 450;//for Far Eastern
         /// <summary>
         /// PLC->PC PLC2 Word Total 長度
         /// </summary>
@@ -114,7 +114,7 @@ namespace Mirle.Library
         /// <summary>
         /// PLC->PC PLC Word 開始位置
         /// </summary>
-        public static string gstrPLC2PCWordAddressStart_1 = "D101";//for Largan
+        public static string gstrPLC2PCWordAddressStart_1 = "D1000";// for Far Eastern
         /// <summary>
         /// PC->PLC Buffer Word Total 長度
         /// </summary>
@@ -123,7 +123,7 @@ namespace Mirle.Library
         /// PC->PLC PLC1 Word Total 長度
         /// </summary>
         //public static int gintPC2PLCTotalWord_1 = 243;//for Largan
-        public static int gintPC2PLCTotalWord_1 = 250;//for Largan
+        public static int gintPC2PLCTotalWord_1 = 450;// for Far Eastern
         /// <summary>
         /// PC->PLC PLC2 Word Total 長度
         /// </summary>
@@ -137,7 +137,7 @@ namespace Mirle.Library
         /// <summary>
         /// PC->PLC PLC Word 開始位置
         /// </summary>
-        public static string gstrPC2PLCWordAddressStart_1 = "D3001";
+        public static string gstrPC2PLCWordAddressStart_1 = "D3000";
         /// <summary>
         /// 校正儲位數量
         /// </summary>

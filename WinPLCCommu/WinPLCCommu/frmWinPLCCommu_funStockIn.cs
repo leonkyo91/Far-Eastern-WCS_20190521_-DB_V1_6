@@ -62,7 +62,7 @@ namespace Mirle.WinPLCCommu
             clsTraceLogEventArgs SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.None);
             try
             {
-                
+      
                 for (int intStn = 0; intStn < objBCRData.StnCount; intStn++)
                 {
                     bool bolChk = true;
@@ -108,43 +108,43 @@ namespace Mirle.WinPLCCommu
                         if (intPLCIndex.ToString() != objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLCIndex)
                             continue;
 
-
+                        #region  遠紡暫不使用 By Leon
                         #region 更改站口方向
-                        Control[] result = this.Controls.Find("ptb" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo, true);
-                        if (result.Length == 0) continue;
-                        if (!(result[0] is PictureBox)) continue;
-                        PictureBox ptb = result[0] as PictureBox;
-                        if (ptb == null) continue;//v1.0.0.17 
-                        //switch (objBufferData.PC2PLCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].FunNotice_2)
-                        if (objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnChange == 1)
-                        {
-                            switch (ptb.Tag.ToString())
-                            {
-                                case "IN":
-                                    funWritePC2PLCSingel(intPLCIndex, objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
-                                            clsPLC.enuAddressSection.FunNotice_2, clsInOutMode.cstrInMode);
-                                    funWritePC2PLCSingel(intPLCIndex, objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName.Replace("L", "1"),
-                                            clsPLC.enuAddressSection.FunNotice_2, clsInOutMode.cstrInMode);
-                                    break;
-                                case "OUT":
-                                    funWritePC2PLCSingel(intPLCIndex, objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
-                                            clsPLC.enuAddressSection.FunNotice_2, clsInOutMode.cstrOutMode);
-                                    funWritePC2PLCSingel(intPLCIndex, objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName.Replace("L", "1"),
-                                            clsPLC.enuAddressSection.FunNotice_2, clsInOutMode.cstrOutMode);
-                                    break;
-                                default:
-                                    funWritePC2PLCSingel(intPLCIndex, objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
-                                            clsPLC.enuAddressSection.FunNotice_2, clsInOutMode.cstrNone);
-                                    funWritePC2PLCSingel(intPLCIndex, objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName.Replace("L", "1"),
-                                            clsPLC.enuAddressSection.FunNotice_2, clsInOutMode.cstrNone);
-                                    ptb.Image = global::Mirle.WinPLCCommu.Properties.Resources.Bottom;
-                                    break;
-                            }
-                        }
+                        //Control[] result = this.Controls.Find("ptb" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo, true);
+                        //if (result.Length == 0) continue;
+                        //if (!(result[0] is PictureBox)) continue;
+                        //PictureBox ptb = result[0] as PictureBox;
+                        //if (ptb == null) continue;//v1.0.0.17 
+                        ////switch (objBufferData.PC2PLCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].FunNotice_2)
+                        //if (objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnChange == 1)
+                        //{
+                        //    switch (ptb.Tag.ToString())
+                        //    {
+                        //        case "IN":
+                        //            funWritePC2PLCSingel(intPLCIndex, objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
+                        //                    clsPLC.enuAddressSection.FunNotice_2, clsInOutMode.cstrInMode);
+                        //            funWritePC2PLCSingel(intPLCIndex, objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName.Replace("L", "1"),
+                        //                    clsPLC.enuAddressSection.FunNotice_2, clsInOutMode.cstrInMode);
+                        //            break;
+                        //        case "OUT":
+                        //            funWritePC2PLCSingel(intPLCIndex, objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
+                        //                    clsPLC.enuAddressSection.FunNotice_2, clsInOutMode.cstrOutMode);
+                        //            funWritePC2PLCSingel(intPLCIndex, objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName.Replace("L", "1"),
+                        //                    clsPLC.enuAddressSection.FunNotice_2, clsInOutMode.cstrOutMode);
+                        //            break;
+                        //        default:
+                        //            funWritePC2PLCSingel(intPLCIndex, objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
+                        //                    clsPLC.enuAddressSection.FunNotice_2, clsInOutMode.cstrNone);
+                        //            funWritePC2PLCSingel(intPLCIndex, objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName.Replace("L", "1"),
+                        //                    clsPLC.enuAddressSection.FunNotice_2, clsInOutMode.cstrNone);
+                        //            ptb.Image = global::Mirle.WinPLCCommu.Properties.Resources.Bottom;
+                        //            break;
+                        //    }
+                        //}
                         #endregion 更改站口方向
 
                         //檢查該站口荷無時，BCR和秤重是否為已讀取，若是自動更新為未讀取
-                        if (!objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_Load)
+                        if (!objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_CargoLoad)
                         {
                             objDataTable = null;
                             strSQL = "SELECT BCR_Sts FROM IN_BUF WHERE BCR_NO IN";
@@ -154,7 +154,7 @@ namespace Mirle.WinPLCCommu
 
                                 if (objDataTable.Rows[0]["BCR_Sts"].ToString() == "2")
                                 {
-                                    
+
                                     strSQL = "Update In_Buf Set BCR_Sts='0' Where Bcr_No='"+ objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo+"'";
                                     if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == 0)
                                     {
@@ -163,49 +163,56 @@ namespace Mirle.WinPLCCommu
 
                                 }
                             }
-                            if (clsTool.funConvertToInt(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Substring(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Length - 1, 1)) % 2 == 0)
-                            {
+                            #region 秤重相關 先註解 By Leon
+                            //if (clsTool.funConvertToInt(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Substring(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Length - 1, 1)) % 2 == 0)
+                            //{
 
-                                objDataTable = null;
-                                strSQL = "SELECT Weight_Sts From In_Weight Where Weight_No='" + objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo + "'";
-                                if (clsSystem.gobjDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
-                                {
-                                    if (objDataTable.Rows[0]["Weight_Sts"].ToString() == "2")
-                                    {
-                                        strSQL = "Update In_Weight Set Weight_Sts='0',Weight_Data='n/a' Where Weight_No='" + objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo + "'";
-                                        if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == 0)
-                                        {
-                                            //更新In_Weight成功
-                                        }
+                            //    objDataTable = null;
+                            //    strSQL = "SELECT Weight_Sts From In_Weight Where Weight_No='" + objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo + "'";
+                            //    if (clsSystem.gobjDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
+                            //    {
+                            //        if (objDataTable.Rows[0]["Weight_Sts"].ToString() == "2")
+                            //        {
+                            //            strSQL = "Update In_Weight Set Weight_Sts='0',Weight_Data='n/a' Where Weight_No='" + objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo + "'";
+                            //            if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == 0)
+                            //            {
+                            //                //更新In_Weight成功
+                            //            }
 
-                                    }
-                                }
-                            }
-
+                            //        }
+                            //    }
+                            //}
+                            #endregion
 
                         }
-
+                        #endregion
+                        // 找站口 ? By Leon 
                         strSQL = "";
-                        if (objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_Load &&
-                            objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].ReadNotice ==
-                            (int)clsPLC2PCBuffer.enuReadNotice.Read &&
+                        if (objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_CargoLoad ||
+                            objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_PalletLoad &&
+                            objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].ReadNotice == (int)clsPLC2PCBuffer.enuReadNotice.Read &&
                             //v1.01 
-                            objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].Ready ==
-                            (int)clsPLC2PCBuffer.enuReady.NoReady &&
+                            //  檢查 Ready =1  By Leon
+                            // objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].Ready == (int)clsPLC2PCBuffer.enuReady.NoReady &&
+                            objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].Ready == (int)clsPLC2PCBuffer.enuReady.InReady &&
                             string.IsNullOrWhiteSpace(objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].LeftCmdSno) &&
-                            objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].FunNotice !=
-                            (int)clsPLC2PCBuffer.enuFunNotice.None &&
+                            // 原為高低儲位參數
+                            //objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].FunNotice != (int)clsPLC2PCBuffer.enuFunNotice.None &&
+                            objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_Position &&
                             objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_Auto &&
-                            objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnMode == (int)clsPLC2PCBuffer.enuStnMode.None
+                            // 改成判斷入庫模式
+                            //objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnMode == (int)clsPLC2PCBuffer.enuStnMode.None
+                            objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnMode == (int)clsPLC2PCBuffer.enuStnMode.InMode
                             )
                         #endregion 大立光-訊號判斷
-                       {
-                            #region 讀取BarCode For 大立光
+                        {
+                            #region 讀取 BarCode For 大立光
                             if (chkBCR.Checked && !string.IsNullOrEmpty(txtBCR.Text))
                             {
                                 objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID = txtBCR.Text;
                                 objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRSts = clsBCR.enuBCRSts.ReadFinish;
                             }
+                            #region 應該是讀BCR的區段 By Leon
                             else
                             {
                                 objDataTable = new DataTable();
@@ -302,180 +309,182 @@ namespace Mirle.WinPLCCommu
                                 }
                             }
                             #endregion
-                            if (clsTool.funConvertToInt(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Substring(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Length - 1, 1)) % 2 == 0)
-                            {
-                                #region 讀取秤重機---For大立光
-                                if (chkWeight.Checked)
-                                {
-                                    //strWeight = "0";
-                                    objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data = "25";
-                                    objWTData[intStn, clsWT.enuWTLoc.Once].bolWTSts = true;
-                                    bolChkWeight = true;
-                                }
-                                else
-                                {
-                                    objWTData[intStn, clsWT.enuWTLoc.Once].bolWTSts = false;
-                                    //bolChkWeight = bolWeightRead(objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex, ref strWeight);
-                                }
+                            #endregion
+                            #region 秤重相關先不管 By Leon
+                            //if (clsTool.funConvertToInt(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Substring(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Length - 1, 1)) % 2 == 0)
+                            //{
+                            //    #region 讀取秤重機---For大立光 
+                            //    if (chkWeight.Checked)
+                            //    {
+                            //        //strWeight = "0";
+                            //        objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data = "25";
+                            //        objWTData[intStn, clsWT.enuWTLoc.Once].bolWTSts = true;
+                            //        bolChkWeight = true;
+                            //    }
+                            //    else
+                            //    {
+                            //        objWTData[intStn, clsWT.enuWTLoc.Once].bolWTSts = false;
+                            //        //bolChkWeight = bolWeightRead(objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex, ref strWeight);
+                            //    }
 
-                                objWTDataTable = new DataTable();
-                                objWTDataTable = null;
-                                strSQL = "SELECT * FROM IN_WEIGHT WHERE Weight_No IN";
-                                strSQL += " ('" + objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo + "')";
-                                //strSQL += " ('" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.ToString().Remove(1,1) + "')";
-                                if (clsSystem.gobjDB.funGetDT(strSQL, ref objWTDataTable, ref strEM) == ErrDef.ProcSuccess)
-                                {
+                            //    objWTDataTable = new DataTable();
+                            //    objWTDataTable = null;
+                            //    strSQL = "SELECT * FROM IN_WEIGHT WHERE Weight_No IN";
+                            //    strSQL += " ('" + objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo + "')";
+                            //    //strSQL += " ('" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.ToString().Remove(1,1) + "')";
+                            //    if (clsSystem.gobjDB.funGetDT(strSQL, ref objWTDataTable, ref strEM) == ErrDef.ProcSuccess)
+                            //    {
                                     
-                                    switch (objWTDataTable.Rows[0]["WEIGHT_STS"].ToString())
-                                    {
+                            //        switch (objWTDataTable.Rows[0]["WEIGHT_STS"].ToString())
+                            //        {
 
-                                        case clsWTSts.cstrReadFinish:
-                                            objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data = "0";
-                                            if (objWTDataTable.Rows[0]["WEIGHT_No"].ToString() == objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo.ToString())
-                                            {
-                                                strSQL = "Insert Into Weight_log (event_time,Weight_No,Weight_Data,Weight_Sts)Values(";
-                                                strSQL += "'" + System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:fff") + "',";
-                                                strSQL += "'" + objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo + "',";
-                                                strSQL += "'" + objWTDataTable.Rows[0]["WEIGHT_Data"].ToString() + "',";
-                                                strSQL += "'" + clsWTSts.cstrReadFinish + "')";
-                                                clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
+                            //            case clsWTSts.cstrReadFinish:
+                            //                objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data = "0";
+                            //                if (objWTDataTable.Rows[0]["WEIGHT_No"].ToString() == objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo.ToString())
+                            //                {
+                            //                    strSQL = "Insert Into Weight_log (event_time,Weight_No,Weight_Data,Weight_Sts)Values(";
+                            //                    strSQL += "'" + System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:fff") + "',";
+                            //                    strSQL += "'" + objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo + "',";
+                            //                    strSQL += "'" + objWTDataTable.Rows[0]["WEIGHT_Data"].ToString() + "',";
+                            //                    strSQL += "'" + clsWTSts.cstrReadFinish + "')";
+                            //                    clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
 
-                                                if (objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data != objWTDataTable.Rows[0]["Weight_Data"].ToString())
-                                                {
-                                                    objWTData[intStn, clsWT.enuWTLoc.Once].WTSts =
-                                                        clsTool.funGetEnumValue<clsWT.enuWTSts>(objWTDataTable.Rows[0]["Weight_STS"].ToString());
-                                                    objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data = objWTDataTable.Rows[0]["Weight_Data"].ToString();
-                                                    bolChkWeight = true;
-                                                    objWTData[intStn, clsWT.enuWTLoc.Once].bolWTSts = true;
-                                                    SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-                                                    SystemTraceLog.LogMessage = "Weight Read Success! " + objWTData[intStn, clsWT.enuWTLoc.Once].StnNo + ":" + objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data + "kg" + "DatatTable=" + objWTDataTable.Rows[0]["Weight_Data"].ToString();
-                                                    SystemTraceLog.WTNo = objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo;
-                                                    SystemTraceLog.WTData = objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data;
-                                                    SystemTraceLog.StnNo = objWTData[intStn, clsWT.enuWTLoc.Once].StnNo;
-                                                    //strWeight = objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data;
-                                                    funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
+                            //                    if (objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data != objWTDataTable.Rows[0]["Weight_Data"].ToString())
+                            //                    {
+                            //                        objWTData[intStn, clsWT.enuWTLoc.Once].WTSts =
+                            //                            clsTool.funGetEnumValue<clsWT.enuWTSts>(objWTDataTable.Rows[0]["Weight_STS"].ToString());
+                            //                        objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data = objWTDataTable.Rows[0]["Weight_Data"].ToString();
+                            //                        bolChkWeight = true;
+                            //                        objWTData[intStn, clsWT.enuWTLoc.Once].bolWTSts = true;
+                            //                        SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
+                            //                        SystemTraceLog.LogMessage = "Weight Read Success! " + objWTData[intStn, clsWT.enuWTLoc.Once].StnNo + ":" + objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data + "kg" + "DatatTable=" + objWTDataTable.Rows[0]["Weight_Data"].ToString();
+                            //                        SystemTraceLog.WTNo = objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo;
+                            //                        SystemTraceLog.WTData = objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data;
+                            //                        SystemTraceLog.StnNo = objWTData[intStn, clsWT.enuWTLoc.Once].StnNo;
+                            //                        //strWeight = objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data;
+                            //                        funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
 
-                                                }
-                                            }
-                                            break;
-                                        case clsWTSts.cstrNone:
-                                            if (clsSystem.intBegin == 0)
-                                            {
-                                                clsSystem.intBegin = 1;
-                                                #region 啟動秤重機
-                                                if (clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin, ref strEM) == ErrDef.ProcSuccess)
-                                                {
-                                                    if (funUpdateWTSts(clsWT.enuWTSts.Reading, objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo, clsReWTID.cstrWTDataInit))
-                                                    {
+                            //                    }
+                            //                }
+                            //                break;
+                            //            case clsWTSts.cstrNone:
+                            //                if (clsSystem.intBegin == 0)
+                            //                {
+                            //                    clsSystem.intBegin = 1;
+                            //                    #region 啟動秤重機
+                            //                    if (clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin, ref strEM) == ErrDef.ProcSuccess)
+                            //                    {
+                            //                        if (funUpdateWTSts(clsWT.enuWTSts.Reading, objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo, clsReWTID.cstrWTDataInit))
+                            //                        {
 
-                                                        objWTData[intStn, clsWT.enuWTLoc.Once].WTSts = clsWT.enuWTSts.Reading;
-                                                        objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data = clsReWTID.cstrWTDataInit;
-                                                        objWTData[intStn, clsWT.enuWTLoc.Once].bolWTSts = false;
-                                                        clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
-                                                        SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-                                                        SystemTraceLog.LogMessage = "Update Weight Sts Success!";
-                                                        SystemTraceLog.WTSts = ((int)clsWT.enuWTSts.Reading).ToString();
-                                                        SystemTraceLog.WTNo = objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo;
-                                                        funInsertWeightLog(objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo, clsReWTID.cstrWTDataInit, clsWT.enuWTSts.Reading.ToString());
-                                                        funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
-                                                    }
-                                                    else
-                                                    {
-                                                        clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
-                                                        SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-                                                        SystemTraceLog.LogMessage = "Update Weight Sts Fail!";
-                                                        //SystemTraceLog.WTSts = ((int)clsWT.enuWTSts.Reading).ToString();
-                                                        //SystemTraceLog.WTNo = objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo;
-                                                        funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-                                                    SystemTraceLog.LogMessage = "[Begin Fail]:[funStockIn_CheckSign]:[Weight]" + strEM;
-                                                    SystemTraceLog.BCRSts = clsBCR.enuBCRSts.Reading.ToString();
-                                                    SystemTraceLog.BCRNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo;
-                                                    funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
-                                                }
-                                                #endregion 啟動秤重機
-                                                clsSystem.intBegin = 0;
-                                            }
-                                            break;
+                            //                            objWTData[intStn, clsWT.enuWTLoc.Once].WTSts = clsWT.enuWTSts.Reading;
+                            //                            objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data = clsReWTID.cstrWTDataInit;
+                            //                            objWTData[intStn, clsWT.enuWTLoc.Once].bolWTSts = false;
+                            //                            clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
+                            //                            SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
+                            //                            SystemTraceLog.LogMessage = "Update Weight Sts Success!";
+                            //                            SystemTraceLog.WTSts = ((int)clsWT.enuWTSts.Reading).ToString();
+                            //                            SystemTraceLog.WTNo = objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo;
+                            //                            funInsertWeightLog(objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo, clsReWTID.cstrWTDataInit, clsWT.enuWTSts.Reading.ToString());
+                            //                            funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
+                            //                        }
+                            //                        else
+                            //                        {
+                            //                            clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
+                            //                            SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
+                            //                            SystemTraceLog.LogMessage = "Update Weight Sts Fail!";
+                            //                            //SystemTraceLog.WTSts = ((int)clsWT.enuWTSts.Reading).ToString();
+                            //                            //SystemTraceLog.WTNo = objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo;
+                            //                            funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
+                            //                        }
+                            //                    }
+                            //                    else
+                            //                    {
+                            //                        SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
+                            //                        SystemTraceLog.LogMessage = "[Begin Fail]:[funStockIn_CheckSign]:[Weight]" + strEM;
+                            //                        SystemTraceLog.BCRSts = clsBCR.enuBCRSts.Reading.ToString();
+                            //                        SystemTraceLog.BCRNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo;
+                            //                        funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
+                            //                    }
+                            //                    #endregion 啟動秤重機
+                            //                    clsSystem.intBegin = 0;
+                            //                }
+                            //                break;
 
-                                        default:
+                            //            default:
 
-                                            break;
-                                    }
+                            //                break;
+                            //        }
                                 
 
 
 
-                                    //foreach (DataRow drTmp in objWTDataTable.Rows)
-                                    //{
+                            //        //foreach (DataRow drTmp in objWTDataTable.Rows)
+                            //        //{
                                         
                                         
                                         
-                                    //}
-                                }
-                                #endregion 讀取秤重機
+                            //        //}
+                            //    }
+                            //    #endregion 讀取秤重機
 
-                                if (objWTData[intStn, clsWT.enuWTLoc.Once].WTSts == clsWT.enuWTSts.ReadFinish)
-                                {
-                                    //判斷是否超重
-                                    double dWeight = clsTool.Double(objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data);
+                            //    if (objWTData[intStn, clsWT.enuWTLoc.Once].WTSts == clsWT.enuWTSts.ReadFinish)
+                            //    {
+                            //        //判斷是否超重
+                            //        double dWeight = clsTool.Double(objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data);
 
-                                    if (dWeight > clsSystem.gstrWeightOver)
-                                    {
-                                        objWTData[intStn, clsWT.enuWTLoc.Once].bolWTSts = false;
-                                        //寫入PLC 通知超重---退出站口
-                                        if (funWritePC2PLCSingel(intPLCIndex, objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
-                                        clsPLC.enuAddressSection.FunNotice_1, clsReBCRSts.cstrNG))
-                                        {
-                                            funWritePC2PLCSingel(intPLCIndex,
-                                            objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
-                                            clsPLC.enuAddressSection.FunNotice_3,
-                                            clsPC2PLC_Sts.cstrOverWeight);
-                                            //通知退出站口
-                                            if (funWritePC2PLCSingel(intPLCIndex,
-                                                objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
-                                                clsPLC.enuAddressSection.FunNotice_1,
-                                                clsPC2PLC_Sts.cstrCheckNG))
-                                            {
+                            //        if (dWeight > clsSystem.gstrWeightOver)
+                            //        {
+                            //            objWTData[intStn, clsWT.enuWTLoc.Once].bolWTSts = false;
+                            //            //寫入PLC 通知超重---退出站口
+                            //            if (funWritePC2PLCSingel(intPLCIndex, objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
+                            //            clsPLC.enuAddressSection.FunNotice_1, clsReBCRSts.cstrNG))
+                            //            {
+                            //                funWritePC2PLCSingel(intPLCIndex,
+                            //                objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
+                            //                clsPLC.enuAddressSection.FunNotice_3,
+                            //                clsPC2PLC_Sts.cstrOverWeight);
+                            //                //通知退出站口
+                            //                if (funWritePC2PLCSingel(intPLCIndex,
+                            //                    objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
+                            //                    clsPLC.enuAddressSection.FunNotice_1,
+                            //                    clsPC2PLC_Sts.cstrCheckNG))
+                            //                {
 
-                                                #region 字幕機顯示--異常情況
-                                                strSQL = "Select StnNo From stndef where buffer ='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName + "'";
-                                                clsSystem.gobjSystemDB.funGetDT(strSQL, ref dtStnNo);
-                                                funMvsData(dtStnNo.Rows[0]["StnNo"].ToString(), "", "1", "1", "重量超重:1000kg");
+                            //                    #region 字幕機顯示--異常情況
+                            //                    strSQL = "Select StnNo From stndef where buffer ='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName + "'";
+                            //                    clsSystem.gobjSystemDB.funGetDT(strSQL, ref dtStnNo);
+                            //                    funMvsData(dtStnNo.Rows[0]["StnNo"].ToString(), "", "1", "1", "重量超重:1000kg");
 
-                                                #endregion
+                            //                    #endregion
 
-                                            }
-                                        }
-                                        SystemTraceLog.Weight = "";
-                                        bolChk = false;
-                                        bolChkWeight = false;
-                                    }
-                                    else
-                                    {
-                                        //確認重量無超重
-                                        bolChkWeight = true;
-                                        objWTData[intStn, clsWT.enuWTLoc.Once].bolWTSts = true;
-                                    }
-                                }
-                                else
-                                {
-                                    objWTData[intStn, clsWT.enuWTLoc.Once].bolWTSts = false;
-                                    bolChkWeight = false;
-                                }
-                            }
-                            else //無秤重的站口
-                            {
-                                //strWeight = "25";
-                                objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data = "25";
-                                bolChkWeight = true;
-                                objWTData[intStn, clsWT.enuWTLoc.Once].bolWTSts = true;
-                            }
-                            
+                            //                }
+                            //            }
+                            //            SystemTraceLog.Weight = "";
+                            //            bolChk = false;
+                            //            bolChkWeight = false;
+                            //        }
+                            //        else
+                            //        {
+                            //            //確認重量無超重
+                            //            bolChkWeight = true;
+                            //            objWTData[intStn, clsWT.enuWTLoc.Once].bolWTSts = true;
+                            //        }
+                            //    }
+                            //    else
+                            //    {
+                            //        objWTData[intStn, clsWT.enuWTLoc.Once].bolWTSts = false;
+                            //        bolChkWeight = false;
+                            //    }
+                            //}
+                            //else //無秤重的站口
+                            //{
+                            //    //strWeight = "25";
+                            //    objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data = "25";
+                            //    bolChkWeight = true;
+                            //    objWTData[intStn, clsWT.enuWTLoc.Once].bolWTSts = true;
+                            //}
+                            #endregion
 
 
 
@@ -492,10 +501,11 @@ namespace Mirle.WinPLCCommu
                                     {
                                         if (funUpdateBCRSts(clsBCR.enuBCRSts.None, objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo, clsReBCRID.cstrBCRDataInit))
                                         {
-                                            funWritePC2PLCSingel(intPLCIndex,
-                                                objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
-                                                clsPLC.enuAddressSection.FunNotice_3,
-                                                clsPC2PLC_Sts.cstrBCRReadFail);
+                                            // 先不用 By Leon
+                                            //funWritePC2PLCSingel(intPLCIndex,
+                                            //    objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
+                                            //    clsPLC.enuAddressSection.FunNotice_3,
+                                            //    clsPC2PLC_Sts.cstrBCRReadFail);
                                             //通知退出站口
                                             if (funWritePC2PLCSingel(intPLCIndex,
                                                 objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
@@ -516,11 +526,11 @@ namespace Mirle.WinPLCCommu
                                                 #region 更新BCR和秤重機狀態=0
                                                 strSQL = "UPDATE IN_BUF SET BCR_DATA='n/a', BCR_STS='0' where BCR_STS='2' AND BCR_NO='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo + "'";
                                                 clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
-                                                if (clsTool.funConvertToInt(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Substring(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Length - 1, 1)) % 2 == 0)
-                                                {
-                                                    strSQL = "UPDATE IN_Weight SET Weight_DATA='n/a', Weight_STS='0' where Weight_STS='2' AND Weight_No='" + objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo + "'";
-                                                    clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
-                                                }
+                                                //if (clsTool.funConvertToInt(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Substring(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Length - 1, 1)) % 2 == 0)
+                                                //{
+                                                //    strSQL = "UPDATE IN_Weight SET Weight_DATA='n/a', Weight_STS='0' where Weight_STS='2' AND Weight_No='" + objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo + "'";
+                                                //    clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
+                                                //}
 
                                                 #endregion
 
@@ -587,44 +597,56 @@ namespace Mirle.WinPLCCommu
                                 //strSQL += " GROUP BY CMD_SNO";
                                 if (clsSystem.gobjDB.funGetDT(strSQL, ref dtTmp, ref strEM) == ErrDef.ProcSuccess)
                                 {
-                                   
+
                                     
 
                                     if (dtTmp.Rows[0]["iCount"].ToString() == "0")
                                     {
-                                        //無命令退出站口 發訊息
-                                        funWritePC2PLCSingel(intPLCIndex,
-                                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
-                                        clsPLC.enuAddressSection.FunNotice_3,
-                                        clsPC2PLC_Sts.cstrNoCMD);
-
-                                        funWritePC2PLCSingel(intPLCIndex,
-                                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
-                                        clsPLC.enuAddressSection.FunNotice_1,
-                                        clsPC2PLC_Sts.cstrCheckNG);
-                                        bolChk = false;
-                                        #region 更新BCR和秤重機狀態=0
-                                        strSQL = "UPDATE IN_BUF SET BCR_DATA='n/a', BCR_STS='0' where BCR_STS='2' AND BCR_NO='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo + "'";
-                                        clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
-                                        if (clsTool.funConvertToInt(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Substring(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Length - 1, 1)) % 2 == 0)
+                                        // 有讀到棧板ID但無此命令且棧板荷有時，自動產生空棧板入庫命令。 By Leon
+                                        if (!objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_CargoLoad &&
+                                            objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_PalletLoad )
                                         {
-                                            strSQL = "UPDATE IN_Weight SET Weight_DATA='n/a', Weight_STS='0' where Weight_STS='2' AND Weight_No='" + objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo + "'";
-                                            clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
+                                            //新增空棧板入庫命令 By Leon 
                                         }
-                                        #endregion
-                                        #region 字幕機顯示--異常情況
-                                        dtStnNo = null;
-                                        strSQL = "Select StnNo From stndef where buffer ='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName + "'";
-                                        clsSystem.gobjSystemDB.funGetDT(strSQL, ref dtStnNo);
-                                        funMvsData(dtStnNo.Rows[0]["StnNo"].ToString(), "", "1", "1", "棧板ID:" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID + " 無命令!");
+                                        else
+                                        {
+                                            // 先不用 By Leon
+                                            //無命令退出站口 發訊息
+                                            //funWritePC2PLCSingel(intPLCIndex,
+                                            //objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
+                                            //clsPLC.enuAddressSection.FunNotice_3,
+                                            //clsPC2PLC_Sts.cstrNoCMD);
 
-                                        #endregion
-                                        SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-                                        SystemTraceLog.LogMessage = "棧板ID:" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID + " 無命令退出站口!";
-                                        SystemTraceLog.StnNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName;
-                                        SystemTraceLog.BCRNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo;
-                                        funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
-                                        return;//v1.0.0.17 
+                                            funWritePC2PLCSingel(intPLCIndex,
+                                            objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
+                                            clsPLC.enuAddressSection.FunNotice_1,
+                                            clsPC2PLC_Sts.cstrCheckNG);
+                                            bolChk = false;
+                                            #region 更新BCR和秤重機狀態=0
+                                            strSQL = "UPDATE IN_BUF SET BCR_DATA='n/a', BCR_STS='0' where BCR_STS='2' AND BCR_NO='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo + "'";
+                                            clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
+                                            // 秤重機相關 By Leon
+                                            //if (clsTool.funConvertToInt(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Substring(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Length - 1, 1)) % 2 == 0)
+                                            //{
+                                            //    strSQL = "UPDATE IN_Weight SET Weight_DATA='n/a', Weight_STS='0' where Weight_STS='2' AND Weight_No='" + objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo + "'";
+                                            //    clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
+                                            //}
+                                            #endregion
+                                            #region 字幕機顯示--異常情況
+                                            dtStnNo = null;
+                                            strSQL = "Select StnNo From stndef where buffer ='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName + "'";
+                                            clsSystem.gobjSystemDB.funGetDT(strSQL, ref dtStnNo);
+                                            funMvsData(dtStnNo.Rows[0]["StnNo"].ToString(), "", "1", "1", "棧板ID:" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID + " 無命令!");
+
+                                            #endregion
+                                            SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
+                                            SystemTraceLog.LogMessage = "棧板ID:" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID + " 無命令退出站口!";
+                                            SystemTraceLog.StnNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName;
+                                            SystemTraceLog.BCRNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo;
+                                            funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
+                                            return;//v1.0.0.17 
+                                        }
+                                        
                                     }
                                     else
                                     {
@@ -644,11 +666,12 @@ namespace Mirle.WinPLCCommu
                                 }
                                 else
                                 {
+                                    // 先不用 By Leon
                                     //查詢命令ERROR 退出站口
-                                    funWritePC2PLCSingel(intPLCIndex,
-                                    objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
-                                    clsPLC.enuAddressSection.FunNotice_3,
-                                    clsPC2PLC_Sts.cstrNoCMD);
+                                    //funWritePC2PLCSingel(intPLCIndex,
+                                    //objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
+                                    //clsPLC.enuAddressSection.FunNotice_3,
+                                    //clsPC2PLC_Sts.cstrNoCMD);
 
                                     funWritePC2PLCSingel(intPLCIndex,
                                     objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
@@ -657,11 +680,12 @@ namespace Mirle.WinPLCCommu
                                     #region 更新BCR和秤重機狀態=0
                                     strSQL = "UPDATE IN_BUF SET BCR_DATA='n/a', BCR_STS='0' where BCR_STS='2' AND BCR_NO='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo + "'";
                                     clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
-                                    if (clsTool.funConvertToInt(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Substring(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Length - 1, 1)) % 2 == 0)
-                                    {
-                                        strSQL = "UPDATE IN_Weight SET Weight_DATA='n/a', Weight_STS='0' where Weight_STS='2' AND Weight_No='" + objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo + "'";
-                                        clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
-                                    }
+                                    // 秤重相關 By Leon
+                                    //if (clsTool.funConvertToInt(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Substring(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Length - 1, 1)) % 2 == 0)
+                                    //{
+                                    //    strSQL = "UPDATE IN_Weight SET Weight_DATA='n/a', Weight_STS='0' where Weight_STS='2' AND Weight_No='" + objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo + "'";
+                                    //    clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
+                                    //}
                                     #endregion
                                     bolChk = false;
                                 }
@@ -671,11 +695,12 @@ namespace Mirle.WinPLCCommu
                                 {
                                     bolChk = false;
                                     //已有相同棧板ID，退出站口
+                                    // 先不用 By Leon
                                     //退出站口 發訊息
-                                    funWritePC2PLCSingel(intPLCIndex,
-                                    objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
-                                    clsPLC.enuAddressSection.FunNotice_3,
-                                    clsPC2PLC_Sts.cstrLocFail);
+                                    //funWritePC2PLCSingel(intPLCIndex,
+                                    //objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
+                                    //clsPLC.enuAddressSection.FunNotice_3,
+                                    //clsPC2PLC_Sts.cstrLocFail);
 
                                     funWritePC2PLCSingel(intPLCIndex,
                                     objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
@@ -684,11 +709,12 @@ namespace Mirle.WinPLCCommu
                                     #region 更新BCR和秤重機狀態=0
                                     strSQL = "UPDATE IN_BUF SET BCR_DATA='n/a', BCR_STS='0' where BCR_STS='2' AND BCR_NO='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo + "'";
                                     clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
-                                    if (clsTool.funConvertToInt(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Substring(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Length - 1, 1)) % 2 == 0)
-                                    {
-                                        strSQL = "UPDATE IN_Weight SET Weight_DATA='n/a', Weight_STS='0' where Weight_STS='2' AND Weight_No='" + objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo + "'";
-                                        clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
-                                    }
+                                    // 秤重相關 By Leon
+                                    //if (clsTool.funConvertToInt(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Substring(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Length - 1, 1)) % 2 == 0)
+                                    //{
+                                    //    strSQL = "UPDATE IN_Weight SET Weight_DATA='n/a', Weight_STS='0' where Weight_STS='2' AND Weight_No='" + objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo + "'";
+                                    //    clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
+                                    //}
                                     #endregion
                                     #region 字幕機顯示--異常情況
                                     dtStnNo = null;
@@ -729,12 +755,14 @@ namespace Mirle.WinPLCCommu
                                     && (objBCRData[intStn, clsBCR.enuBCRLoc.Once].Trace =="23")))
                                 {
                                     string strLocSize = string.Empty;
-                                    if (objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].FunNotice == 1)
+                                    if (!objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_CargoLoad &&
+                                        objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_PalletLoad)
                                     {
-                                        strLocSize = "H";
+                                        strLocSize = "E";
 
                                     }
-                                    else if (objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].FunNotice == 2)
+                                    else if (objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_CargoLoad &&
+                                             objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_PalletLoad)
                                     {
                                         strLocSize = "S";
                                     }
@@ -762,11 +790,12 @@ namespace Mirle.WinPLCCommu
                                         #region 更新BCR和秤重機狀態=0
                                         strSQL = "UPDATE IN_BUF SET BCR_DATA='n/a', BCR_STS='0' where BCR_STS='2' AND BCR_NO='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo+"'";
                                         clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
-                                        if (clsTool.funConvertToInt(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Substring(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Length - 1, 1)) % 2 == 0)
-                                        {
-                                            strSQL = "UPDATE IN_Weight SET Weight_DATA='n/a', Weight_STS='0' where Weight_STS='2' AND Weight_No='" + objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo + "'";
-                                            clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
-                                        }
+                                        // 秤重相關 By Leon
+                                        //if (clsTool.funConvertToInt(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Substring(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Length - 1, 1)) % 2 == 0)
+                                        //{
+                                        //    strSQL = "UPDATE IN_Weight SET Weight_DATA='n/a', Weight_STS='0' where Weight_STS='2' AND Weight_No='" + objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo + "'";
+                                        //    clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
+                                        //}
                                         #endregion
                                         //找到有命令先更新CMD_MST.STNNO
                                         strSQL = "Update CMD_MST SET STN_NO ='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo + "' WHERE PLT_ID ='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID + "' AND CMD_STS<'3'";
@@ -866,11 +895,12 @@ namespace Mirle.WinPLCCommu
                                     }
                                     else
                                     {
+                                        // 先不用 By Leon 
                                         //無空儲位，退出站口
-                                        funWritePC2PLCSingel(intPLCIndex,
-                                            objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
-                                            clsPLC.enuAddressSection.FunNotice_3,
-                                            clsPC2PLC_Sts.cstrNoCMD);
+                                        //funWritePC2PLCSingel(intPLCIndex,
+                                        //    objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
+                                        //    clsPLC.enuAddressSection.FunNotice_3,
+                                        //    clsPC2PLC_Sts.cstrNoCMD);
                                         //通知退出站口
                                         if (funWritePC2PLCSingel(intPLCIndex,
                                             objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
@@ -910,11 +940,12 @@ namespace Mirle.WinPLCCommu
                                     #region 更新BCR和秤重機狀態=0
                                     strSQL = "UPDATE IN_BUF SET BCR_DATA='n/a', BCR_STS='0' where BCR_STS='2' AND BCR_NO='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo + "'";
                                     clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
-                                    if (clsTool.funConvertToInt(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Substring(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Length - 1, 1)) % 2 == 0)
-                                    {
-                                        strSQL = "UPDATE IN_Weight SET Weight_DATA='n/a', Weight_STS='0' where Weight_STS='2' AND Weight_No='" + objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo + "'";
-                                        clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
-                                    }
+                                    //
+                                    //if (clsTool.funConvertToInt(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Substring(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Length - 1, 1)) % 2 == 0)
+                                    //{
+                                    //    strSQL = "UPDATE IN_Weight SET Weight_DATA='n/a', Weight_STS='0' where Weight_STS='2' AND Weight_No='" + objWTData[intStn, clsWT.enuWTLoc.Once].WeightNo + "'";
+                                    //    clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
+                                    //}
                                     #endregion
                                     clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
 
@@ -1265,408 +1296,7 @@ namespace Mirle.WinPLCCommu
         private void funStockIn_ReleaseEquPLCCmd(int intPLCIndex)
         {
             #region 註解
-            //string strStnNo = string.Empty;
-            //string strSQL = string.Empty;
-            //string strEM = string.Empty;
-
-            //DataTable objDataTable = new DataTable();
-            //clsTraceLogEventArgs SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.None);
-
-            //for (int intStn = 0; intStn < objBCRData.StnCount; intStn++)
-            //{
-            //    bool bolChk = false;
-            //    bool bolChkWeight = false;
-            //    string strWeight = string.Empty;
-            //    try
-            //    {
-            //        #region 大立光-訊號判斷
-            //        if (objBCRData[intStn] == null || objBCRData[intStn] == null)
-            //            continue;
-            //        if (intPLCIndex.ToString() != objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLCIndex)
-            //            continue;
-
-            //        if (objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_Load &&
-            //            objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].ReadNotice ==
-            //            (int)clsPLC2PCBuffer.enuReadNotice.Read &&
-            //            //v1.01 
-            //            //objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].Ready ==
-            //            //(int)clsPLC2PCBuffer.enuReady.InReady &&
-            //            string.IsNullOrWhiteSpace(objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].LeftCmdSno) &&
-            //            objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].FunNotice !=
-            //            (int)clsPLC2PCBuffer.enuFunNotice.None &&
-            //            objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_Auto &&
-            //            objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnMode == (int)clsPLC2PCBuffer.enuStnMode.InMode
-            //            )
-            //        #endregion 大立光-訊號判斷
-
-
-            //        {
-            //            #region 讀取BarCode For 大立光
-            //            if (chkBCR.Checked && !string.IsNullOrEmpty(txtBCR.Text))
-            //            {
-            //                objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID = txtBCR.Text;
-            //                objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRSts = clsBCR.enuBCRSts.ReadFinish;
-            //            }
-            //            else
-            //            {
-            //                objDataTable = new DataTable();
-            //                strSQL = "SELECT * FROM IN_BUF WHERE BCR_NO IN";
-            //                strSQL += " ('" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo + "')";
-            //                if (clsSystem.gobjDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
-            //                {
-            //                    foreach (DataRow drTmp in objDataTable.Rows)
-            //                    {
-            //                        switch (drTmp["BCR_STS"].ToString())
-            //                        {
-            //                            case clsBCRSts.cstrReadFinish:
-            //                                if (drTmp["BCR_No"].ToString() == objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo)
-            //                                {
-            //                                    if (objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID != drTmp["BCR_DATA"].ToString())
-            //                                    {
-            //                                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRSts =
-            //                                            clsTool.funGetEnumValue<clsBCR.enuBCRSts>(drTmp["BCR_STS"].ToString());
-            //                                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID = drTmp["BCR_DATA"].ToString();
-
-            //                                        SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-            //                                        SystemTraceLog.LogMessage = "BCR Read Success!";
-            //                                        SystemTraceLog.BCRNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo;
-            //                                        SystemTraceLog.BCRID = objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID;
-            //                                        SystemTraceLog.StnNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo;
-            //                                        funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
-
-            //                                    }
-            //                                }
-            //                                break;
-            //                            case clsBCRSts.cstrNone:
-            //                                #region 啟動BCR
-            //                                clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin);
-            //                                if (funUpdateBCRSts(clsBCR.enuBCRSts.Reading, objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo, clsReBCRID.cstrBCRDataInit))
-            //                                {
-            //                                    objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRSts = clsBCR.enuBCRSts.Reading;
-            //                                    objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID = clsReBCRID.cstrBCRDataInit;
-
-            //                                    clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
-            //                                    SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-            //                                    SystemTraceLog.LogMessage = "Update Both BCR Sts Success!";
-            //                                    SystemTraceLog.BCRSts = ((int)clsBCR.enuBCRSts.Reading).ToString();
-            //                                    SystemTraceLog.BCRNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo;
-
-            //                                    funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
-            //                                }
-            //                                else
-            //                                {
-            //                                    clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
-            //                                    SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-            //                                    SystemTraceLog.LogMessage = "Update Both BCR Sts Fail!";
-            //                                    SystemTraceLog.BCRSts = clsBCR.enuBCRSts.Reading.ToString();
-            //                                    SystemTraceLog.BCRNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo;
-            //                                    funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
-            //                                }
-            //                                #endregion 啟動BCR
-            //                                break;
-
-            //                            default:
-
-            //                                break;
-            //                        }
-            //                    }
-            //                }
-            //            }
-            //            #endregion
-
-            //            #region 讀取秤重機---For大立光 尚未寫
-            //            if (chkWeight.Checked)
-            //            {
-            //                strWeight = "0";
-            //                bolChkWeight = true;
-            //            }
-            //            else
-            //            {
-            //                bolChkWeight = bolWeightRead(objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex, ref strWeight);
-            //            }
-
-            //            #endregion 讀取秤重機
-            //            if (bolChkWeight)
-            //            {
-            //                //確認是否超重
-            //                double dWeight = clsTool.Double(strWeight);
-            //                if (dWeight > clsSystem.gstrWeightOver)
-            //                {
-            //                    //寫入PLC 通知超重---退出站口
-            //                    if (funWritePC2PLCSingel(objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
-            //                    clsPLC.enuAddressSection.FunNotice_1, clsReBCRSts.cstrNG))
-            //                    {
-            //                    }
-            //                    SystemTraceLog.Weight = "";
-            //                    bolChkWeight = false;
-            //                }
-            //            }
-
-            //            #region 確認BCR讀取是否有誤 For 大立光
-            //            //讀取成功但BCR 回傳ERROR
-            //            if ((objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRSts == clsBCR.enuBCRSts.ReadFinish &&
-            //                objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID == clsReBCRID.cstrBCRError))
-            //            {
-            //                clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin);
-            //                if (funUpdateBCRSts(clsBCR.enuBCRSts.None, objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo, clsReBCRID.cstrBCRDataInit))
-            //                {
-            //                    funWritePC2PLCSingel(
-            //                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
-            //                        clsPLC.enuAddressSection.FunNotice_3,
-            //                        clsPC2PLC_Sts.cstrBCRReadFail);
-            //                    //通知退出站口
-            //                    if (funWritePC2PLCSingel(
-            //                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
-            //                        clsPLC.enuAddressSection.FunNotice_2,
-            //                        clsPC2PLC_Sts.cstrCheckNG))
-            //                    {
-            //                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRSts = clsBCR.enuBCRSts.None;
-            //                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID = clsReBCRID.cstrBCRDataInit;
-
-            //                        clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
-            //                        SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-            //                        SystemTraceLog.LogMessage = "BCR Read Fail!";
-            //                        SystemTraceLog.BCRSts = ((int)clsBCR.enuBCRSts.None).ToString();
-            //                        SystemTraceLog.BCRNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo;
-            //                        funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
-            //                    }
-            //                    else
-            //                        clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
-            //                }
-            //                else
-            //                {
-            //                    clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
-            //                    SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-            //                    SystemTraceLog.LogMessage = "Update BCR Sts Fail!";
-            //                    SystemTraceLog.BCRSts = ((int)clsBCR.enuBCRSts.None).ToString();
-            //                    SystemTraceLog.BCRNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo;
-            //                    funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
-            //                }
-            //                bolChk = false;
-            //            }
-            //            #endregion 確認讀取是否有誤
-
-            //            #region 若BCR與秤重無誤，預約儲位並更新Cmd_Mst和Cmd_Dtl
-
-            //            if ((objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRSts == clsBCR.enuBCRSts.ReadFinish &&
-            //                objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID != clsReBCRID.cstrBCRError) &&
-            //                !string.IsNullOrEmpty(objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID) && !bolChkWeight)
-            //            {
-            //                objDataTable = new DataTable();
-            //                string strLoc = string.Empty;
-            //                string strMessge = string.Empty;
-            //                int intCraneNo = (objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex) / 12 + 1;
-
-            //                strSQL = "SELECT COUNT(*) AS iCOUNT FROM LOC_MST WHERE LOC_STS='N' AND Equ_No='" + intCraneNo + "' AND Storage_Type <> 'T'";
-            //                if (clsSystem.gobjDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
-            //                {
-            //                    if (objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].Ready ==
-            //        (int)clsPLC2PCBuffer.enuReady.InReady)
-            //                    {
-            //                    }
-
-            //                    #region 預約儲位&命令
-            //                    if (objDataTable.Rows[0]["iCOUNT"].ToString() != "0")
-            //                    {
-            //                        #region 尋找空儲位
-            //                        strLoc = funGetEmptyLoc(intCraneNo, 0, clsLocSts.cstrLoc_NNNN, false, false);
-
-            //                        if (string.IsNullOrEmpty(strLoc))
-            //                        {
-            //                            strLoc = funGetEmptyLoc(intCraneNo, 0, clsLocSts.cstrLoc_SNNS, false, false);
-            //                            if (string.IsNullOrEmpty(strLoc))
-            //                            {
-            //                                strLoc = funGetEmptyLoc(intCraneNo, 0, clsLocSts.cstrLoc_ENNE, false, false);
-            //                                if (string.IsNullOrEmpty(strLoc))
-            //                                {
-            //                                    strLoc = funGetEmptyLoc(intCraneNo, 0, clsLocSts.cstrLoc_HNNH, false, false);
-            //                                }
-            //                            }
-            //                        }
-            //                        #endregion
-            //                        //找尋棧板ID是否重複(CMD_MST&LOC_MST)
-
-
-            //                        clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin);
-            //                        //預約儲位
-            //                        strSQL = "UPDATE Loc_Mst Set Loc_Sts = 'I' Where Loc = '" + strLoc + "'";
-            //                        if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
-            //                        {
-            //                            //更新CMD_MST
-            //                            strSQL = "UPDATE CMD_MST SET LOC = '" + strLoc + "',Weight='" + strWeight + "' ,EQU_NO='" + intCraneNo + "' ";
-            //                            strSQL += " WHERE EQU_NO='0' ";
-            //                            strSQL += "AND Plt_Id ='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID + "' ";
-
-            //                            if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
-            //                            {
-            //                                //更新CMD_DTL
-            //                                strSQL = "UPDATE CMD_DTL SET LOC = '" + strLoc + "' ";
-            //                                strSQL += "WHERE Plt_Id ='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID + "' ";
-            //                                if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
-            //                                {
-
-            //                                    clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
-            //                                    strMessge = "預約儲位-Success!";
-            //                                    bolChk = true;
-            //                                }
-            //                                else
-            //                                {
-            //                                    clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
-            //                                    strMessge = "預約儲位-更新Cmd_Dtl 失敗!";
-            //                                }
-
-            //                            }
-            //                            else
-            //                            {
-            //                                clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
-            //                                strMessge = "預約儲位-更新Cmd_Mst 失敗!";
-            //                            }
-            //                        }
-            //                        else
-            //                        {
-            //                            clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
-            //                            strMessge = "預約儲位-更新Loc_Mst 失敗!";
-            //                        }
-            //                        SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-            //                        SystemTraceLog.LogMessage = strMessge;
-            //                        SystemTraceLog.LocID = objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID;
-            //                        funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
-
-
-            //                    }
-            //                    else
-            //                    {
-            //                        funWritePC2PLCSingel(
-            //                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
-            //                        clsPLC.enuAddressSection.FunNotice_3,
-            //                        clsPC2PLC_Sts.cstrNoCMD);
-            //                        //如果沒有儲位，則通知退出
-            //                        if (funWritePC2PLCSingel(
-            //                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
-            //                        clsPLC.enuAddressSection.FunNotice_2,
-            //                        clsPC2PLC_Sts.cstrCheckNG))
-            //                        {
-            //                            SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-            //                            SystemTraceLog.LogMessage = "無空儲位!";
-            //                            SystemTraceLog.BCRNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo;
-            //                            funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
-            //                        }
-            //                    }
-
-            //                    #endregion 預約儲位命令
-            //                }
-
-            //            }
-            //            #endregion
-            //            clsCmdSno CmdSno = new clsCmdSno();
-            //            //確定有預約儲位再寫入周邊PLC---大立光
-            //            if (bolChk)
-            //            {
-            //                #region 判斷命令是否相符、Update Cmd Trace
-            //                #region 異常時 寫給PLC 並產生TraceLog在畫面上-For 大立光---已註解
-            //                //if (funWritePC2PLCSingel(
-            //                //                                objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
-            //                //                                clsPLC.enuAddressSection.ReadNotice,
-            //                //                                clsReBCRSts.cstrCmdErr))
-            //                //{
-            //                //    SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-            //                //    SystemTraceLog.LogMessage = "Find Cmd Error!";
-            //                //    SystemTraceLog.LeftCmdSno = "CmdSnoError";
-            //                //    SystemTraceLog.StnNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo;
-            //                //    SystemTraceLog.LocID = objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID;
-            //                //    funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
-            //                //} 
-            //                #endregion
-            //                objDataTable = new DataTable();
-            //                strSQL = "SELECT * FROM CMD_MST WHERE PLT_ID ='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID + "'";
-            //                if (clsSystem.gobjDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
-            //                {
-            //                    CmdSno.CmdSno = objDataTable.Rows[0]["CMD_SNO"].ToString();
-            //                }
-
-            //                #region Update Cmd Trace + 寫入PLC
-            //                clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin);
-            //                if (funUpdateCmdTrace(CmdSno.CmdSno,
-            //                                     objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID,
-            //                                     clsCmdSts.cstrCmdSts_Start,
-            //                                     clsTrace.cstrStoreInTrace_ReleaseEquPLCCmd,
-            //                                     objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo) &&
-            //                    funUpdateBCRSts(clsBCR.enuBCRSts.None, objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo, clsReBCRID.cstrBCRDataInit))
-            //                {
-            //                    if (funWritePC2PLCSingel(
-            //                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName,
-            //                        CmdSno.CmdSno,//序號
-            //                        "1", //模式
-            //                        "0",//初始通知
-            //                        clsFunNotice1.CMD_OK,
-            //                        clsFunNotice2.StnInMode,
-            //                        clsFunNotice3.None
-            //                        ))
-            //                    {
-            //                        clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
-            //                        SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-            //                        SystemTraceLog.LogMessage = "Stock In Cmd Initiated!";
-            //                        SystemTraceLog.CmdSno = CmdSno.CmdSno;
-            //                        SystemTraceLog.CmdSts = clsCmdSts.cstrCmdSts_Start;
-            //                        SystemTraceLog.Trace = clsTrace.cstrStoreInTrace_ReleaseEquPLCCmd;
-            //                        SystemTraceLog.StnNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo;
-            //                        SystemTraceLog.LocID = objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID;
-            //                        funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
-
-            //                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRSts = clsBCR.enuBCRSts.None;
-            //                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID = clsReBCRID.cstrBCRDataInit;
-
-            //                        SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-            //                        SystemTraceLog.LogMessage = "Update Both BCR Sts Success!";
-            //                        SystemTraceLog.BCRSts = ((int)clsBCR.enuBCRSts.None).ToString();
-            //                        SystemTraceLog.BCRNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo;
-            //                        funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
-            //                    }
-            //                    else
-            //                        clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
-            //                }
-            //                else
-            //                {
-            //                    clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
-            //                    SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-            //                    SystemTraceLog.LogMessage = "UpdateCmd Trace Fail!";
-            //                    SystemTraceLog.CmdSno = CmdSno.CmdSno_L;
-            //                    SystemTraceLog.CmdSts = clsCmdSts.cstrCmdSts_Start;
-            //                    SystemTraceLog.Trace = clsTrace.cstrStoreInTrace_ReleaseEquPLCCmd;
-            //                    SystemTraceLog.StnNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo;
-            //                    SystemTraceLog.LocID = objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID;
-            //                    funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
-
-            //                    SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-            //                    SystemTraceLog.LogMessage = "Update BCR Sts Fail!";
-            //                    SystemTraceLog.BCRSts = ((int)clsBCR.enuBCRSts.None).ToString();
-            //                    SystemTraceLog.BCRNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo;
-            //                    funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
-            //                }
-            //                #endregion Update Cmd Trace
-
-            //                #endregion 判斷命令是否相符、Update Cmd Trace
-            //            }
-
-            //        }
-
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
-            //        var varObject = MethodBase.GetCurrentMethod();
-            //        clsSystem.funWriteExceptionLog(varObject.DeclaringType.FullName, varObject.Name, ex.Message);
-            //    }
-            //    finally
-            //    {
-            //        if (objDataTable != null)
-            //        {
-            //            objDataTable.Clear();
-            //            objDataTable.Dispose();
-            //            objDataTable = null;
-            //        }
-            //    }
-            //} 
+           
             #endregion
 
 
@@ -1733,7 +1363,7 @@ namespace Mirle.WinPLCCommu
                 try
                 {
                     #region 大立光-訊號條件
-                    if (objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_Load &&
+                    if (objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_CargoLoad &&
                         objBufferData.PLC2PCBuffer[StnDef.BufferIndex].Ready == (int)clsPLC2PCBuffer.enuReady.InReady &&
                         !string.IsNullOrWhiteSpace(objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno) &&
                         objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnMode == (int)clsPLC2PCBuffer.enuStnMode.InMode &&
@@ -1957,7 +1587,7 @@ namespace Mirle.WinPLCCommu
                 {
                     
                     //大立光
-                    if (objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_Load &&
+                    if (objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_CargoLoad &&
                         objBufferData.PLC2PCBuffer[StnDef.BufferIndex].Ready == (int)clsPLC2PCBuffer.enuReady.InReady &&
                         !string.IsNullOrWhiteSpace(objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno) &&
                         objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnMode == (int)clsPLC2PCBuffer.enuStnMode.InMode)

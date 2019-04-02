@@ -33,7 +33,7 @@ namespace Mirle.WinPLCCommu
             {
                 case 1:
 
-                    if (!clsSystem.gobjPLC.funWritePLC("D100", str))
+                    if (!clsSystem.gobjPLC.funWritePLC("D3000", str))
                     {
                         clsTraceLogEventArgs SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.MPLC);
                         SystemTraceLog.LogMessage = "Write PLC1 HandShaking Fail!";

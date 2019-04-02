@@ -33,7 +33,7 @@
             this.lblStnMode = new System.Windows.Forms.Label();
             this.lblReady = new System.Windows.Forms.Label();
             this.lblReadNotice = new System.Windows.Forms.Label();
-            this.lblFunNotice = new System.Windows.Forms.Label();
+            this.lblPalletLoad = new System.Windows.Forms.Label();
             this.lblManual = new System.Windows.Forms.Label();
             this.lblAuto = new System.Windows.Forms.Label();
             this.lblCargoLoad = new System.Windows.Forms.Label();
@@ -123,20 +123,20 @@
             this.lblReadNotice.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblReadNotice.Click += new System.EventHandler(this.uclBuffer_Click);
             // 
-            // lblFunNotice
+            // lblPalletLoad
             // 
-            this.lblFunNotice.BackColor = System.Drawing.Color.White;
-            this.lblFunNotice.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblFunNotice.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblFunNotice.Font = new System.Drawing.Font("微軟正黑體", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.lblFunNotice.Location = new System.Drawing.Point(40, 28);
-            this.lblFunNotice.Margin = new System.Windows.Forms.Padding(0);
-            this.lblFunNotice.Name = "lblFunNotice";
-            this.lblFunNotice.Size = new System.Drawing.Size(20, 14);
-            this.lblFunNotice.TabIndex = 478;
-            this.lblFunNotice.Text = "0";
-            this.lblFunNotice.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblFunNotice.Click += new System.EventHandler(this.uclBuffer_Click);
+            this.lblPalletLoad.BackColor = System.Drawing.Color.White;
+            this.lblPalletLoad.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblPalletLoad.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblPalletLoad.Font = new System.Drawing.Font("微軟正黑體", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.lblPalletLoad.Location = new System.Drawing.Point(40, 28);
+            this.lblPalletLoad.Margin = new System.Windows.Forms.Padding(0);
+            this.lblPalletLoad.Name = "lblPalletLoad";
+            this.lblPalletLoad.Size = new System.Drawing.Size(20, 14);
+            this.lblPalletLoad.TabIndex = 478;
+            this.lblPalletLoad.Text = "0";
+            this.lblPalletLoad.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblPalletLoad.Click += new System.EventHandler(this.uclBuffer_Click);
             // 
             // lblManual
             // 
@@ -229,7 +229,7 @@
             this.tlpBuffer.Controls.Add(this.lblReady, 0, 3);
             this.tlpBuffer.Controls.Add(this.lblError, 3, 2);
             this.tlpBuffer.Controls.Add(this.lblReadNotice, 1, 3);
-            this.tlpBuffer.Controls.Add(this.lblFunNotice, 2, 2);
+            this.tlpBuffer.Controls.Add(this.lblPalletLoad, 2, 2);
             this.tlpBuffer.Controls.Add(this.lblStnMode, 0, 2);
             this.tlpBuffer.Controls.Add(this.lblCargoLoad, 1, 2);
             this.tlpBuffer.Controls.Add(this.lblAuto, 2, 3);
@@ -258,7 +258,7 @@
             this.lblPalletNo.Font = new System.Drawing.Font("微軟正黑體", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblPalletNo.Location = new System.Drawing.Point(60, 14);
             this.lblPalletNo.Margin = new System.Windows.Forms.Padding(0);
-            this.lblPalletNo.Name = "lblAvail";
+            this.lblPalletNo.Name = "lblPalletNo";
             this.lblPalletNo.Size = new System.Drawing.Size(26, 14);
             this.lblPalletNo.TabIndex = 483;
             this.lblPalletNo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -285,7 +285,7 @@
         private System.Windows.Forms.Label lblStnMode;
         private System.Windows.Forms.Label lblReady;
         private System.Windows.Forms.Label lblReadNotice;
-        private System.Windows.Forms.Label lblFunNotice;
+        private System.Windows.Forms.Label lblPalletLoad;
         private System.Windows.Forms.Label lblManual;
         private System.Windows.Forms.Label lblStnChanges;
         private System.Windows.Forms.Label lblError;

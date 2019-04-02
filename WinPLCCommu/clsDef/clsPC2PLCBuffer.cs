@@ -75,7 +75,7 @@ namespace Mirle.WinPLCCommu
         }
 
         /// <summary>
-        /// 功能通知(1):0: 無 1:檢查無誤放行 2:檢查有問題退出站口
+        /// 功能通知(1):0: 無 2:檢查無誤放行 3:檢查有問題退出站口
         /// </summary>
         public string FunNotice_1
         {
@@ -99,7 +99,14 @@ namespace Mirle.WinPLCCommu
             set;
         }
 
-       
+        /// <summary>
+        /// 路徑通知; 1：B85 , 2：B86 , 3: B87 , 4: B88 , 5: B89 , 6: B90 , 7: B91 , 8: B92 , 9: B93 , 10: B94 , 11：B82 , 12：B84
+        /// </summary>
+        public int PathNotice
+        {
+            get;
+            set;
+        }
         #endregion 屬性
 
         /// <summary>
@@ -113,8 +120,8 @@ namespace Mirle.WinPLCCommu
             FunNotice_1 = "0";
             FunNotice_2 = "0";
             FunNotice_3 = "0";
+            PathNotice = 0;
 
-           
         }
 
     }
@@ -131,11 +138,11 @@ namespace Mirle.WinPLCCommu
         /// <summary>
         /// 1:檢查命令無誤放行
         /// </summary>
-        public const string CMD_OK = "1";
+        public const string CMD_OK = "2"; //By Leon 
         /// <summary>
         /// 2:檢查命令有誤退出站口
         /// </summary>
-        public const string CMD_NG = "2";
+        public const string CMD_NG = "3"; //By Leon 
     }
     /// <summary>
     /// PC->PLC 功能通知(2)訊號

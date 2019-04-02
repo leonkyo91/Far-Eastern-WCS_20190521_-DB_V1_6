@@ -177,10 +177,10 @@ namespace Mirle.WinPLCCommu
                                     BufferControl.Ready = clsTool.funGetEnumValue<uclBuffer.enuReady>(((int)objBufferData.PLC2PCBuffer[intItem].Ready).ToString());
                                     BufferControl.ReadNotice =
                                         clsTool.funGetEnumValue<uclBuffer.enuReadNotice>(((int)objBufferData.PLC2PCBuffer[intItem].ReadNotice).ToString());
-                                    BufferControl.FunNotice = objBufferData.PLC2PCBuffer[intItem].StnModeCode_PalletLoad;
+                                    BufferControl.PalletLoad = clsTool.funGetEnumValue<uclBuffer.enuPalletLoad>(objBufferData.PLC2PCBuffer[intItem].PalletLoad);
                                     BufferControl.Error = objBufferData.PLC2PCBuffer[intItem].Error.ToString();
                                     BufferControl.CargoLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_CargoLoad;
-                                    //BufferControl.RightLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_RightLoad;
+                                    BufferControl.RightLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_RightLoad;
                                     BufferControl.PalletNo = clsTool.funGetEnumValue<uclBuffer.enuPalletNo>(((int)objBufferData.PLC2PCBuffer[intItem].Avail).ToString());
                                     BufferControl.Auto = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Auto;
                                     BufferControl.Manual = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Manual;
@@ -451,10 +451,10 @@ namespace Mirle.WinPLCCommu
                                 BufferControl.Ready = clsTool.funGetEnumValue<uclBuffer.enuReady>(((int)objBufferData.PLC2PCBuffer[intItem].Ready).ToString());
                                 BufferControl.ReadNotice =
                                     clsTool.funGetEnumValue<uclBuffer.enuReadNotice>(((int)objBufferData.PLC2PCBuffer[intItem].ReadNotice).ToString());
-                                BufferControl.FunNotice = BufferControl.FunNotice = objBufferData.PLC2PCBuffer[intItem].StnModeCode_PalletLoad;
+                                BufferControl.PalletLoad = clsTool.funGetEnumValue<uclBuffer.enuPalletLoad>(objBufferData.PLC2PCBuffer[intItem].PalletLoad);
                                 BufferControl.Error = objBufferData.PLC2PCBuffer[intItem].Error.ToString();
                                 BufferControl.CargoLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_CargoLoad;
-                                //BufferControl.RightLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_RightLoad;
+                                BufferControl.RightLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_RightLoad;
                                 BufferControl.PalletNo = clsTool.funGetEnumValue<uclBuffer.enuPalletNo>(((int)objBufferData.PLC2PCBuffer[intItem].Avail).ToString());
                                 BufferControl.Auto = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Auto;
                                 BufferControl.Manual = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Manual;
@@ -563,10 +563,10 @@ namespace Mirle.WinPLCCommu
                                 BufferControl.Ready = clsTool.funGetEnumValue<uclBuffer.enuReady>(((int)objBufferData.PLC2PCBuffer[intItem].Ready).ToString());
                                 BufferControl.ReadNotice =
                                     clsTool.funGetEnumValue<uclBuffer.enuReadNotice>(((int)objBufferData.PLC2PCBuffer[intItem].ReadNotice).ToString());
-                                BufferControl.FunNotice = BufferControl.FunNotice = objBufferData.PLC2PCBuffer[intItem].StnModeCode_PalletLoad;
+                                BufferControl.PalletLoad = clsTool.funGetEnumValue<uclBuffer.enuPalletLoad>(objBufferData.PLC2PCBuffer[intItem].PalletLoad);
                                 BufferControl.Error = objBufferData.PLC2PCBuffer[intItem].Error.ToString();
                                 BufferControl.CargoLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_CargoLoad;
-                                //BufferControl.RightLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_RightLoad;
+                                BufferControl.RightLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_RightLoad;
                                 BufferControl.PalletNo = clsTool.funGetEnumValue<uclBuffer.enuPalletNo>(((int)objBufferData.PLC2PCBuffer[intItem].Avail).ToString());
                                 BufferControl.Auto = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Auto;
                                 BufferControl.Manual = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Manual;                           
@@ -1116,16 +1116,16 @@ namespace Mirle.WinPLCCommu
             timProgram.Interval = 1000;
             timProgram.Start();
 
+            timProgram_2.Stop();
+            timProgram_2.Elapsed += new System.Timers.ElapsedEventHandler(timProgram_2_Elapsed);
+            timProgram_2.Interval = 1000;
             // 暫時不用 By Leon
-            //timProgram_2.Stop();
-            //timProgram_2.Elapsed += new System.Timers.ElapsedEventHandler(timProgram_2_Elapsed);
-            //timProgram_2.Interval = 1000;
             //timProgram_2.Start();
 
+            timProgram_3.Stop();
+            timProgram_3.Elapsed += new System.Timers.ElapsedEventHandler(timProgram_3_Elapsed);
+            timProgram_3.Interval = 1000;
             // 暫時不用 By Leon
-            //timProgram_3.Stop();
-            //timProgram_3.Elapsed += new System.Timers.ElapsedEventHandler(timProgram_3_Elapsed);
-            //timProgram_3.Interval = 1000;
             //timProgram_3.Start();
         }
 

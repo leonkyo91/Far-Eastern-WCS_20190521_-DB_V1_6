@@ -17,13 +17,14 @@ namespace Mirle.WinPLCCommu
         private enuCmdMode objCmdMode = enuCmdMode.None;
         private enuReady objReady = enuReady.NoReady;
         private enuReadNotice objReadNotice = enuReadNotice.None;
-        private enuFunNotice objFunNotice = enuFunNotice.None;
+        private enuPalletLoad objPalletLoad = enuPalletLoad.None;
         private enuStnChange objStnChange = enuStnChange.None;
-        private enuPalletNo objPalletNo = enuPalletNo.None;   
+        private enuPalletNo objPalletNo = enuPalletNo.None;
+        private int intPalletLoad = 0;
         private string strError = string.Empty;
+        private bool bolError = false;
         private bool bolRightLoad = false;
         private bool bolCargoLoad = false;
-        private bool bolFunNotice = false;
         private bool bolAuto = false;
         private bool bolManual = false;
         #endregion 變數
@@ -81,18 +82,17 @@ namespace Mirle.WinPLCCommu
         {
             None = 0,
             Read = 1,
-            IDPass = 2,
-            IDFail = 3
+            ReadPass = 2,
+            ReadFail = 3
         }
         /// <summary>
         /// 功能通知列舉
         /// </summary>
-        public enum enuFunNotice
+        public enum enuCargoLoad
         {
             None = 0,
-            PalletLoad = 1
-            //Height = 1,
-            //Low = 2
+            Go = 2,
+            Back = 3
         }
         /// <summary>
         /// 站口切換列舉
@@ -107,7 +107,11 @@ namespace Mirle.WinPLCCommu
         /// </summary>
         public enum enuPalletNo
         {
-            None = 0
+            None = 0,
+            A25 = 1,
+            A50 = 2,
+            A75 = 3,
+            A100 = 4
         }
         /// <summary>
         /// Auto 自動訊號
@@ -260,7 +264,7 @@ namespace Mirle.WinPLCCommu
         }
 
         /// <summary>
-        /// 讀取通知; 0:無 , 1:通知PC讀取 , 2:板號正確 , 3:板號錯誤
+        /// 讀取通知; 0:無 , 1:升降台高位通知讀取
         /// </summary>
         [Category("自訂屬性"), Description("讀取通知")]
         public enuReadNotice ReadNotice
@@ -272,52 +276,46 @@ namespace Mirle.WinPLCCommu
             set
             {
                 objReadNotice = value;
-                if (((int)objReadNotice) == 1)//通知PC讀取
+                //funUpdate(lblReadNotice, ((int)objReadNotice).ToString());
+                if (((int)objReadNotice) == 1)
                 {
-                    funUpdate(lblReadNotice, "1", Color.Lime);
-                }
-                else if (((int)objReadNotice) == 2)//板號正確
-                {
-                    funUpdate(lblReadNotice, "2", Color.Lime);
-                }
-                else if (((int)objReadNotice) == 3)//板號錯誤
-                {
-                    funUpdate(lblReadNotice, "3", Color.Lime);
+                    funUpdate(lblReadNotice, ((int)objReadNotice).ToString(), Color.Lime);
                 }
                 else
-                {
                     funUpdate(lblReadNotice, string.Empty, Color.White);
-                }
                 //lblReadNotice.Text = ((int)objReadNotice).ToString();
             }
         }
 
         /// <summary>
-        /// 功能通知; 0:無 1:棧板荷有
+        /// 功能通知; 0:無 1:高儲位,2:低儲位
         /// </summary>
         [Category("自訂屬性"), Description("功能通知")]
-        
-
-        public bool FunNotice
+        public enuPalletLoad PalletLoad
         {
             get
             {
-                return FunNotice;
+                return objPalletLoad;
             }
             set
             {
-                bolFunNotice = value;
-                if (bolFunNotice)
+                objPalletLoad = value;
+                if (((int)objPalletLoad) == 1)//高儲位
                 {
-                    funUpdate(lblFunNotice, "v", Color.Lime);
+                    funUpdate(lblPalletLoad, "H", Color.Lime);
+                }
+                else if (((int)objPalletLoad) == 2)//低儲位
+                {
+                    funUpdate(lblPalletLoad, "L", Color.Lime);
                 }
                 else
                 {
-                    funUpdate(lblFunNotice, string.Empty, Color.White);
+                    funUpdate(lblPalletLoad, string.Empty, Color.White);
                 }
+                //funUpdate(lblPalletLoad, ((int)objPalletLoad).ToString());
+                
             }
         }
-
 
         /// <summary>
         /// 錯誤
@@ -429,6 +427,7 @@ namespace Mirle.WinPLCCommu
                     funUpdate(lblPalletNo, string.Empty, Color.White);
                 }
             }
+                
         }
 
         /// <summary>
@@ -607,15 +606,15 @@ namespace Mirle.WinPLCCommu
         /// PC初始通知背景顏色
         /// </summary>
         [Category("自訂屬性"), Description("PC初始通知背景顏色")]
-        public Color FunNoticeColor
+        public Color PalletLoadColor
         {
             get
             {
-                return lblFunNotice.BackColor;
+                return lblPalletLoad.BackColor;
             }
             set
             {
-                funUpdate(lblFunNotice, value);
+                funUpdate(lblPalletLoad, value);
             }
         }
         #endregion 控制項背景顏色
@@ -660,9 +659,9 @@ namespace Mirle.WinPLCCommu
             string strLeftCmdSno = "序號";
             string strReady = "1入庫Ready:2出庫Ready";
             string strReadNotice = "讀取通知";
-            string strFunNotice = "功能通知:棧板荷有";
+            string strPalletLoad = "功能通知:H高儲位:L低儲位";
             string strError = "Error Code";
-            string strtLoad = "貨物荷有";
+            string strtLoad = "荷有";
             string strPalletNo = "棧板號";
             string strStnChange = "站口模式切換";
             string strAuto = "自動";
@@ -684,7 +683,7 @@ namespace Mirle.WinPLCCommu
             objToolTip.SetToolTip(lblReady,strReady);
             objToolTip.SetToolTip(lblError, strError);
             objToolTip.SetToolTip(lblReadNotice, strReadNotice);
-            objToolTip.SetToolTip(lblFunNotice, strFunNotice);
+            objToolTip.SetToolTip(lblPalletLoad, strPalletLoad);
             objToolTip.SetToolTip(lblStnChanges, strStnChange);
             objToolTip.SetToolTip(lblPalletNo, strPalletNo);
             objToolTip.SetToolTip(lblCargoLoad, strtLoad);
@@ -698,7 +697,7 @@ namespace Mirle.WinPLCCommu
             //objToolTip.SetToolTip(lblStnChanges, strRightCmdSno);
             //objToolTip.SetToolTip(lblReady, strReady);
             //objToolTip.SetToolTip(lblReadNotice, strReadNotice);
-            //objToolTip.SetToolTip(lblFunNotice, strFunNotice);
+            //objToolTip.SetToolTip(lblPalletLoad, strPalletLoad);
             //objToolTip.SetToolTip(lblError, strError);
             //objToolTip.SetToolTip(lblCargoLoad, strCargoLoad);
             //objToolTip.SetToolTip(lblRightLoad, strRightLoad);
@@ -716,7 +715,7 @@ namespace Mirle.WinPLCCommu
             lblManual.BackColor = Color.White;
             lblReady.BackColor = Color.LightSkyBlue;
             lblReadNotice.BackColor = Color.Gold;
-            lblFunNotice.BackColor = Color.DarkGray;
+            lblPalletLoad.BackColor = Color.DarkGray;
             lblCargoLoad.BackColor = Color.White;
             lblAuto.BackColor = Color.White;
             lblError.BackColor = Color.White;
@@ -724,7 +723,7 @@ namespace Mirle.WinPLCCommu
             lblBufferName.Text = "BufName";
             lblStnChanges.Text = string.Empty;
             lblCmdSno.Text = string.Empty;
-            lblStnMode.Text = lblReady.Text = lblReadNotice.Text = lblFunNotice.Text = lblCargoLoad.Text = lblAuto.Text = "0";
+            lblStnMode.Text = lblReady.Text = lblReadNotice.Text = lblPalletLoad.Text = lblCargoLoad.Text = lblAuto.Text = "0";
 
             tlpBuffer.Size = new Size(this.Size.Width - 6, this.Size.Height - 6);
         }
@@ -778,7 +777,7 @@ namespace Mirle.WinPLCCommu
             LeftCmdSno  = "XXXXX";
             Ready = enuReady.NoReady;
             ReadNotice = enuReadNotice.None;
-            FunNotice = false;
+            PalletLoad = 0;
             Error = "X";
             CargoLoad = RightLoad = false;
             Auto = false;

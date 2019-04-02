@@ -26,24 +26,26 @@ namespace Mirle.Library
             RightCmdSno = 1,
             CmdMode = 2,
             StnMode = 3,
-            InitialNotice = 4,
+            //InitialNotice = 4,
             
-            PathNotice = 6,
+            //PathNotice = 6,
             //大立光PC->PLC列舉------------------
             Cmdsno = 0,//序號
             Mode = 1,//模式
             StnModeNo = 2,//站口模式碼
             Ready = 3,
             ReadNotice = 4,
-            FunNotice = 5,
-            Error = 6,
+            //FunNotice = 5,
+            PathNotice = 5,
+            InitialNotice = 6,
+            Error = 8,
             StnModeChange = 7,
-            Avail = 19,
+            //Avail = 19,
             //------------------------
             IniNotice = 2,//初始通知
-            FunNotice_1 = 3,//功能通知(1);1通知無誤放行，2:NG退出站口
-            FunNotice_2 = 4,//功能通知(2);0:站口無模式，1:站口入庫模式，2:站口出庫模式
-            FunNotice_3 = 5,//功能通知(3);0:無，1:無命令，2:條碼讀不到，3:超重，4:儲位不符
+            FunNotice_1 = 4,//功能通知(1);2通知無誤放行，3:NG退出站口
+            //FunNotice_2 = 4,//功能通知(2);0:站口無模式，1:站口入庫模式，2:站口出庫模式
+            //FunNotice_3 = 5,//功能通知(3);0:無，1:無命令，2:條碼讀不到，3:超重，4:儲位不符
             //大立光PC->PLC 列舉------
             
             //------------------------

@@ -142,24 +142,24 @@ namespace Mirle.Library
             string strKey = string.Empty;
 
             strSection = "PLC Info";
-            #region PLC1---For 大立光
+            #region PLC1---For 遠紡
             strKey = "ActLogicalStationNo_1";
             clsSystem.gintActLogicalStationNumber_1 = IniFile.funReadValue(strSection, strKey, 1);
 
 
             strKey = "PLC2PCTotalWord_1";
-            clsSystem.gintPLC2PCTotalWord_1 = IniFile.funReadValue(strSection, strKey, 1660);
+            clsSystem.gintPLC2PCTotalWord_1 = IniFile.funReadValue(strSection, strKey, 450);
             strKey = "PLC2PCBufferTotalWord";
-            clsSystem.gintPLC2PCBufferTotalWord_1 = IniFile.funReadValue(strSection, strKey, 20);
+            clsSystem.gintPLC2PCBufferTotalWord_1 = IniFile.funReadValue(strSection, strKey, 10);
             strKey = "PLC2PCWordAddressStart";
-            clsSystem.gstrPLC2PCWordAddressStart_1 = IniFile.funReadValue(strSection, strKey, "D81");
+            clsSystem.gstrPLC2PCWordAddressStart_1 = IniFile.funReadValue(strSection, strKey, "D1000");
 
             strKey = "PC2PLCTotalWord_1";
-            clsSystem.gintPC2PLCTotalWord_1 = IniFile.funReadValue(strSection, strKey, 830);
+            clsSystem.gintPC2PLCTotalWord_1 = IniFile.funReadValue(strSection, strKey, 450);
             strKey = "PC2PLCBufferTotalWord";
             clsSystem.gintPC2PLCBufferTotalWord_1 = IniFile.funReadValue(strSection, strKey, 10);
             strKey = "PC2PLCWordAddressStart";
-            clsSystem.gstrPC2PLCWordAddressStart_1 = IniFile.funReadValue(strSection, strKey, "D2991"); 
+            clsSystem.gstrPC2PLCWordAddressStart_1 = IniFile.funReadValue(strSection, strKey, "D3000"); 
             #endregion
 
             #region PLC2---For 大立光
