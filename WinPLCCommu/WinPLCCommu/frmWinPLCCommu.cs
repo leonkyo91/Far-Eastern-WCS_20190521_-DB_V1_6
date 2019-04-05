@@ -84,6 +84,8 @@ namespace Mirle.WinPLCCommu
         private System.Timers.Timer timProgram_3 = new System.Timers.Timer();
         private bool bolClose = false;
         private bool bolAutoPaseFlag = true;
+        // 臨時記帳程式，略過讀BCR區段 By Leon
+        private bool bolPassReadBCR = true;
 
         private frmPLCModify PLCModify = null;
         private frmEquCmd EquCmd = null;
@@ -156,7 +158,7 @@ namespace Mirle.WinPLCCommu
                     if(!clsSystem.gobjDB.ConnFlag)
                         funReconnectionDB();
                 }
-
+                
                 if(clsSystem.gobjPLC.ConnectionFlag && bolAutoPaseFlag)
                 {
                     #region Read PLC Data To Buffer/UI
@@ -359,6 +361,7 @@ namespace Mirle.WinPLCCommu
                     #endregion Read PLC Data To Buffer/UI
 
                     #region Stock In/Out
+                    
                     funStockIn(1);
                     funStockOut();
                     funLocToLoc();

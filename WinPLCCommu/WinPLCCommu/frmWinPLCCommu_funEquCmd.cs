@@ -25,7 +25,12 @@ namespace Mirle.WinPLCCommu
         {
             try
             {
-                string strRowX = Loc.Substring(0, 2);
+                string strRowX;
+                if (Loc.Length ==6)           
+                    strRowX = Loc.Substring(0, 1);
+                else
+                    strRowX = Loc.Substring(0, 2);
+
                 int intRowX = (int.Parse(strRowX) + 3) / 4;
                 if (CraneNo == intRowX)
                     return true;
@@ -1721,33 +1726,41 @@ namespace Mirle.WinPLCCommu
                 //2019 v1.0.2.0 Julia
                  
 
-                //For 大立光 Oracle
-                strSQL = "SELECT LOC FROM (";
-                strSQL += "SELECT LOC FROM LOC_MST WHERE LOC_STS = 'N' AND EQU_NO ='" + CraneNo + "' "; 
-                if (NeedRow)
-                {
-                    if (CraneRow == 1 || CraneRow == 3)
-                        strSQL += " AND Equ_RowNo IN (1, 3)";                    
-                    else
-                        strSQL += " AND Equ_RowNo IN (1, 2)";  //V1.0.2.0 Julia Modify , 因為左列有N, 右列無法庫對庫.修改這個bug.   equ_no 設定, 1,2 
-                        //strSQL += " AND Equ_RowNo IN (2, 4)";  //V1.0.2.0 Julia Mark
-                }
-                if (LocSts == clsLocSts.cstrLoc_NNNN)
-                    strSQL += " AND LOC IN (SELECT Loc_DD FROM LOC_MST WHERE LOC_STS='N' AND Equ_RowNo IN (1,2) )";
-                else if (LocSts == clsLocSts.cstrLoc_SNNS)
-                    strSQL += " AND LOC IN (SELECT Loc_DD FROM LOC_MST WHERE LOC_STS='S' AND Equ_RowNo IN (3,4) )";
-                else if (LocSts == clsLocSts.cstrLoc_ENNE)
-                    strSQL += " AND LOC IN (SELECT Loc_DD FROM LOC_MST WHERE LOC_STS='E' AND Equ_RowNo IN (3,4) )";
-                else if (LocSts == clsLocSts.cstrLoc_HNNH)
-                    strSQL += " AND LOC IN (SELECT Loc_DD FROM LOC_MST WHERE LOC_STS='H' AND Equ_RowNo IN (3,4) )";
+                ////For 大立光 Oracle
+                //strSQL = "SELECT LOC FROM (";
+                //strSQL += "SELECT LOC FROM LOC_MST WHERE LOC_STS = 'N' AND EQU_NO ='" + CraneNo + "' "; 
+                //if (NeedRow)
+                //{
+                //    if (CraneRow == 1 || CraneRow == 3)
+                //        strSQL += " AND Equ_RowNo IN (1, 3)";                    
+                //    else
+                //        strSQL += " AND Equ_RowNo IN (1, 2)";  //V1.0.2.0 Julia Modify , 因為左列有N, 右列無法庫對庫.修改這個bug.   equ_no 設定, 1,2 
+                //        //strSQL += " AND Equ_RowNo IN (2, 4)";  //V1.0.2.0 Julia Mark
+                //}
+                //if (LocSts == clsLocSts.cstrLoc_NNNN)
+                //    strSQL += " AND LOC IN (SELECT Loc_DD FROM LOC_MST WHERE LOC_STS='N' AND Equ_RowNo IN (1,2) )";
+                //else if (LocSts == clsLocSts.cstrLoc_SNNS)
+                //    strSQL += " AND LOC IN (SELECT Loc_DD FROM LOC_MST WHERE LOC_STS='S' AND Equ_RowNo IN (3,4) )";
+                //else if (LocSts == clsLocSts.cstrLoc_ENNE)
+                //    strSQL += " AND LOC IN (SELECT Loc_DD FROM LOC_MST WHERE LOC_STS='E' AND Equ_RowNo IN (3,4) )";
+                //else if (LocSts == clsLocSts.cstrLoc_HNNH)
+                //    strSQL += " AND LOC IN (SELECT Loc_DD FROM LOC_MST WHERE LOC_STS='H' AND Equ_RowNo IN (3,4) )";
 
-                if (NeedTempLoc)
-                    strSQL += " AND Storage_Type = 'T' ";
-                else
-                    strSQL += " AND Storage_Type <> 'T' ";
-                strSQL += " AND Loc_Size ='" + LocSize + "' ";
+                //if (NeedTempLoc)
+                //    strSQL += " AND Storage_Type = 'T' ";
+                //else
+                //    strSQL += " AND Storage_Type <> 'T' ";
+                //strSQL += " AND Loc_Size ='" + LocSize + "' ";
+                //strSQL += " ORDER BY BAY_Y, LVL_Z, ROW_X ";
+                //strSQL += ") A WHERE (ROWNUM < 2)";
+
+
+                //For 遠紡
+               
+                strSQL = "SELECT LOC FROM LOC_MST WHERE LOC_STS = 'N' AND EQU_NO ='" + CraneNo + "' ";
+                
                 strSQL += " ORDER BY BAY_Y, LVL_Z, ROW_X ";
-                strSQL += ") A WHERE (ROWNUM < 2)";
+                
                 //clsSystem.gobjDB.funGetScalar(strSQL, ref strNewLoc, ref strEM);
                 if (clsSystem.gobjDB.funGetDT(strSQL, ref dtTmp, ref strEM) == ErrDef.ProcSuccess)
                 {
