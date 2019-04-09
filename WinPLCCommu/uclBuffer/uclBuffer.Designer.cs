@@ -258,7 +258,7 @@
             this.lblPalletNo.Font = new System.Drawing.Font("微軟正黑體", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblPalletNo.Location = new System.Drawing.Point(60, 14);
             this.lblPalletNo.Margin = new System.Windows.Forms.Padding(0);
-            this.lblPalletNo.Name = "lblAvail";
+            this.lblPalletNo.Name = "lblPalletNo";
             this.lblPalletNo.Size = new System.Drawing.Size(26, 14);
             this.lblPalletNo.TabIndex = 483;
             this.lblPalletNo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

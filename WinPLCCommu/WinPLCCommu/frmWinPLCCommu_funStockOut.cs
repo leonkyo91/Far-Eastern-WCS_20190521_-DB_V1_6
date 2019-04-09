@@ -95,13 +95,37 @@ namespace Mirle.WinPLCCommu
                         switch (StnDef.CraneNo)
                         {
                             case 1:
-                                strSQL += " AND LOC <'050000'";
+                                strSQL += " AND LOC <'300000'";
                                 break;
                             case 2:
-                                strSQL += " AND LOC >'050000' AND LOC < '090000'";
+                                strSQL += " AND LOC >'300000' AND LOC < '500000'";
                                 break;
                             case 3:
-                                strSQL += " AND LOC >'090000'";
+                                strSQL += " AND LOC >'500000' AND LOC < '700000'";
+                                break;
+                            case 4:
+                                strSQL += " AND LOC >'700000' AND LOC < '900000'";
+                                break;
+                            case 5:
+                                strSQL += " AND LOC >'900000' AND LOC < '1100000'";
+                                break;
+                            case 6:
+                                strSQL += " AND LOC >'1100000' AND LOC < '1300000'";
+                                break;
+                            case 7:
+                                strSQL += " AND LOC >'1300000' AND LOC < '1500000'";
+                                break;
+                            case 8:
+                                strSQL += " AND LOC >'1500000' AND LOC < '1700000'";
+                                break;
+                            case 9:
+                                strSQL += " AND LOC >'1700000' AND LOC < '1900000'";
+                                break;
+                            case 10:
+                                strSQL += " AND LOC >'1900000' AND LOC < '2100000'";
+                                break;
+                            case 11:
+                                strSQL += " AND LOC >'2100000'";
                                 break;
                             default:
                                 break;

@@ -31,7 +31,7 @@ namespace Mirle.WinPLCCommu
                 else
                     strRowX = Loc.Substring(0, 2);
 
-                int intRowX = (int.Parse(strRowX) + 3) / 4;
+                int intRowX = (int.Parse(strRowX) + 1) / 2;
                 if (CraneNo == intRowX)
                     return true;
                 else
@@ -1435,17 +1435,14 @@ namespace Mirle.WinPLCCommu
             int intTmp = 0;
             string strLoc = Data;
             intRow = int.Parse(strLoc.Substring(0, 2));
-            intTmp = intRow % 4;
+            intTmp = intRow % 2;
             switch(intTmp)
             {
+                // 暫時修改成單儲位 By Leon 
                 case 0:
-                    return "04" + strLoc.Substring(2);
+                    return "02" + strLoc.Substring(2);
                 case 1:
                     return "01" + strLoc.Substring(2);
-                case 2:
-                    return "02" + strLoc.Substring(2);
-                case 3:
-                    return "03" + strLoc.Substring(2);
                 default:
                     return string.Empty;
             }

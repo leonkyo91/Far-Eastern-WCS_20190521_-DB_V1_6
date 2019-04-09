@@ -1420,48 +1420,37 @@ namespace Mirle.WinPLCCommu
                                     string strCrn = StnDef.Buffer.Substring(1, 2);
                                     switch (strCrn)
                                     {
-                                        case "01":
                                         case "02":
                                             intCraneNo = 1;
                                             break;
-                                        case "03":
-                                        case "04":
+                                        case "06":
                                             intCraneNo = 2;
                                             break;
-                                        case "05":
-                                        case "06":
+                                        case "10":
                                             intCraneNo = 3;
                                             break;
-                                        case "07":
-                                        case "08":
+                                        case "14":
                                             intCraneNo = 4;
                                             break;
-                                        case "09":
-                                        case "10":
+                                        case "18":
                                             intCraneNo = 5;
                                             break;
-                                        case "11":
-                                        case "12":
+                                        case "22":
                                             intCraneNo = 6;
                                             break;
-                                        case "13":
-                                        case "14":
+                                        case "26":
                                             intCraneNo = 7;
                                             break;
-                                        case "15":
-                                        case "16":
+                                        case "30":
                                             intCraneNo = 8;
                                             break;
-                                        case "17":
-                                        case "18":
+                                        case "34":
                                             intCraneNo = 9;
                                             break;
-                                        case "19":
-                                        case "20":
+                                        case "38":
                                             intCraneNo = 10;
                                             break;
-                                        case "21":
-                                        case "22":
+                                        case "42":
                                             intCraneNo = 11;
                                             break;
                                     }
