@@ -162,26 +162,27 @@ namespace Mirle.WinPLCCommu
 
                             }
 
-                            if (!objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_CargoLoad &&
+                            if (!objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_CargoLoad ||
+                                !objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_PalletLoad &&
                                 objBufferData.PLC2PCBuffer[StnDef.BufferIndex].Ready == (int)clsPLC2PCBuffer.enuReady.OutReady &&
                                 string.IsNullOrWhiteSpace(objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno) &&
                                 objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnMode == (int)clsPLC2PCBuffer.enuStnMode.None)
                             {
                                 if (bolCheckLoc && !string.IsNullOrWhiteSpace(strOutsideLoc))
                                 {
-                                    // 遠紡single deep 不需庫對庫
+                                    //// 遠紡single deep 不需庫對庫
                                     #region 檢查內儲位是否需要進行庫對庫作業
-                                    if (!funCheckInsideLocIsEmpty(strOutsideLoc, strPrty, ref bolOut))
-                                    {
-                                        if (bolOut)
-                                            continue;
-                                        funMoveInsideLoc(StnDef.CraneNo, strOutsideLoc, strCmdSno);
+                                    //if (!funCheckInsideLocIsEmpty(strOutsideLoc, strPrty, ref bolOut))
+                                    //{
+                                    //    if (bolOut)
+                                    //        continue;
+                                    //    funMoveInsideLoc(StnDef.CraneNo, strOutsideLoc, strCmdSno);
 
-                                        continue;
-                                    }
+                                    //    continue;
+                                    //}
 
-                                    else
-                                    {
+                                    //else
+                                    //{
                                         if (bolRight)
                                         {
                                             //檢查該站口命令，若有則退出，避免Update Trace
@@ -310,7 +311,7 @@ namespace Mirle.WinPLCCommu
                                             }
                                             #endregion 在Crane右OP側站口出庫
                                         }
-                                    }
+                                    //}
                                     #endregion 檢查內儲位是否需要進行庫對庫作業
                                 }
                                 else if (bolCheckLoc && string.IsNullOrWhiteSpace(strOutsideLoc))
@@ -477,7 +478,7 @@ namespace Mirle.WinPLCCommu
 
 
 
-                            strSQL = "SELECT  LOC,PRTY FROM CMD_MST WHERE CMD_STS<'3' and ROWNUM <2 AND CMD_SNO='" + strCmdSno + "' AND CMD_MODE IN ('2', '3')";
+                            strSQL = "SELECT TOP(1) LOC,PRTY FROM CMD_MST WHERE CMD_STS<'3' AND CMD_SNO='" + strCmdSno + "' AND CMD_MODE IN ('2', '3')";
                             strSQL += " AND TRACE='" + clsTrace.cstrStoreOutTrace_ReleaseEquPLCCmd + "' ORDER BY LOC DESC";
                             if (clsSystem.gobjDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
                             {

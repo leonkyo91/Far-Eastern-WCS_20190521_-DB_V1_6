@@ -364,7 +364,8 @@ namespace Mirle.WinPLCCommu
                     
                     funStockIn(1);
                     funStockOut();
-                    funLocToLoc();
+                    // 庫對庫停用 By Leon
+                    //funLocToLoc();
                     //funAutoMoveLoc();
                     #endregion Stock In/Out
 

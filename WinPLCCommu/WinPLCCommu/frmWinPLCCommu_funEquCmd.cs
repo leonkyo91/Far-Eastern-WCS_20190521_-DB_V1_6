@@ -262,9 +262,13 @@ namespace Mirle.WinPLCCommu
 
             if(CraneNo == 0 || string.IsNullOrWhiteSpace(CmdSno) || string.IsNullOrWhiteSpace(Loc) || string.IsNullOrWhiteSpace(CranePortNo))
                 return false;
+           
+            if (Loc.Length == 6)
+                strRow = Loc.Substring(0, 1);
+            else
+                strRow = Loc.Substring(0, 2);
 
-            strRow = Loc.Substring(0, 2);
-            intRow = (int.Parse(strRow) + 3) / 4;
+            intRow = (int.Parse(strRow) + 1) / 2;
 
             if(CraneNo != intRow)
                 return false;
@@ -1434,7 +1438,12 @@ namespace Mirle.WinPLCCommu
             int intRow = 0;
             int intTmp = 0;
             string strLoc = Data;
-            intRow = int.Parse(strLoc.Substring(0, 2));
+
+            if (Data.Length == 6)
+                intRow = int.Parse(strLoc.Substring(0, 1));
+            else
+                intRow = int.Parse(strLoc.Substring(0, 2));
+
             intTmp = intRow % 2;
             switch(intTmp)
             {
