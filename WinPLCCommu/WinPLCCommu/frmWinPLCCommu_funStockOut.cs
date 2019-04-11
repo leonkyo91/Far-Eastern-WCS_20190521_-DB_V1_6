@@ -91,7 +91,6 @@ namespace Mirle.WinPLCCommu
                         strSQL = "SELECT Distinct LOC,CMD_SNO,CMD_MODE,Prty From CMD_MST ";
                         strSQL += "WHERE CMD_STS='0' AND CMD_MODE IN ('2','3') AND STN_NO ='" + StnDef.StnNo + "'";
                         strSQL += "";
-                        // LOC 需根據遠紡調整 By Leon
                         switch (StnDef.CraneNo)
                         {
                             case 1:
@@ -142,7 +141,7 @@ namespace Mirle.WinPLCCommu
                             int intCmdMode = int.Parse(objCmdSno.Rows[0]["CMD_MODE"].ToString());
                             string strCmdSno = objCmdSno.Rows[0]["CMD_SNO"].ToString();
                             string strOutsideLoc = objCmdSno.Rows[0]["LOC"].ToString();
-                            string strPrty = objCmdSno.Rows[0]["Prty"].ToString();
+                            //string strPrty = objCmdSno.Rows[0]["Prty"].ToString();
                             CmdSno = new clsCmdSno();
                             objDataTable = new DataTable();
                             strSQL = "SELECT COUNT(CMD_SNO) AS CNTS FROM CMD_MST";
@@ -162,8 +161,8 @@ namespace Mirle.WinPLCCommu
 
                             }
 
-                            if (!objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_CargoLoad ||
-                                !objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_PalletLoad &&
+                            if ((!objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_CargoLoad ||
+                                !objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_PalletLoad )&&
                                 objBufferData.PLC2PCBuffer[StnDef.BufferIndex].Ready == (int)clsPLC2PCBuffer.enuReady.OutReady &&
                                 string.IsNullOrWhiteSpace(objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno) &&
                                 objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnMode == (int)clsPLC2PCBuffer.enuStnMode.None)
@@ -411,10 +410,8 @@ namespace Mirle.WinPLCCommu
                 try
                 {
                     if (!string.IsNullOrWhiteSpace(objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno) &&
-                        objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno ==
-                        objBufferData.PC2PLCBuffer[StnDef.BufferIndex].CmdSno &&
-                        objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnMode ==
-                        objBufferData.PC2PLCBuffer[StnDef.BufferIndex].StnMode)
+                        objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno ==objBufferData.PC2PLCBuffer[StnDef.BufferIndex].CmdSno &&
+                        objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnMode ==objBufferData.PC2PLCBuffer[StnDef.BufferIndex].StnMode)
                     {
                         funRefreshPC2PLCSingel(StnDef.Buffer);
                     }
@@ -465,11 +462,13 @@ namespace Mirle.WinPLCCommu
                 }
                 try
                 {
-                    if (!objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_CargoLoad &&
+                    if ((!objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_CargoLoad ||
+                        !objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_PalletLoad) &&
                         !string.IsNullOrWhiteSpace(objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno))
 
                         //大立光--------------------------------------------------------
-                        if (!objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_CargoLoad &&
+                        if ((!objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_CargoLoad ||
+                             !objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_PalletLoad) &&
                             !string.IsNullOrWhiteSpace(objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno) &&
                             objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnMode == 2)
                         {

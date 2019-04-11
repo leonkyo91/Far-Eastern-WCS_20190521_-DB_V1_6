@@ -128,7 +128,7 @@ namespace Mirle.WinPLCCommu
             string strAddress = string.Empty;
             if(funGetWritePC2PLCAddress(BufferName, ref strAddress))
             {
-                string[] strarrValues = new string[] { "0", "0", "0"};
+                string[] strarrValues = new string[] { "0", "0", "0", "0", "0" };
                 if (BufferName.Substring(0, 1) == "A" || BufferName.Substring(0, 1) == "B")
                 {
                     if (clsSystem.gobjPLC.funWritePLC(strAddress, strarrValues))
