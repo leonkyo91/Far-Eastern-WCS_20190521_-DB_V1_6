@@ -179,7 +179,7 @@ namespace Mirle.WinPLCCommu
                                     BufferControl.Ready = clsTool.funGetEnumValue<uclBuffer.enuReady>(((int)objBufferData.PLC2PCBuffer[intItem].Ready).ToString());
                                     BufferControl.ReadNotice =
                                         clsTool.funGetEnumValue<uclBuffer.enuReadNotice>(((int)objBufferData.PLC2PCBuffer[intItem].ReadNotice).ToString());
-                                    BufferControl.FunNotice = objBufferData.PLC2PCBuffer[intItem].StnModeCode_PalletLoad;
+                                    BufferControl.FunNotice = clsTool.funGetEnumValue<uclBuffer.enuFunNotice>(objBufferData.PLC2PCBuffer[intItem].StnModeCode_PalletLoad);
                                     BufferControl.Error = objBufferData.PLC2PCBuffer[intItem].Error.ToString();
                                     BufferControl.CargoLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_CargoLoad;
                                     //BufferControl.RightLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_RightLoad;

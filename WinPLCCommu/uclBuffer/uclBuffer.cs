@@ -302,7 +302,7 @@ namespace Mirle.WinPLCCommu
         {
             get
             {
-                return FunNotice;
+                return bolFunNotice;
             }
             set
             {

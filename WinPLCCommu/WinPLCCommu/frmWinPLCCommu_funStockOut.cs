@@ -94,16 +94,16 @@ namespace Mirle.WinPLCCommu
                         switch (StnDef.CraneNo)
                         {
                             case 1:
-                                strSQL += " AND LOC <'300000'";
+                                strSQL += " AND LOC <'0300000'";
                                 break;
                             case 2:
-                                strSQL += " AND LOC >'300000' AND LOC < '500000'";
+                                strSQL += " AND LOC >'0300000' AND LOC < '0500000'";
                                 break;
                             case 3:
-                                strSQL += " AND LOC >'500000' AND LOC < '700000'";
+                                strSQL += " AND LOC >'0500000' AND LOC < '0700000'";
                                 break;
                             case 4:
-                                strSQL += " AND LOC >'700000' AND LOC < '900000'";
+                                strSQL += " AND LOC >'0700000' AND LOC < '0900000'";
                                 break;
                             case 5:
                                 strSQL += " AND LOC >'900000' AND LOC < '1100000'";

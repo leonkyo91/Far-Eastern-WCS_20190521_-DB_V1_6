@@ -1250,6 +1250,100 @@ namespace Mirle.WinPLCCommu
         }
 
         /// <summary>
+        /// 取得命令序號(20001~20999 為WCS自行產生的---ex:空棧板入庫用)
+        /// </summary>
+        /// <returns></returns>
+        private string funGetEmptyPltCmdSno()
+        {
+            int intGetCnt = 0;
+            long lngSeq1 = 0;
+            long lngSeq2 = 0;
+            string strSql = string.Empty;
+            string strEM = string.Empty;
+            string strMonthFlag = string.Empty;     //月異動 Y/N
+            int intSnoLen = 0;                      //Sno_Len 序號長度
+
+
+            string strSQL = string.Empty;
+            string strCmdSno = string.Empty;
+            string strNewCmdSno = string.Empty;
+            DataTable dtTmp = new DataTable();
+            try
+            {
+            ProNext:
+
+                strSql = "SELECT C.SNO_TYPE,C.TRN_MONTH,C.SNO,M.MONTH_FLAG,M.INIT_SNO,M.MAX_SNO,M.SNO_LEN";
+                strSql += " FROM SNO_CTL C,SNO_MAX M WHERE C.SNO_TYPE=M.SNO_TYPE";
+                strSql += " AND C.SNO_TYPE='CMDSNO_WCS'";
+                string strGetYearMonth = DateTime.Now.ToString("yyMM");
+                int intRtn = clsSystem.gobjDB.funGetDT(strSql, ref dtTmp, ref strEM);
+                if (intRtn == ErrDef.ProcSuccess)
+                {
+                    lngSeq2 = int.Parse(dtTmp.Rows[0]["SNO"].ToString());
+                    strMonthFlag = dtTmp.Rows[0]["MONTH_FLAG"].ToString();
+                    intSnoLen = int.Parse(dtTmp.Rows[0]["SNO_LEN"].ToString());
+
+                    if (lngSeq2 >= int.Parse(dtTmp.Rows[0]["MAX_SNO"].ToString()))
+                    {
+                        lngSeq1 = int.Parse(dtTmp.Rows[0]["INIT_SNO"].ToString());
+                    }
+                    else
+                    {
+                        lngSeq1 = lngSeq2 + 1;
+                    }
+
+                    strSql = "UPDATE SNO_CTL SET SNO = " + lngSeq1;
+                    if (strMonthFlag == "Y")
+                    {
+                        strSql += ",TRN_MONTH = '" + strGetYearMonth + "'";
+                    }
+                    strSql += " WHERE SNO_TYPE = 'CMDSNO_WCS'";
+                    strSql += " AND SNO = " + lngSeq2;
+                }
+                else if (intRtn == 110002)      //No Data Selected
+                {
+                    if (strMonthFlag == "Y")
+                    {
+                        strSql = "INSERT INTO SNO_CTL (SNO_TYPE,TRN_MONTH,SNO) VALUES ('CMDSNO_WCS','" + strGetYearMonth + "',1)";
+                    }
+                    else
+                    {
+                        strSql = "INSERT INTO SNO_CTL (SNO_TYPE,TRN_MONTH,SNO) VALUES ('CMDSNO_WCS','" + DateTime.Now.ToString("yyMM") + "',1)";
+                    }
+                    intSnoLen = 5;
+                    lngSeq1 = 1;
+                }
+                else
+                {
+                    return "";
+                }
+
+                if (clsSystem.gobjDB.funExecSql(strSql, ref strEM) != ErrDef.ProcSuccess)
+                {
+                    //讀取Count
+                    if (intGetCnt >= 5)
+                    {
+                        return "";
+                    }
+                    else
+                    {
+                        goto ProNext;
+                    }
+                }
+                return lngSeq1.ToString().PadLeft(intSnoLen, '0');
+
+
+
+            }
+            catch (Exception ex)
+            {
+                var varObject = MethodBase.GetCurrentMethod();
+                clsSystem.funWriteExceptionLog(varObject.DeclaringType.FullName, varObject.Name, ex.Message);
+                return string.Empty;
+            }
+        }
+
+        /// <summary>
         /// 檢查是否有執行中命令；有執行中命令傳回true，否則傳回false
         /// </summary>
         /// <param name="CraneNo"></param>

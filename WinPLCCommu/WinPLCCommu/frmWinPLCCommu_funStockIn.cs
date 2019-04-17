@@ -50,8 +50,9 @@ namespace Mirle.WinPLCCommu
             string strSQL = string.Empty;
             string strEM = string.Empty;
             bool bolGo = false;
+            string strCmdSno = string.Empty;
             DataTable objDataTable = new DataTable();
-            DataTable objWTDataTable = new DataTable();
+            //DataTable objWTDataTable = new DataTable();
             DataTable dtTmp = new DataTable();
             DataTable dtStnNo = new DataTable();
             DataTable dtCheckCMD = new DataTable();
@@ -82,12 +83,12 @@ namespace Mirle.WinPLCCommu
                         dtStnNo.Dispose();
                         dtStnNo = null;
                     }
-                    if (objWTDataTable != null)
-                    {
-                        objWTDataTable.Clear();
-                        objWTDataTable.Dispose();
-                        objWTDataTable = null;
-                    }
+                    //if (objWTDataTable != null)
+                    //{
+                    //    objWTDataTable.Clear();
+                    //    objWTDataTable.Dispose();
+                    //    objWTDataTable = null;
+                    //}
                     if (SystemTraceLog != null)
                     {
                         SystemTraceLog = null;
@@ -319,6 +320,9 @@ namespace Mirle.WinPLCCommu
                                         {
                                             //更新In_Buf成功
                                             objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRSts = clsBCR.enuBCRSts.ReadFinish;
+                                            // 停一秒模擬讀取BCR結束
+                                            int millisecondsTimeout = 1000; // 1 sec
+                                            System.Threading.Thread.Sleep(millisecondsTimeout);
                                         }
                                     }
                                 }
@@ -430,7 +434,7 @@ namespace Mirle.WinPLCCommu
                             dtTmp = null;
                             strSQL = "SELECT COUNT(*) as iCount FROM CMD_MST WHERE STN_NO='" +
                                      objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo + "' AND CMD_STS <'3' ";
-                            strSQL += " GROUP BY CMD_SNO";
+                            //strSQL += " GROUP BY CMD_SNO";
                             if (clsSystem.gobjDB.funGetDT(strSQL, ref dtTmp, ref strEM) == ErrDef.ProcSuccess)
                             {
                                 if (dtTmp.Rows[0]["iCount"].ToString() == "0")
@@ -441,6 +445,7 @@ namespace Mirle.WinPLCCommu
                                     {
                                         //新增空棧板入庫命令 By Leon
                                         //空棧板IO_TYPE=15
+                                        strCmdSno = funGetEmptyPltCmdSno();
                                     }
                                     else
                                     {
@@ -659,7 +664,7 @@ namespace Mirle.WinPLCCommu
                                     strSQL = "UPDATE CMD_MST SET LOC = '" + strLoc + "',EQU_NO = '" + intCraneNo + "' ";
                                     strSQL += ",TRACE ='" + clsTrace.cstrStoreInTrace_ReleaseEquPLCCmd + "' ";
                                     // 再看看是否要設成1 By Leon
-                                    strSQL += ",CMD_STS = '1' ";
+                                    //strSQL += ",CMD_STS = '1' ";
                                     strSQL += " WHERE 1=1 ";
                                     strSQL += "AND Plt_Id ='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID + "' ";
                                     strSQL += " AND CMD_SNO='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].CmdSno +"' ";
@@ -675,8 +680,8 @@ namespace Mirle.WinPLCCommu
                                         funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
                                         objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRSts = clsBCR.enuBCRSts.None;
                                         objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID = clsReBCRID.cstrBCRDataInit;
-                                        objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data = "0";
-                                        objWTData[intStn, clsWT.enuWTLoc.Once].WTSts = clsWT.enuWTSts.None;
+                                        //objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data = "0";
+                                        //objWTData[intStn, clsWT.enuWTLoc.Once].WTSts = clsWT.enuWTSts.None;
                                     }
 
                                     #endregion 更新Trace
@@ -764,49 +769,49 @@ namespace Mirle.WinPLCCommu
                                 #region 更新Trace
 
                                 //判斷使用率
-                                int iAvail = 0;
-                                switch (objBufferData
-                                    .PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].Avail)
-                                {
-                                    case 1:
-                                        iAvail = 25;
-                                        break;
+                                //int iAvail = 0;
+                                //switch (objBufferData
+                                //    .PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].Avail)
+                                //{
+                                //    case 1:
+                                //        iAvail = 25;
+                                //        break;
 
-                                    case 2:
-                                        iAvail = 50;
-                                        break;
+                                //    case 2:
+                                //        iAvail = 50;
+                                //        break;
 
-                                    case 3:
-                                        iAvail = 75;
-                                        break;
+                                //    case 3:
+                                //        iAvail = 75;
+                                //        break;
 
-                                    case 4:
-                                        iAvail = 100;
-                                        break;
+                                //    case 4:
+                                //        iAvail = 100;
+                                //        break;
 
-                                    default:
-                                        iAvail = 0;
-                                        break;
-                                }
+                                //    default:
+                                //        iAvail = 0;
+                                //        break;
+                                //}
 
-                                if (clsTool.funConvertToInt(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo
-                                        .Substring(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Length - 1, 1)) %
-                                    2 == 0)
-                                {
-                                    //檢查有秤重機的站口
-                                    //strSQL = "UPDATE CMD_MST SET LOC = '" + strLoc + "',Weight='" + objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data + "' ,EQU_NO='" + intCraneNo + "' ";
-                                    strSQL = "UPDATE CMD_MST SET Weight='" +
-                                             objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data + "' ,EQU_NO='" +
-                                             intCraneNo + "' ";
-                                }
-                                else
-                                {
-                                    //無秤重機的站口(重量為25)
-                                    //strSQL = "UPDATE CMD_MST SET LOC = '" + strLoc + "',Weight='" + "25" + "' ,EQU_NO='" + intCraneNo + "' ";
-                                    strSQL = "UPDATE CMD_MST SET Weight='" + "25" + "' ,EQU_NO='" + intCraneNo + "' ";
-                                }
+                                //if (clsTool.funConvertToInt(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo
+                                //        .Substring(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo.Length - 1, 1)) %
+                                //    2 == 0)
+                                //{
+                                //    //檢查有秤重機的站口
+                                //    //strSQL = "UPDATE CMD_MST SET LOC = '" + strLoc + "',Weight='" + objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data + "' ,EQU_NO='" + intCraneNo + "' ";
+                                //    strSQL = "UPDATE CMD_MST SET Weight='" +
+                                //             objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data + "' ,EQU_NO='" +
+                                //             intCraneNo + "' ";
+                                //}
+                                //else
+                                //{
+                                //    //無秤重機的站口(重量為25)
+                                //    //strSQL = "UPDATE CMD_MST SET LOC = '" + strLoc + "',Weight='" + "25" + "' ,EQU_NO='" + intCraneNo + "' ";
+                                //    strSQL = "UPDATE CMD_MST SET Weight='" + "25" + "' ,EQU_NO='" + intCraneNo + "' ";
+                                //}
 
-                                strSQL += ",Avail=" + iAvail + "";
+                                //strSQL += ",Avail=" + iAvail + "";
                                 strSQL += ",CMD_STS ='1'";
                                 strSQL += ",TRACE ='" + clsTrace.cstrStoreInTrace_ReleaseEquPLCCmd + "' ";
                                 strSQL += " WHERE 1=1 ";
@@ -824,8 +829,8 @@ namespace Mirle.WinPLCCommu
                                     funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
                                     objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRSts = clsBCR.enuBCRSts.None;
                                     objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID = clsReBCRID.cstrBCRDataInit;
-                                    objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data = "0";
-                                    objWTData[intStn, clsWT.enuWTLoc.Once].WTSts = clsWT.enuWTSts.None;
+                                    //objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data = "0";
+                                    //objWTData[intStn, clsWT.enuWTLoc.Once].WTSts = clsWT.enuWTSts.None;
                                 }
 
                                 #endregion 更新Trace
@@ -1083,12 +1088,12 @@ namespace Mirle.WinPLCCommu
                     dtStnNo.Dispose();
                     dtStnNo = null;
                 }
-                if (objWTDataTable != null)
-                {
-                    objWTDataTable.Clear();
-                    objWTDataTable.Dispose();
-                    objWTDataTable = null;
-                }
+                //if (objWTDataTable != null)
+                //{
+                //    objWTDataTable.Clear();
+                //    objWTDataTable.Dispose();
+                //    objWTDataTable = null;
+                //}
                 if (SystemTraceLog != null)
                 {
                     SystemTraceLog = null;
@@ -1407,7 +1412,8 @@ namespace Mirle.WinPLCCommu
                 try
                 {
                     //大立光
-                    if (objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_CargoLoad &&
+                    if ((objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_CargoLoad ||
+                        objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_PalletLoad) &&
                         objBufferData.PLC2PCBuffer[StnDef.BufferIndex].Ready == (int)clsPLC2PCBuffer.enuReady.InReady &&
                         !string.IsNullOrWhiteSpace(objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno) &&
                         objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnMode == (int)clsPLC2PCBuffer.enuStnMode.InMode)

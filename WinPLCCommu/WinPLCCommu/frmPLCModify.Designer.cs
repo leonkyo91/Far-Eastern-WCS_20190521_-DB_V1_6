@@ -90,14 +90,14 @@
             // tlpPLCModify
             // 
             this.tlpPLCModify.ColumnCount = 9;
-            this.tlpPLCModify.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-            this.tlpPLCModify.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tlpPLCModify.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tlpPLCModify.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 85F));
-            this.tlpPLCModify.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tlpPLCModify.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
-            this.tlpPLCModify.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
-            this.tlpPLCModify.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 67F));
+            this.tlpPLCModify.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
+            this.tlpPLCModify.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            this.tlpPLCModify.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            this.tlpPLCModify.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 64F));
+            this.tlpPLCModify.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            this.tlpPLCModify.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tlpPLCModify.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 98F));
+            this.tlpPLCModify.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tlpPLCModify.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpPLCModify.Controls.Add(this.lblPLC2PC_ErroeCode, 2, 8);
             this.tlpPLCModify.Controls.Add(this.lblErrorCode, 1, 8);
@@ -156,32 +156,31 @@
             this.tlpPLCModify.Controls.Add(this.lblPLC2PC_StnChange, 2, 9);
             this.tlpPLCModify.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpPLCModify.Location = new System.Drawing.Point(0, 0);
-            this.tlpPLCModify.Margin = new System.Windows.Forms.Padding(4);
             this.tlpPLCModify.Name = "tlpPLCModify";
             this.tlpPLCModify.RowCount = 12;
             this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tlpPLCModify.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpPLCModify.Size = new System.Drawing.Size(635, 452);
+            this.tlpPLCModify.Size = new System.Drawing.Size(476, 362);
             this.tlpPLCModify.TabIndex = 0;
             // 
             // lblPLC2PC_ErroeCode
             // 
             this.lblPLC2PC_ErroeCode.BackColor = System.Drawing.Color.White;
             this.lblPLC2PC_ErroeCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblPLC2PC_ErroeCode.Location = new System.Drawing.Point(114, 313);
-            this.lblPLC2PC_ErroeCode.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.lblPLC2PC_ErroeCode.Location = new System.Drawing.Point(86, 251);
+            this.lblPLC2PC_ErroeCode.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.lblPLC2PC_ErroeCode.Name = "lblPLC2PC_ErroeCode";
-            this.lblPLC2PC_ErroeCode.Size = new System.Drawing.Size(91, 31);
+            this.lblPLC2PC_ErroeCode.Size = new System.Drawing.Size(69, 25);
             this.lblPLC2PC_ErroeCode.TabIndex = 78;
             this.lblPLC2PC_ErroeCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -189,10 +188,9 @@
             // 
             this.lblErrorCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblErrorCode.AutoSize = true;
-            this.lblErrorCode.Location = new System.Drawing.Point(14, 321);
-            this.lblErrorCode.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblErrorCode.Location = new System.Drawing.Point(11, 257);
             this.lblErrorCode.Name = "lblErrorCode";
-            this.lblErrorCode.Size = new System.Drawing.Size(92, 15);
+            this.lblErrorCode.Size = new System.Drawing.Size(69, 12);
             this.lblErrorCode.TabIndex = 77;
             this.lblErrorCode.Text = "異常碼";
             this.lblErrorCode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -201,10 +199,9 @@
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(214, 321);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Location = new System.Drawing.Point(161, 251);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(77, 15);
+            this.label6.Size = new System.Drawing.Size(58, 24);
             this.label6.TabIndex = 76;
             this.label6.Text = "功能通知3";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -213,10 +210,9 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(214, 277);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Location = new System.Drawing.Point(161, 216);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(77, 15);
+            this.label5.Size = new System.Drawing.Size(58, 24);
             this.label5.TabIndex = 75;
             this.label5.Text = "功能通知2";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -225,10 +221,9 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(214, 233);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(161, 181);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(77, 15);
+            this.label4.Size = new System.Drawing.Size(58, 24);
             this.label4.TabIndex = 74;
             this.label4.Text = "功能通知1";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -237,10 +232,9 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(214, 189);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(161, 152);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 15);
+            this.label3.Size = new System.Drawing.Size(58, 12);
             this.label3.TabIndex = 73;
             this.label3.Text = "初始通知";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -249,10 +243,9 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(214, 145);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(161, 117);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 15);
+            this.label2.Size = new System.Drawing.Size(58, 12);
             this.label2.TabIndex = 72;
             this.label2.Text = "模式";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -261,10 +254,9 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(214, 101);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(161, 82);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 15);
+            this.label1.Size = new System.Drawing.Size(58, 12);
             this.label1.TabIndex = 71;
             this.label1.Text = "序號";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -273,10 +265,9 @@
             // 
             this.lblBufferName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblBufferName.AutoSize = true;
-            this.lblBufferName.Location = new System.Drawing.Point(14, 26);
-            this.lblBufferName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblBufferName.Location = new System.Drawing.Point(11, 22);
             this.lblBufferName.Name = "lblBufferName";
-            this.lblBufferName.Size = new System.Drawing.Size(92, 15);
+            this.lblBufferName.Size = new System.Drawing.Size(69, 12);
             this.lblBufferName.TabIndex = 0;
             this.lblBufferName.Text = "Buffer編號";
             this.lblBufferName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -285,10 +276,9 @@
             // 
             this.lblLeftCmdSno.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblLeftCmdSno.AutoSize = true;
-            this.lblLeftCmdSno.Location = new System.Drawing.Point(14, 101);
-            this.lblLeftCmdSno.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblLeftCmdSno.Location = new System.Drawing.Point(11, 82);
             this.lblLeftCmdSno.Name = "lblLeftCmdSno";
-            this.lblLeftCmdSno.Size = new System.Drawing.Size(92, 15);
+            this.lblLeftCmdSno.Size = new System.Drawing.Size(69, 12);
             this.lblLeftCmdSno.TabIndex = 1;
             this.lblLeftCmdSno.Text = "序號";
             this.lblLeftCmdSno.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -297,10 +287,9 @@
             // 
             this.lblMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMode.AutoSize = true;
-            this.lblMode.Location = new System.Drawing.Point(14, 145);
-            this.lblMode.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblMode.Location = new System.Drawing.Point(11, 117);
             this.lblMode.Name = "lblMode";
-            this.lblMode.Size = new System.Drawing.Size(92, 15);
+            this.lblMode.Size = new System.Drawing.Size(69, 12);
             this.lblMode.TabIndex = 2;
             this.lblMode.Text = "模式";
             this.lblMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -309,10 +298,9 @@
             // 
             this.lblReady.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblReady.AutoSize = true;
-            this.lblReady.Location = new System.Drawing.Point(14, 189);
-            this.lblReady.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblReady.Location = new System.Drawing.Point(11, 152);
             this.lblReady.Name = "lblReady";
-            this.lblReady.Size = new System.Drawing.Size(92, 15);
+            this.lblReady.Size = new System.Drawing.Size(69, 12);
             this.lblReady.TabIndex = 3;
             this.lblReady.Text = "Ready";
             this.lblReady.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -321,10 +309,9 @@
             // 
             this.lblFunNotice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblFunNotice.AutoSize = true;
-            this.lblFunNotice.Location = new System.Drawing.Point(14, 277);
-            this.lblFunNotice.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblFunNotice.Location = new System.Drawing.Point(11, 222);
             this.lblFunNotice.Name = "lblFunNotice";
-            this.lblFunNotice.Size = new System.Drawing.Size(92, 15);
+            this.lblFunNotice.Size = new System.Drawing.Size(69, 12);
             this.lblFunNotice.TabIndex = 5;
             this.lblFunNotice.Text = "功能通知";
             this.lblFunNotice.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -336,10 +323,9 @@
             this.tlpPLCModify.SetColumnSpan(this.cboBufferName, 2);
             this.cboBufferName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboBufferName.FormattingEnabled = true;
-            this.cboBufferName.Location = new System.Drawing.Point(114, 22);
-            this.cboBufferName.Margin = new System.Windows.Forms.Padding(4);
+            this.cboBufferName.Location = new System.Drawing.Point(86, 18);
             this.cboBufferName.Name = "cboBufferName";
-            this.cboBufferName.Size = new System.Drawing.Size(177, 23);
+            this.cboBufferName.Size = new System.Drawing.Size(133, 20);
             this.cboBufferName.TabIndex = 16;
             this.cboBufferName.SelectedIndexChanged += new System.EventHandler(this.cboBufferName_SelectedIndexChanged);
             // 
@@ -347,10 +333,9 @@
             // 
             this.lblTo1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTo1.AutoSize = true;
-            this.lblTo1.Location = new System.Drawing.Point(399, 101);
-            this.lblTo1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTo1.Location = new System.Drawing.Point(300, 82);
             this.lblTo1.Name = "lblTo1";
-            this.lblTo1.Size = new System.Drawing.Size(25, 15);
+            this.lblTo1.Size = new System.Drawing.Size(19, 12);
             this.lblTo1.TabIndex = 17;
             this.lblTo1.Text = "<=";
             this.lblTo1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -359,10 +344,9 @@
             // 
             this.lblTo2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTo2.AutoSize = true;
-            this.lblTo2.Location = new System.Drawing.Point(399, 145);
-            this.lblTo2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTo2.Location = new System.Drawing.Point(300, 117);
             this.lblTo2.Name = "lblTo2";
-            this.lblTo2.Size = new System.Drawing.Size(25, 15);
+            this.lblTo2.Size = new System.Drawing.Size(19, 12);
             this.lblTo2.TabIndex = 18;
             this.lblTo2.Text = "<=";
             this.lblTo2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -371,10 +355,9 @@
             // 
             this.lblTo3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTo3.AutoSize = true;
-            this.lblTo3.Location = new System.Drawing.Point(399, 189);
-            this.lblTo3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTo3.Location = new System.Drawing.Point(300, 152);
             this.lblTo3.Name = "lblTo3";
-            this.lblTo3.Size = new System.Drawing.Size(25, 15);
+            this.lblTo3.Size = new System.Drawing.Size(19, 12);
             this.lblTo3.TabIndex = 19;
             this.lblTo3.Text = "<=";
             this.lblTo3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -383,10 +366,9 @@
             // 
             this.lblTo4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTo4.AutoSize = true;
-            this.lblTo4.Location = new System.Drawing.Point(399, 233);
-            this.lblTo4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTo4.Location = new System.Drawing.Point(300, 187);
             this.lblTo4.Name = "lblTo4";
-            this.lblTo4.Size = new System.Drawing.Size(25, 15);
+            this.lblTo4.Size = new System.Drawing.Size(19, 12);
             this.lblTo4.TabIndex = 20;
             this.lblTo4.Text = "<=";
             this.lblTo4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -395,10 +377,9 @@
             // 
             this.lblTo5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTo5.AutoSize = true;
-            this.lblTo5.Location = new System.Drawing.Point(399, 277);
-            this.lblTo5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTo5.Location = new System.Drawing.Point(300, 222);
             this.lblTo5.Name = "lblTo5";
-            this.lblTo5.Size = new System.Drawing.Size(25, 15);
+            this.lblTo5.Size = new System.Drawing.Size(19, 12);
             this.lblTo5.TabIndex = 21;
             this.lblTo5.Text = "<=";
             this.lblTo5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -407,10 +388,9 @@
             // 
             this.lblTo6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTo6.AutoSize = true;
-            this.lblTo6.Location = new System.Drawing.Point(399, 321);
-            this.lblTo6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTo6.Location = new System.Drawing.Point(300, 257);
             this.lblTo6.Name = "lblTo6";
-            this.lblTo6.Size = new System.Drawing.Size(25, 15);
+            this.lblTo6.Size = new System.Drawing.Size(19, 12);
             this.lblTo6.TabIndex = 22;
             this.lblTo6.Text = "<=";
             this.lblTo6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -419,10 +399,9 @@
             // 
             this.lblTo7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTo7.AutoSize = true;
-            this.lblTo7.Location = new System.Drawing.Point(399, 365);
-            this.lblTo7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTo7.Location = new System.Drawing.Point(300, 292);
             this.lblTo7.Name = "lblTo7";
-            this.lblTo7.Size = new System.Drawing.Size(25, 15);
+            this.lblTo7.Size = new System.Drawing.Size(19, 12);
             this.lblTo7.TabIndex = 23;
             this.lblTo7.Text = "<=";
             this.lblTo7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -431,10 +410,9 @@
             // txtPC2PLC_CmdSno
             // 
             this.txtPC2PLC_CmdSno.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPC2PLC_CmdSno.Location = new System.Drawing.Point(432, 96);
-            this.txtPC2PLC_CmdSno.Margin = new System.Windows.Forms.Padding(4);
+            this.txtPC2PLC_CmdSno.Location = new System.Drawing.Point(325, 77);
             this.txtPC2PLC_CmdSno.Name = "txtPC2PLC_CmdSno";
-            this.txtPC2PLC_CmdSno.Size = new System.Drawing.Size(122, 25);
+            this.txtPC2PLC_CmdSno.Size = new System.Drawing.Size(92, 22);
             this.txtPC2PLC_CmdSno.TabIndex = 24;
             this.txtPC2PLC_CmdSno.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtPC2PLC_CmdSno.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPC2PLC_CmdSno_KeyPress);
@@ -442,10 +420,9 @@
             // txtPC2PLC_Mode
             // 
             this.txtPC2PLC_Mode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPC2PLC_Mode.Location = new System.Drawing.Point(432, 140);
-            this.txtPC2PLC_Mode.Margin = new System.Windows.Forms.Padding(4);
+            this.txtPC2PLC_Mode.Location = new System.Drawing.Point(325, 112);
             this.txtPC2PLC_Mode.Name = "txtPC2PLC_Mode";
-            this.txtPC2PLC_Mode.Size = new System.Drawing.Size(122, 25);
+            this.txtPC2PLC_Mode.Size = new System.Drawing.Size(92, 22);
             this.txtPC2PLC_Mode.TabIndex = 25;
             this.txtPC2PLC_Mode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtPC2PLC_Mode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPC2PLC_CmdSno_KeyPress);
@@ -455,10 +432,9 @@
             this.cboPC2PLC_IniNotice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.cboPC2PLC_IniNotice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboPC2PLC_IniNotice.FormattingEnabled = true;
-            this.cboPC2PLC_IniNotice.Location = new System.Drawing.Point(432, 185);
-            this.cboPC2PLC_IniNotice.Margin = new System.Windows.Forms.Padding(4);
+            this.cboPC2PLC_IniNotice.Location = new System.Drawing.Point(325, 148);
             this.cboPC2PLC_IniNotice.Name = "cboPC2PLC_IniNotice";
-            this.cboPC2PLC_IniNotice.Size = new System.Drawing.Size(122, 23);
+            this.cboPC2PLC_IniNotice.Size = new System.Drawing.Size(92, 20);
             this.cboPC2PLC_IniNotice.TabIndex = 33;
             // 
             // cboPC2PLC_FunNotice1
@@ -466,10 +442,9 @@
             this.cboPC2PLC_FunNotice1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.cboPC2PLC_FunNotice1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboPC2PLC_FunNotice1.FormattingEnabled = true;
-            this.cboPC2PLC_FunNotice1.Location = new System.Drawing.Point(432, 229);
-            this.cboPC2PLC_FunNotice1.Margin = new System.Windows.Forms.Padding(4);
+            this.cboPC2PLC_FunNotice1.Location = new System.Drawing.Point(325, 183);
             this.cboPC2PLC_FunNotice1.Name = "cboPC2PLC_FunNotice1";
-            this.cboPC2PLC_FunNotice1.Size = new System.Drawing.Size(122, 23);
+            this.cboPC2PLC_FunNotice1.Size = new System.Drawing.Size(92, 20);
             this.cboPC2PLC_FunNotice1.TabIndex = 34;
             // 
             // cboPC2PLC_FunNotice2
@@ -477,10 +452,9 @@
             this.cboPC2PLC_FunNotice2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.cboPC2PLC_FunNotice2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboPC2PLC_FunNotice2.FormattingEnabled = true;
-            this.cboPC2PLC_FunNotice2.Location = new System.Drawing.Point(432, 273);
-            this.cboPC2PLC_FunNotice2.Margin = new System.Windows.Forms.Padding(4);
+            this.cboPC2PLC_FunNotice2.Location = new System.Drawing.Point(325, 218);
             this.cboPC2PLC_FunNotice2.Name = "cboPC2PLC_FunNotice2";
-            this.cboPC2PLC_FunNotice2.Size = new System.Drawing.Size(122, 23);
+            this.cboPC2PLC_FunNotice2.Size = new System.Drawing.Size(92, 20);
             this.cboPC2PLC_FunNotice2.TabIndex = 35;
             // 
             // cboPC2PLC_FunNotice3
@@ -489,10 +463,9 @@
             this.cboPC2PLC_FunNotice3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboPC2PLC_FunNotice3.DropDownWidth = 100;
             this.cboPC2PLC_FunNotice3.FormattingEnabled = true;
-            this.cboPC2PLC_FunNotice3.Location = new System.Drawing.Point(432, 317);
-            this.cboPC2PLC_FunNotice3.Margin = new System.Windows.Forms.Padding(4);
+            this.cboPC2PLC_FunNotice3.Location = new System.Drawing.Point(325, 253);
             this.cboPC2PLC_FunNotice3.Name = "cboPC2PLC_FunNotice3";
-            this.cboPC2PLC_FunNotice3.Size = new System.Drawing.Size(122, 23);
+            this.cboPC2PLC_FunNotice3.Size = new System.Drawing.Size(92, 20);
             this.cboPC2PLC_FunNotice3.TabIndex = 36;
             // 
             // cboPC2PLC_PathNotice
@@ -500,20 +473,18 @@
             this.cboPC2PLC_PathNotice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.cboPC2PLC_PathNotice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboPC2PLC_PathNotice.FormattingEnabled = true;
-            this.cboPC2PLC_PathNotice.Location = new System.Drawing.Point(432, 361);
-            this.cboPC2PLC_PathNotice.Margin = new System.Windows.Forms.Padding(4);
+            this.cboPC2PLC_PathNotice.Location = new System.Drawing.Point(325, 288);
             this.cboPC2PLC_PathNotice.Name = "cboPC2PLC_PathNotice";
-            this.cboPC2PLC_PathNotice.Size = new System.Drawing.Size(122, 23);
+            this.cboPC2PLC_PathNotice.Size = new System.Drawing.Size(92, 20);
             this.cboPC2PLC_PathNotice.TabIndex = 37;
             this.cboPC2PLC_PathNotice.Visible = false;
             // 
             // btnWrite_CmdSno
             // 
             this.btnWrite_CmdSno.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnWrite_CmdSno.Location = new System.Drawing.Point(562, 91);
-            this.btnWrite_CmdSno.Margin = new System.Windows.Forms.Padding(4);
+            this.btnWrite_CmdSno.Location = new System.Drawing.Point(423, 74);
             this.btnWrite_CmdSno.Name = "btnWrite_CmdSno";
-            this.btnWrite_CmdSno.Size = new System.Drawing.Size(59, 36);
+            this.btnWrite_CmdSno.Size = new System.Drawing.Size(44, 29);
             this.btnWrite_CmdSno.TabIndex = 38;
             this.btnWrite_CmdSno.Text = "Write";
             this.btnWrite_CmdSno.UseVisualStyleBackColor = true;
@@ -522,10 +493,9 @@
             // btnWrite_Mode
             // 
             this.btnWrite_Mode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnWrite_Mode.Location = new System.Drawing.Point(562, 135);
-            this.btnWrite_Mode.Margin = new System.Windows.Forms.Padding(4);
+            this.btnWrite_Mode.Location = new System.Drawing.Point(423, 109);
             this.btnWrite_Mode.Name = "btnWrite_Mode";
-            this.btnWrite_Mode.Size = new System.Drawing.Size(59, 36);
+            this.btnWrite_Mode.Size = new System.Drawing.Size(44, 29);
             this.btnWrite_Mode.TabIndex = 39;
             this.btnWrite_Mode.Text = "Write";
             this.btnWrite_Mode.UseVisualStyleBackColor = true;
@@ -534,10 +504,9 @@
             // btnWrite_IniNotice
             // 
             this.btnWrite_IniNotice.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnWrite_IniNotice.Location = new System.Drawing.Point(562, 179);
-            this.btnWrite_IniNotice.Margin = new System.Windows.Forms.Padding(4);
+            this.btnWrite_IniNotice.Location = new System.Drawing.Point(423, 144);
             this.btnWrite_IniNotice.Name = "btnWrite_IniNotice";
-            this.btnWrite_IniNotice.Size = new System.Drawing.Size(59, 36);
+            this.btnWrite_IniNotice.Size = new System.Drawing.Size(44, 29);
             this.btnWrite_IniNotice.TabIndex = 40;
             this.btnWrite_IniNotice.Text = "Write";
             this.btnWrite_IniNotice.UseVisualStyleBackColor = true;
@@ -546,10 +515,9 @@
             // btnWrite_FunNotice1
             // 
             this.btnWrite_FunNotice1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnWrite_FunNotice1.Location = new System.Drawing.Point(562, 223);
-            this.btnWrite_FunNotice1.Margin = new System.Windows.Forms.Padding(4);
+            this.btnWrite_FunNotice1.Location = new System.Drawing.Point(423, 179);
             this.btnWrite_FunNotice1.Name = "btnWrite_FunNotice1";
-            this.btnWrite_FunNotice1.Size = new System.Drawing.Size(59, 36);
+            this.btnWrite_FunNotice1.Size = new System.Drawing.Size(44, 29);
             this.btnWrite_FunNotice1.TabIndex = 41;
             this.btnWrite_FunNotice1.Text = "Write";
             this.btnWrite_FunNotice1.UseVisualStyleBackColor = true;
@@ -558,10 +526,9 @@
             // btnWrite_FunNotice2
             // 
             this.btnWrite_FunNotice2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnWrite_FunNotice2.Location = new System.Drawing.Point(562, 267);
-            this.btnWrite_FunNotice2.Margin = new System.Windows.Forms.Padding(4);
+            this.btnWrite_FunNotice2.Location = new System.Drawing.Point(423, 214);
             this.btnWrite_FunNotice2.Name = "btnWrite_FunNotice2";
-            this.btnWrite_FunNotice2.Size = new System.Drawing.Size(59, 36);
+            this.btnWrite_FunNotice2.Size = new System.Drawing.Size(44, 29);
             this.btnWrite_FunNotice2.TabIndex = 42;
             this.btnWrite_FunNotice2.Text = "Write";
             this.btnWrite_FunNotice2.UseVisualStyleBackColor = true;
@@ -570,10 +537,9 @@
             // btnWrite_FunNotice3
             // 
             this.btnWrite_FunNotice3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnWrite_FunNotice3.Location = new System.Drawing.Point(562, 311);
-            this.btnWrite_FunNotice3.Margin = new System.Windows.Forms.Padding(4);
+            this.btnWrite_FunNotice3.Location = new System.Drawing.Point(423, 249);
             this.btnWrite_FunNotice3.Name = "btnWrite_FunNotice3";
-            this.btnWrite_FunNotice3.Size = new System.Drawing.Size(59, 36);
+            this.btnWrite_FunNotice3.Size = new System.Drawing.Size(44, 29);
             this.btnWrite_FunNotice3.TabIndex = 43;
             this.btnWrite_FunNotice3.Text = "Write";
             this.btnWrite_FunNotice3.UseVisualStyleBackColor = true;
@@ -582,10 +548,9 @@
             // btnWrite_PathNotice
             // 
             this.btnWrite_PathNotice.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnWrite_PathNotice.Location = new System.Drawing.Point(562, 355);
-            this.btnWrite_PathNotice.Margin = new System.Windows.Forms.Padding(4);
+            this.btnWrite_PathNotice.Location = new System.Drawing.Point(423, 284);
             this.btnWrite_PathNotice.Name = "btnWrite_PathNotice";
-            this.btnWrite_PathNotice.Size = new System.Drawing.Size(59, 36);
+            this.btnWrite_PathNotice.Size = new System.Drawing.Size(44, 29);
             this.btnWrite_PathNotice.TabIndex = 44;
             this.btnWrite_PathNotice.Text = "Write";
             this.btnWrite_PathNotice.UseVisualStyleBackColor = true;
@@ -596,10 +561,9 @@
             // 
             this.lblPLC2PC.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPLC2PC.AutoSize = true;
-            this.lblPLC2PC.Location = new System.Drawing.Point(114, 64);
-            this.lblPLC2PC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblPLC2PC.Location = new System.Drawing.Point(86, 52);
             this.lblPLC2PC.Name = "lblPLC2PC";
-            this.lblPLC2PC.Size = new System.Drawing.Size(92, 15);
+            this.lblPLC2PC.Size = new System.Drawing.Size(69, 12);
             this.lblPLC2PC.TabIndex = 55;
             this.lblPLC2PC.Text = "PLC → PC";
             this.lblPLC2PC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -608,10 +572,9 @@
             // 
             this.lblPC2PLC.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPC2PLC.AutoSize = true;
-            this.lblPC2PLC.Location = new System.Drawing.Point(299, 64);
-            this.lblPC2PLC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblPC2PLC.Location = new System.Drawing.Point(225, 52);
             this.lblPC2PLC.Name = "lblPC2PLC";
-            this.lblPC2PLC.Size = new System.Drawing.Size(92, 15);
+            this.lblPC2PLC.Size = new System.Drawing.Size(69, 12);
             this.lblPC2PLC.TabIndex = 56;
             this.lblPC2PLC.Text = "PC → PLC";
             this.lblPC2PLC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -620,10 +583,10 @@
             // 
             this.lblPLC2PC_CmdSno.BackColor = System.Drawing.Color.White;
             this.lblPLC2PC_CmdSno.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblPLC2PC_CmdSno.Location = new System.Drawing.Point(114, 93);
-            this.lblPLC2PC_CmdSno.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.lblPLC2PC_CmdSno.Location = new System.Drawing.Point(86, 76);
+            this.lblPLC2PC_CmdSno.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.lblPLC2PC_CmdSno.Name = "lblPLC2PC_CmdSno";
-            this.lblPLC2PC_CmdSno.Size = new System.Drawing.Size(91, 31);
+            this.lblPLC2PC_CmdSno.Size = new System.Drawing.Size(69, 25);
             this.lblPLC2PC_CmdSno.TabIndex = 57;
             this.lblPLC2PC_CmdSno.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -631,10 +594,10 @@
             // 
             this.lblPLC2PC_Ready.BackColor = System.Drawing.Color.White;
             this.lblPLC2PC_Ready.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblPLC2PC_Ready.Location = new System.Drawing.Point(114, 181);
-            this.lblPLC2PC_Ready.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.lblPLC2PC_Ready.Location = new System.Drawing.Point(86, 146);
+            this.lblPLC2PC_Ready.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.lblPLC2PC_Ready.Name = "lblPLC2PC_Ready";
-            this.lblPLC2PC_Ready.Size = new System.Drawing.Size(91, 31);
+            this.lblPLC2PC_Ready.Size = new System.Drawing.Size(69, 25);
             this.lblPLC2PC_Ready.TabIndex = 59;
             this.lblPLC2PC_Ready.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -642,10 +605,10 @@
             // 
             this.lblPLC2PC_Mode.BackColor = System.Drawing.Color.White;
             this.lblPLC2PC_Mode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblPLC2PC_Mode.Location = new System.Drawing.Point(114, 137);
-            this.lblPLC2PC_Mode.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.lblPLC2PC_Mode.Location = new System.Drawing.Point(86, 111);
+            this.lblPLC2PC_Mode.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.lblPLC2PC_Mode.Name = "lblPLC2PC_Mode";
-            this.lblPLC2PC_Mode.Size = new System.Drawing.Size(91, 31);
+            this.lblPLC2PC_Mode.Size = new System.Drawing.Size(69, 25);
             this.lblPLC2PC_Mode.TabIndex = 58;
             this.lblPLC2PC_Mode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -653,10 +616,10 @@
             // 
             this.lblPLC2PC_FunNotice.BackColor = System.Drawing.Color.White;
             this.lblPLC2PC_FunNotice.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblPLC2PC_FunNotice.Location = new System.Drawing.Point(114, 269);
-            this.lblPLC2PC_FunNotice.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.lblPLC2PC_FunNotice.Location = new System.Drawing.Point(86, 216);
+            this.lblPLC2PC_FunNotice.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.lblPLC2PC_FunNotice.Name = "lblPLC2PC_FunNotice";
-            this.lblPLC2PC_FunNotice.Size = new System.Drawing.Size(91, 31);
+            this.lblPLC2PC_FunNotice.Size = new System.Drawing.Size(69, 25);
             this.lblPLC2PC_FunNotice.TabIndex = 61;
             this.lblPLC2PC_FunNotice.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -664,10 +627,10 @@
             // 
             this.lblPC2PLC_CmdSno.BackColor = System.Drawing.Color.White;
             this.lblPC2PLC_CmdSno.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblPC2PLC_CmdSno.Location = new System.Drawing.Point(299, 93);
-            this.lblPC2PLC_CmdSno.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.lblPC2PLC_CmdSno.Location = new System.Drawing.Point(225, 76);
+            this.lblPC2PLC_CmdSno.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.lblPC2PLC_CmdSno.Name = "lblPC2PLC_CmdSno";
-            this.lblPC2PLC_CmdSno.Size = new System.Drawing.Size(91, 31);
+            this.lblPC2PLC_CmdSno.Size = new System.Drawing.Size(69, 25);
             this.lblPC2PLC_CmdSno.TabIndex = 64;
             this.lblPC2PLC_CmdSno.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -675,10 +638,10 @@
             // 
             this.lblPC2PLC_Mode.BackColor = System.Drawing.Color.White;
             this.lblPC2PLC_Mode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblPC2PLC_Mode.Location = new System.Drawing.Point(299, 137);
-            this.lblPC2PLC_Mode.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.lblPC2PLC_Mode.Location = new System.Drawing.Point(225, 111);
+            this.lblPC2PLC_Mode.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.lblPC2PLC_Mode.Name = "lblPC2PLC_Mode";
-            this.lblPC2PLC_Mode.Size = new System.Drawing.Size(91, 31);
+            this.lblPC2PLC_Mode.Size = new System.Drawing.Size(69, 25);
             this.lblPC2PLC_Mode.TabIndex = 65;
             this.lblPC2PLC_Mode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -686,10 +649,10 @@
             // 
             this.lblPC2PLC_IniNotice.BackColor = System.Drawing.Color.White;
             this.lblPC2PLC_IniNotice.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblPC2PLC_IniNotice.Location = new System.Drawing.Point(299, 181);
-            this.lblPC2PLC_IniNotice.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.lblPC2PLC_IniNotice.Location = new System.Drawing.Point(225, 146);
+            this.lblPC2PLC_IniNotice.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.lblPC2PLC_IniNotice.Name = "lblPC2PLC_IniNotice";
-            this.lblPC2PLC_IniNotice.Size = new System.Drawing.Size(91, 31);
+            this.lblPC2PLC_IniNotice.Size = new System.Drawing.Size(69, 25);
             this.lblPC2PLC_IniNotice.TabIndex = 66;
             this.lblPC2PLC_IniNotice.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -697,10 +660,10 @@
             // 
             this.lblPC2PLC_FunNotice1.BackColor = System.Drawing.Color.White;
             this.lblPC2PLC_FunNotice1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblPC2PLC_FunNotice1.Location = new System.Drawing.Point(299, 225);
-            this.lblPC2PLC_FunNotice1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.lblPC2PLC_FunNotice1.Location = new System.Drawing.Point(225, 181);
+            this.lblPC2PLC_FunNotice1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.lblPC2PLC_FunNotice1.Name = "lblPC2PLC_FunNotice1";
-            this.lblPC2PLC_FunNotice1.Size = new System.Drawing.Size(91, 31);
+            this.lblPC2PLC_FunNotice1.Size = new System.Drawing.Size(69, 25);
             this.lblPC2PLC_FunNotice1.TabIndex = 67;
             this.lblPC2PLC_FunNotice1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -708,10 +671,10 @@
             // 
             this.lblPC2PLC_FunNotice2.BackColor = System.Drawing.Color.White;
             this.lblPC2PLC_FunNotice2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblPC2PLC_FunNotice2.Location = new System.Drawing.Point(299, 269);
-            this.lblPC2PLC_FunNotice2.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.lblPC2PLC_FunNotice2.Location = new System.Drawing.Point(225, 216);
+            this.lblPC2PLC_FunNotice2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.lblPC2PLC_FunNotice2.Name = "lblPC2PLC_FunNotice2";
-            this.lblPC2PLC_FunNotice2.Size = new System.Drawing.Size(91, 31);
+            this.lblPC2PLC_FunNotice2.Size = new System.Drawing.Size(69, 25);
             this.lblPC2PLC_FunNotice2.TabIndex = 68;
             this.lblPC2PLC_FunNotice2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -719,10 +682,10 @@
             // 
             this.lblPC2PLC_FunNotice3.BackColor = System.Drawing.Color.White;
             this.lblPC2PLC_FunNotice3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblPC2PLC_FunNotice3.Location = new System.Drawing.Point(299, 313);
-            this.lblPC2PLC_FunNotice3.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.lblPC2PLC_FunNotice3.Location = new System.Drawing.Point(225, 251);
+            this.lblPC2PLC_FunNotice3.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.lblPC2PLC_FunNotice3.Name = "lblPC2PLC_FunNotice3";
-            this.lblPC2PLC_FunNotice3.Size = new System.Drawing.Size(91, 31);
+            this.lblPC2PLC_FunNotice3.Size = new System.Drawing.Size(69, 25);
             this.lblPC2PLC_FunNotice3.TabIndex = 69;
             this.lblPC2PLC_FunNotice3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -730,10 +693,10 @@
             // 
             this.lblPC2PLC_PathNotice.BackColor = System.Drawing.Color.White;
             this.lblPC2PLC_PathNotice.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblPC2PLC_PathNotice.Location = new System.Drawing.Point(299, 357);
-            this.lblPC2PLC_PathNotice.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.lblPC2PLC_PathNotice.Location = new System.Drawing.Point(225, 286);
+            this.lblPC2PLC_PathNotice.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.lblPC2PLC_PathNotice.Name = "lblPC2PLC_PathNotice";
-            this.lblPC2PLC_PathNotice.Size = new System.Drawing.Size(91, 31);
+            this.lblPC2PLC_PathNotice.Size = new System.Drawing.Size(69, 25);
             this.lblPC2PLC_PathNotice.TabIndex = 70;
             this.lblPC2PLC_PathNotice.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblPC2PLC_PathNotice.Visible = false;
@@ -742,10 +705,9 @@
             // 
             this.btnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnExit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnExit.Location = new System.Drawing.Point(432, 399);
-            this.btnExit.Margin = new System.Windows.Forms.Padding(4);
+            this.btnExit.Location = new System.Drawing.Point(325, 319);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(122, 36);
+            this.btnExit.Size = new System.Drawing.Size(92, 29);
             this.btnExit.TabIndex = 45;
             this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = true;
@@ -755,10 +717,9 @@
             // 
             this.lblReadNotice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblReadNotice.AutoSize = true;
-            this.lblReadNotice.Location = new System.Drawing.Point(14, 233);
-            this.lblReadNotice.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblReadNotice.Location = new System.Drawing.Point(11, 187);
             this.lblReadNotice.Name = "lblReadNotice";
-            this.lblReadNotice.Size = new System.Drawing.Size(92, 15);
+            this.lblReadNotice.Size = new System.Drawing.Size(69, 12);
             this.lblReadNotice.TabIndex = 6;
             this.lblReadNotice.Text = "讀取通知";
             this.lblReadNotice.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -767,10 +728,10 @@
             // 
             this.lblPLC2PC_ReadNotice.BackColor = System.Drawing.Color.White;
             this.lblPLC2PC_ReadNotice.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblPLC2PC_ReadNotice.Location = new System.Drawing.Point(114, 225);
-            this.lblPLC2PC_ReadNotice.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.lblPLC2PC_ReadNotice.Location = new System.Drawing.Point(86, 181);
+            this.lblPLC2PC_ReadNotice.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.lblPLC2PC_ReadNotice.Name = "lblPLC2PC_ReadNotice";
-            this.lblPLC2PC_ReadNotice.Size = new System.Drawing.Size(91, 31);
+            this.lblPLC2PC_ReadNotice.Size = new System.Drawing.Size(69, 25);
             this.lblPLC2PC_ReadNotice.TabIndex = 62;
             this.lblPLC2PC_ReadNotice.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -778,10 +739,10 @@
             // 
             this.lblPLC2PC_Avail.BackColor = System.Drawing.Color.White;
             this.lblPLC2PC_Avail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblPLC2PC_Avail.Location = new System.Drawing.Point(114, 401);
-            this.lblPLC2PC_Avail.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.lblPLC2PC_Avail.Location = new System.Drawing.Point(86, 321);
+            this.lblPLC2PC_Avail.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.lblPLC2PC_Avail.Name = "lblPLC2PC_Avail";
-            this.lblPLC2PC_Avail.Size = new System.Drawing.Size(91, 31);
+            this.lblPLC2PC_Avail.Size = new System.Drawing.Size(69, 25);
             this.lblPLC2PC_Avail.TabIndex = 63;
             this.lblPLC2PC_Avail.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -789,10 +750,9 @@
             // 
             this.lblAvail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblAvail.AutoSize = true;
-            this.lblAvail.Location = new System.Drawing.Point(14, 409);
-            this.lblAvail.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblAvail.Location = new System.Drawing.Point(11, 327);
             this.lblAvail.Name = "lblAvail";
-            this.lblAvail.Size = new System.Drawing.Size(92, 15);
+            this.lblAvail.Size = new System.Drawing.Size(69, 12);
             this.lblAvail.TabIndex = 7;
             this.lblAvail.Text = "使用率";
             this.lblAvail.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -801,10 +761,9 @@
             // 
             this.lblStnMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblStnMode.AutoSize = true;
-            this.lblStnMode.Location = new System.Drawing.Point(14, 365);
-            this.lblStnMode.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblStnMode.Location = new System.Drawing.Point(11, 292);
             this.lblStnMode.Name = "lblStnMode";
-            this.lblStnMode.Size = new System.Drawing.Size(92, 15);
+            this.lblStnMode.Size = new System.Drawing.Size(69, 12);
             this.lblStnMode.TabIndex = 4;
             this.lblStnMode.Text = "站口切換";
             this.lblStnMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -813,22 +772,21 @@
             // 
             this.lblPLC2PC_StnChange.BackColor = System.Drawing.Color.White;
             this.lblPLC2PC_StnChange.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblPLC2PC_StnChange.Location = new System.Drawing.Point(114, 357);
-            this.lblPLC2PC_StnChange.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.lblPLC2PC_StnChange.Location = new System.Drawing.Point(86, 286);
+            this.lblPLC2PC_StnChange.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.lblPLC2PC_StnChange.Name = "lblPLC2PC_StnChange";
-            this.lblPLC2PC_StnChange.Size = new System.Drawing.Size(91, 31);
+            this.lblPLC2PC_StnChange.Size = new System.Drawing.Size(69, 25);
             this.lblPLC2PC_StnChange.TabIndex = 60;
             this.lblPLC2PC_StnChange.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // frmPLCModify
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.CancelButton = this.btnExit;
-            this.ClientSize = new System.Drawing.Size(635, 452);
+            this.ClientSize = new System.Drawing.Size(476, 362);
             this.Controls.Add(this.tlpPLCModify);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmPLCModify";
