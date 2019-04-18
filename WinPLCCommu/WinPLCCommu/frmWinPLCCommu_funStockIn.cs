@@ -340,7 +340,7 @@ namespace Mirle.WinPLCCommu
 
                                     if (clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin, ref strEM) == ErrDef.ProcSuccess)
                                     {
-                                        if (funUpdateBCRSts(clsBCR.enuBCRSts.None,objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo,clsReBCRID.cstrBCRDataInit))
+                                        if (funUpdateBCRSts(clsBCR.enuBCRSts.None, objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo, clsReBCRID.cstrBCRDataInit))
                                         {
                                             // 通知退出站口，遠紡無此定義 By Leon
                                             //funWritePC2PLCSingel(intPLCIndex,
@@ -354,21 +354,21 @@ namespace Mirle.WinPLCCommu
                                                 clsPC2PLC_Sts.cstrCheckNG))
                                             {
                                                 bolChk = false;
-                                                objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRSts =clsBCR.enuBCRSts.None;
-                                                objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID =clsReBCRID.cstrBCRDataInit;
+                                                objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRSts = clsBCR.enuBCRSts.None;
+                                                objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID = clsReBCRID.cstrBCRDataInit;
 
                                                 #region 字幕機顯示--異常情況
 
                                                 dtStnNo = null;
-                                                strSQL = "Select StnNo From stndef where buffer ='" +objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName + "'";
+                                                strSQL = "Select StnNo From stndef where buffer ='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName + "'";
                                                 clsSystem.gobjSystemDB.funGetDT(strSQL, ref dtStnNo);
-                                                funMvsData(dtStnNo.Rows[0]["StnNo"].ToString(), "", "1", "1","BCR 讀取失敗");
+                                                funMvsData(dtStnNo.Rows[0]["StnNo"].ToString(), "", "1", "1", "BCR 讀取失敗");
 
                                                 #endregion 字幕機顯示--異常情況
 
                                                 #region 更新BCR
 
-                                                strSQL ="UPDATE IN_BUF SET BCR_DATA='n/a', BCR_STS='0' where BCR_STS='2' AND BCR_NO='" +
+                                                strSQL = "UPDATE IN_BUF SET BCR_DATA='n/a', BCR_STS='0' where BCR_STS='2' AND BCR_NO='" +
                                                     objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo + "'";
                                                 clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
 
@@ -378,7 +378,7 @@ namespace Mirle.WinPLCCommu
                                                 SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                                 SystemTraceLog.LogMessage = "BCR Read Fail!";
                                                 SystemTraceLog.BCRSts = ((int)clsBCR.enuBCRSts.None).ToString();
-                                                SystemTraceLog.BCRNo =objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo;
+                                                SystemTraceLog.BCRNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo;
                                                 funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
                                             }
                                             else
@@ -443,9 +443,58 @@ namespace Mirle.WinPLCCommu
                                     if (!objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_CargoLoad &&
                                         objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_PalletLoad)
                                     {
-                                        //新增空棧板入庫命令 By Leon
+                                        //新增空棧板入庫命令 By Leon ----------------------
                                         //空棧板IO_TYPE=15
+                                        string strLocSize = string.Empty;
+                                        string strCraneNo = string.Empty;
+
                                         strCmdSno = funGetEmptyPltCmdSno();
+
+
+                                        if (!string.IsNullOrWhiteSpace(strCmdSno))
+                                        {
+
+                                            strLocSize = "E";
+                                            strLoc = funGetEmptyLoc(intCraneNo, 0, clsLocSts.cstrLoc_NNNN, false, false,
+                                                strLocSize, ref strSQL);
+
+                                            strStnNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo;
+                                            strCraneNo = "" + intCraneNo;
+
+                                            funInsertEmptyPltInCmd(strCmdSno, strStnNo, strCraneNo);
+
+                                            //有命令判斷是入庫還是庫對庫，填值 By Leon
+                                            dtTmp = null;
+                                            strSQL = "SELECT TOP(1) * FROM CMD_MST WHERE STN_NO ='" +
+                                                     objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo +
+                                                     "' AND CMD_STS <'3'";
+                                            if (clsSystem.gobjDB.funGetDT(strSQL, ref dtTmp, ref strEM) ==
+                                                ErrDef.ProcSuccess)
+                                            {
+                                                objBCRData[intStn, clsBCR.enuBCRLoc.Once].CmdSno =
+                                                    dtTmp.Rows[0]["Cmd_Sno"].ToString();
+                                                objBCRData[intStn, clsBCR.enuBCRLoc.Once].CmdMode =
+                                                    dtTmp.Rows[0]["Cmd_Mode"].ToString();
+                                                objBCRData[intStn, clsBCR.enuBCRLoc.Once].Trace =
+                                                    dtTmp.Rows[0]["Trace"].ToString();
+                                                objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType =
+                                                    dtTmp.Rows[0]["Io_Type"].ToString();
+
+                                                objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID =
+                                                    dtTmp.Rows[0]["Plt_Id"].ToString();
+                                                objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRSts =
+                                                    clsBCR.enuBCRSts.ReadFinish;
+                                            }
+                                        }
+                                        else
+                                        {
+
+                                            SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
+                                            SystemTraceLog.LogMessage = "Create Empty Pallets Stock In Command Fail!";
+                                            SystemTraceLog.LeftCmdSno = "Can't Get Cmd Sno!";
+                                            funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
+                                        }
+                                        // ------------------------------------------------------------
                                     }
                                     else
                                     {
@@ -463,7 +512,7 @@ namespace Mirle.WinPLCCommu
 
                                         #region 更新BCR和秤重機狀態=0
 
-                                        strSQL ="UPDATE IN_BUF SET BCR_DATA='n/a', BCR_STS='0' where BCR_STS='2' AND BCR_NO='" +
+                                        strSQL = "UPDATE IN_BUF SET BCR_DATA='n/a', BCR_STS='0' where BCR_STS='2' AND BCR_NO='" +
                                             objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo + "'";
                                         clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
 
@@ -497,12 +546,12 @@ namespace Mirle.WinPLCCommu
                                              objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo + "' AND CMD_STS <'3'";
                                     if (clsSystem.gobjDB.funGetDT(strSQL, ref dtTmp, ref strEM) == ErrDef.ProcSuccess)
                                     {
-                                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].CmdSno =dtTmp.Rows[0]["Cmd_Sno"].ToString();
-                                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].CmdMode =dtTmp.Rows[0]["Cmd_Mode"].ToString();
-                                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].Trace =dtTmp.Rows[0]["Trace"].ToString();
-                                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType =dtTmp.Rows[0]["Io_Type"].ToString();
+                                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].CmdSno = dtTmp.Rows[0]["Cmd_Sno"].ToString();
+                                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].CmdMode = dtTmp.Rows[0]["Cmd_Mode"].ToString();
+                                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].Trace = dtTmp.Rows[0]["Trace"].ToString();
+                                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType = dtTmp.Rows[0]["Io_Type"].ToString();
 
-                                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID =dtTmp.Rows[0]["Plt_Id"].ToString();
+                                        objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID = dtTmp.Rows[0]["Plt_Id"].ToString();
                                         objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRSts = clsBCR.enuBCRSts.ReadFinish;
                                     }
                                 }
@@ -522,7 +571,7 @@ namespace Mirle.WinPLCCommu
 
                                 #region 更新BCR
 
-                                strSQL ="UPDATE IN_BUF SET BCR_DATA='n/a', BCR_STS='0' where BCR_STS='2' AND BCR_NO='" +
+                                strSQL = "UPDATE IN_BUF SET BCR_DATA='n/a', BCR_STS='0' where BCR_STS='2' AND BCR_NO='" +
                                     objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo + "'";
                                 clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
 
@@ -551,7 +600,7 @@ namespace Mirle.WinPLCCommu
 
                                 #region 更新BCR
 
-                                strSQL ="UPDATE IN_BUF SET BCR_DATA='n/a', BCR_STS='0' where BCR_STS='2' AND BCR_NO='" +
+                                strSQL = "UPDATE IN_BUF SET BCR_DATA='n/a', BCR_STS='0' where BCR_STS='2' AND BCR_NO='" +
                                     objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo + "'";
                                 clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
 
@@ -578,12 +627,12 @@ namespace Mirle.WinPLCCommu
                             }
 
 
-                            if (objBCRData[intStn, clsBCR.enuBCRLoc.Once].CmdMode == "1"|| 
+                            if (objBCRData[intStn, clsBCR.enuBCRLoc.Once].CmdMode == "1" ||
                                 objBCRData[intStn, clsBCR.enuBCRLoc.Once].CmdMode == "3" &&
-                                     (objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType == "11")|| 
+                                     (objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType == "11") ||
                                      (objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType == "12") ||
-                                     (objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType == "13")|| 
-                                     (objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType == "62")|| 
+                                     (objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType == "13") ||
+                                     (objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType == "62") ||
                                      (objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType == "63")
                                     )
                             {
@@ -604,7 +653,7 @@ namespace Mirle.WinPLCCommu
 
                                 #region 尋找空儲位
 
-                                strLoc = funGetEmptyLoc(intCraneNo, 0, clsLocSts.cstrLoc_NNNN, false, false, strLocSize,ref strSQL);
+                                strLoc = funGetEmptyLoc(intCraneNo, 0, clsLocSts.cstrLoc_NNNN, false, false, strLocSize, ref strSQL);
 
                                 #endregion 尋找空儲位
 
@@ -614,7 +663,7 @@ namespace Mirle.WinPLCCommu
                                 {
                                     #region 更新BCR
 
-                                    strSQL ="UPDATE IN_BUF SET BCR_DATA='n/a', BCR_STS='0' where BCR_STS='2' AND BCR_NO='" +
+                                    strSQL = "UPDATE IN_BUF SET BCR_DATA='n/a', BCR_STS='0' where BCR_STS='2' AND BCR_NO='" +
                                         objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo + "'";
                                     clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
 
@@ -667,12 +716,12 @@ namespace Mirle.WinPLCCommu
                                     //strSQL += ",CMD_STS = '1' ";
                                     strSQL += " WHERE 1=1 ";
                                     strSQL += "AND Plt_Id ='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID + "' ";
-                                    strSQL += " AND CMD_SNO='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].CmdSno +"' ";
+                                    strSQL += " AND CMD_SNO='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].CmdSno + "' ";
 
                                     if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
                                     {
                                         SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-                                        SystemTraceLog.LogMessage ="更新Trace成功! Trace=11 StnNo=" +
+                                        SystemTraceLog.LogMessage = "更新Trace成功! Trace=11 StnNo=" +
                                             objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo;
                                         SystemTraceLog.BCRSts = ((int)clsBCR.enuBCRSts.None).ToString();
                                         SystemTraceLog.BCRNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo;
@@ -1170,7 +1219,7 @@ namespace Mirle.WinPLCCommu
                     #region 大立光-訊號條件
 
                     if ((objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_CargoLoad ||
-                        objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_PalletLoad )&&
+                        objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_PalletLoad) &&
                         objBufferData.PLC2PCBuffer[StnDef.BufferIndex].Ready == (int)clsPLC2PCBuffer.enuReady.InReady &&
                         !string.IsNullOrWhiteSpace(objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno) &&
                         objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnMode == (int)clsPLC2PCBuffer.enuStnMode.InMode &&

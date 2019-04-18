@@ -1,14 +1,10 @@
 ﻿
 
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Mirle.Library;
+using System;
+using System.Data;
+using System.Reflection;
 
 namespace Mirle.WinPLCCommu
 {
@@ -629,8 +625,98 @@ namespace Mirle.WinPLCCommu
                     SystemTraceLog = null;
                 }
             }
-            
         }
+
+        /// <summary>
+        /// 產生空棧板入庫命令
+        /// </summary>
+        /// <param name="CMDSNO">命令序號</param>
+        /// <param name="STNNO">站口編號</param>
+        /// <param name="EQU_NO">CRANE編號</param>
+        private void funInsertEmptyPltInCmd(string CMDSNO, string STNNO, string EQU_NO)
+        {
+            DataTable objDataTable = new DataTable();
+            DataTable objDataTable_Detail = new DataTable();
+            DataTable dtTmp = new DataTable();
+            clsTraceLogEventArgs SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
+            string strSQL = string.Empty;
+            string strEM = string.Empty;
+            
+            string PLT_ID = "E" + CMDSNO;
+
+            try
+            {
+                strSQL = "INSERT INTO CMD_MST (CMD_SNO,CMD_STS,PRTY,CMD_MODE,IO_TYPE,CRT_DATE,TRACE,STN_NO,TRN_USER,Plt_ID,Equ_No)VALUES";
+
+                        strSQL += "('" + CMDSNO + "','0',5,'1','13','" + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "','0','" + STNNO + "','WCS',";
+                        strSQL += "'" + PLT_ID + "','" + EQU_NO + "')";
+
+
+                        #region 產生CMD_MST 棧板入庫命令
+                        
+                            if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
+                            {
+                                
+                                        clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
+                                        SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
+                                        SystemTraceLog.LogMessage = "Create Empty Pallets Stock In Success!";
+                                        SystemTraceLog.LeftCmdSno = CMDSNO;
+                                        SystemTraceLog.CmdSts = clsCmdSts.cstrCmdSts_Init;
+                                        SystemTraceLog.CmdMode = clsEquCmdMode.cstrLocToLoc;
+                                        funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
+                            }
+                            else
+                            {
+                                clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
+                                SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
+                                SystemTraceLog.LogMessage = "Create Empty Pallets Stock In Command Fail!";
+                                SystemTraceLog.LeftCmdSno = CMDSNO;
+                                SystemTraceLog.CmdSts = clsCmdSts.cstrCmdSts_Init;
+                                SystemTraceLog.CmdMode = clsEquCmdMode.cstrLocToLoc;
+                                funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
+                            }
+                        
+
+                        #endregion 產生CMD_MST 庫對庫命令
+
+                    
+                    
+                
+            }
+            catch (Exception ex)
+            {
+                clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
+                var varObject = MethodBase.GetCurrentMethod();
+                clsSystem.funWriteExceptionLog(varObject.DeclaringType.FullName, varObject.Name, ex.Message + ":" + ex.Data);
+            }
+            finally
+            {
+                if (objDataTable != null)
+                {
+                    objDataTable.Clear();
+                    objDataTable.Dispose();
+                    objDataTable = null;
+                }
+                if (objDataTable_Detail != null)
+                {
+                    objDataTable_Detail.Clear();
+                    objDataTable_Detail.Dispose();
+                    objDataTable_Detail = null;
+                }
+                if (dtTmp != null)
+                {
+                    dtTmp.Clear();
+                    dtTmp.Dispose();
+                    dtTmp = null;
+                }
+                if (SystemTraceLog != null)
+                {
+                    SystemTraceLog = null;
+                }
+            }
+
+        }
+
 
         /// <summary>
         /// 產生庫對庫命令
@@ -1700,7 +1786,7 @@ namespace Mirle.WinPLCCommu
 
             if(!funCheckLocMatchCrane(OutsideLoc, CraneNo, CmdSno))
                 return;
-
+            
             string strSQL = string.Empty;
             string strEM = string.Empty;
             string strNewLoc = string.Empty;

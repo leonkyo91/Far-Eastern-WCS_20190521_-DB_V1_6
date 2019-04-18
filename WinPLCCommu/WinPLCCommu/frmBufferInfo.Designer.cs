@@ -123,7 +123,7 @@
             this.uclBuffer1.CmdMode = Mirle.WinPLCCommu.uclBuffer.enuCmdMode.None;
             this.uclBuffer1.CmdModeColor = System.Drawing.Color.White;
             this.uclBuffer1.Error = "";
-            this.uclBuffer1.FunNotice = 0;
+            this.uclBuffer1.FunNotice = false;
             this.uclBuffer1.FunNoticeColor = System.Drawing.Color.White;
             this.uclBuffer1.LeftCmdSno = "";
             this.uclBuffer1.LeftCmdSnoColor = System.Drawing.Color.White;

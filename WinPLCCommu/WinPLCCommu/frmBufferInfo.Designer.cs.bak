@@ -116,18 +116,18 @@
             // uclBuffer1
             // 
             this.uclBuffer1.Auto = false;
-            this.uclBuffer1.Avail = Mirle.WinPLCCommu.uclBuffer.enuAvail.None;
+            this.uclBuffer1.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
             this.uclBuffer1.BackColor = System.Drawing.Color.Transparent;
             this.uclBuffer1.BufferName = "BufName";
             this.uclBuffer1.BufferNameColor = System.Drawing.Color.Green;
             this.uclBuffer1.CmdMode = Mirle.WinPLCCommu.uclBuffer.enuCmdMode.None;
             this.uclBuffer1.CmdModeColor = System.Drawing.Color.White;
             this.uclBuffer1.Error = "";
-            this.uclBuffer1.FunNotice = Mirle.WinPLCCommu.uclBuffer.enuFunNotice.None;
+            this.uclBuffer1.FunNotice = 0;
             this.uclBuffer1.FunNoticeColor = System.Drawing.Color.White;
             this.uclBuffer1.LeftCmdSno = "";
             this.uclBuffer1.LeftCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer1.LeftLoad = false;
+            this.uclBuffer1.CargoLoad = false;
             this.uclBuffer1.Location = new System.Drawing.Point(80, 43);
             this.uclBuffer1.Manual = false;
             this.uclBuffer1.Margin = new System.Windows.Forms.Padding(0);
