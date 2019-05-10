@@ -102,9 +102,18 @@ namespace Mirle.WinPLCCommu
         #region 錯誤碼
 
         /// <summary>
-        /// 錯誤碼
+        /// 錯誤碼_1
         /// </summary>
         public int Error
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// 錯誤碼_2
+        /// </summary>
+        public int Error_2
         {
             get;
             set;

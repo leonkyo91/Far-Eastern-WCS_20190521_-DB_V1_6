@@ -21,7 +21,7 @@ namespace Mirle.WinPLCCommu
         /// <param name="strDsp_Falg">是否顯示</param>
         /// <param name="strErrorFlag">是否異常</param>
         /// <param name="strErrorMsg">異常訊息</param>
-        private void funMvsData(string BufferName,string strCmdSno, string strDsp_Falg,string strErrorFlag,string strErrorMsg,bool bolBuffer)
+        private void funMvsData(string BufferName, string strCmdSno, string strDsp_Falg,string strErrorFlag,string strErrorMsg,bool bolBuffer  )
         {
             string strSql = string.Empty;
             string strEM = string.Empty;
@@ -32,7 +32,7 @@ namespace Mirle.WinPLCCommu
                 //v1.0.0.24
                 switch (BufferName.Substring(0, 1))
                 {
-                    case"A":
+                    case "A":
                         strStnNoE = "1";
                         break;
                     case "B":
@@ -54,7 +54,14 @@ namespace Mirle.WinPLCCommu
                         strStnNoE = "7";
                         break;
                 }
-                strStnNo = BufferName.Substring(0, 1) + strStnNoE + "0" + BufferName.Substring(4, 1);
+                // 修改前
+                //string strStnNo1 = Convert.ToString( ( Convert.ToInt16(BufferName.Substring(1, 2)) / 2));
+
+                //// strStnNo = BufferName.Substring(0, 1) + strStnNoE + "0" + BufferName.Substring(4, 1);
+                //strStnNo = BufferName.Substring(0, 1) + strStnNoE + "0" + BufferName.Substring(2, 1);
+
+
+                strStnNo = BufferName;
 
                 strSql = "UPDATE Mvs_Mst Set ";
                 strSql += "CMD_SNO ='" + strCmdSno + "' ,";

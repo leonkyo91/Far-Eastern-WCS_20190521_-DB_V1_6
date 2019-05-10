@@ -470,20 +470,26 @@ namespace Mirle.WinPLCCommu
                             //funAlarmLog(intBuffer, objarPLC2PCBuffer[intBuffer].Error);
 
                             //funAlarmLog(intBuffer, objarPLC2PCBuffer[intBuffer].Error);
+
+                            // LOG 會不斷寫入再看看怎麼改
+                            //wcsAlarmData(this, new clsAlarmEventArgs(funAlarmLog(intBuffer, objarPLC2PCBuffer[intBuffer].Error,1), false, intBuffer, objarPLC2PCBuffer[intBuffer].Error));
                             
-                            wcsAlarmData(this, new clsAlarmEventArgs(funAlarmLog(intBuffer, objarPLC2PCBuffer[intBuffer].Error), false, intBuffer, objarPLC2PCBuffer[intBuffer].Error));
                             //Update MVS_MST
                             
                         }
-                        objarPLC2PCBuffer[intBuffer].Error = intarPLC2PCResultData[intResultData * (intBufferLoc + 1) + 9];//異常碼 2
-                        if (objarPLC2PCBuffer[intBuffer].Error > 0)
+                        objarPLC2PCBuffer[intBuffer].Error_2 = intarPLC2PCResultData[intResultData * (intBufferLoc + 1) + 9];//異常碼 2
+                        if (objarPLC2PCBuffer[intBuffer].Error_2 > 0)
                         {
                             //代表有異常 紀錄Log並寫在Trace
                             //funAlarmLog(intBuffer, objarPLC2PCBuffer[intBuffer].Error);
 
                             //funAlarmLog(intBuffer, objarPLC2PCBuffer[intBuffer].Error);
+                            
 
-                            wcsAlarmData(this, new clsAlarmEventArgs(funAlarmLog(intBuffer, objarPLC2PCBuffer[intBuffer].Error), false, intBuffer, objarPLC2PCBuffer[intBuffer].Error));
+                            // LOG 會不斷寫入再看看怎麼改
+                            //wcsAlarmData(this, new clsAlarmEventArgs(funAlarmLog(intBuffer, objarPLC2PCBuffer[intBuffer].Error_2,2), false, intBuffer, objarPLC2PCBuffer[intBuffer].Error_2));
+                            
+                            
                             //Update MVS_MST
 
                         }
@@ -699,7 +705,8 @@ namespace Mirle.WinPLCCommu
             return bolre;
         }
 
-        public string funAlarmLog(int iBufferIndex, int iAlarmCode)
+        //iErrorFlag 用來區分異常碼1 OR 2
+        public string funAlarmLog(int iBufferIndex, int iAlarmCode, int iErrorFlag)
         {
             string strAlarmMsg = string.Empty;
             string strSQL = string.Empty;
@@ -715,9 +722,13 @@ namespace Mirle.WinPLCCommu
 
                     if (charAlarm[i].ToString() == "1")
                     {
+                        if (iErrorFlag == 2)
+                            iAlarmIndex += 16;
                         strAlarmMsg += objarPLC2PCBuffer[iBufferIndex].AlarmSignal[iAlarmIndex].AlarmDesc;
 
                     }
+                    if (iErrorFlag == 2)
+                        iAlarmIndex -= 16;
                     iAlarmIndex--;
                 }
                 

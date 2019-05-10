@@ -10,10 +10,7 @@
 ///	**********************************************************************************************************************
 ///     Date            Editor      Version         Description
 ///	**********************************************************************************************************************
-///     2017/02/21      Kuei        v1.01           Fix:一開始不看Ready訊號，等下給周邊PLC後，電控才會ON Ready訊號，我們再派給Crane
-///     2018/01/17      Kuei        v1.02           Add:新增盤點入庫條件IO_Type = 63
-///     2018/05/24      Kuei        v1.03           Fix:預約入庫時更新Old_Sts
-///     2018/05/30      Kuei        v1.04           Fix: IO_Type=11, Mode=3 加料入庫時, trace =23 時要找儲位並派命令.
+///     2019/04/24      Leon        v1.00           臨時記帳程式用 (1F MRS 區)
 ///-----------------------------------------------------------------------------------------------------------------------
 ///
 
@@ -193,14 +190,15 @@ namespace Mirle.WinPLCCommu
                             }
                         }
 
-                        // 站口訊號判斷(貨物荷有 or 棧板荷有 and 讀取通知 = 1 and 入庫ready and 無序號 and 定位置 and 自動 and 無模式) By Leon
+                        // 站口訊號判斷(貨物荷有 or 棧板荷有 and 讀取通知 = 1 and 入庫ready and 無序號 and 自動 and 無模式) By Leon
                         strSQL = "";
                         if ((objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_CargoLoad ||
                             objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_PalletLoad) &&
                             objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].ReadNotice == (int)clsPLC2PCBuffer.enuReadNotice.Read &&
                             objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].Ready == (int)clsPLC2PCBuffer.enuReady.InReady &&
                             string.IsNullOrWhiteSpace(objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].LeftCmdSno) &&
-                            objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_Position &&
+                            // 取消定位置條件，電控確認到放行後才會頂升至定位
+                            //objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_Position &&
                             objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_Auto &&
                             objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnMode == (int)clsPLC2PCBuffer.enuStnMode.None
                             )
@@ -328,7 +326,7 @@ namespace Mirle.WinPLCCommu
                                 }
                             }
 
-                            //讀取成功但BCR 回傳ERROR
+                            //讀取成功但BCR 回傳ERROR 
                             if ((objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRSts == clsBCR.enuBCRSts.ReadFinish &&
                                      objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID == clsReBCRID.cstrBCRError))
                             {
@@ -421,6 +419,8 @@ namespace Mirle.WinPLCCommu
                             string strLoc = string.Empty;
                             string strMessge = string.Empty;
                             int iBuffindex = objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex;
+
+                            // 算式要再確認 
                             if (iBuffindex > 12) iBuffindex = iBuffindex - 12;
                             if (iBuffindex > 12) iBuffindex = iBuffindex - 12;
                             if (iBuffindex > 12) iBuffindex = iBuffindex - 12;
@@ -432,7 +432,7 @@ namespace Mirle.WinPLCCommu
 
                             //找尋站口是否有命令 By Leon
                             dtTmp = null;
-                            strSQL = "SELECT COUNT(*) as iCount FROM CMD_MST WHERE STN_NO='" +
+                            strSQL = "SELECT COUNT(*) as iCount FROM CMD_MST WHERE Cmd_Sno<>'' and STN_NO='" +
                                      objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo + "' AND CMD_STS <'3' ";
                             //strSQL += " GROUP BY CMD_SNO";
                             if (clsSystem.gobjDB.funGetDT(strSQL, ref dtTmp, ref strEM) == ErrDef.ProcSuccess)
@@ -443,17 +443,16 @@ namespace Mirle.WinPLCCommu
                                     if (!objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_CargoLoad &&
                                         objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_PalletLoad)
                                     {
-                                        //新增空棧板入庫命令 By Leon ----------------------
-                                        //空棧板IO_TYPE=15
+                                        //新增空棧板入庫命令 By Leon 
+                                        //空棧板IO_TYPE=14
                                         string strLocSize = string.Empty;
                                         string strCraneNo = string.Empty;
+                                        string strLocTxno = string.Empty;
 
                                         strCmdSno = funGetEmptyPltCmdSno();
 
-
                                         if (!string.IsNullOrWhiteSpace(strCmdSno))
                                         {
-
                                             strLocSize = "E";
                                             strLoc = funGetEmptyLoc(intCraneNo, 0, clsLocSts.cstrLoc_NNNN, false, false,
                                                 strLocSize, ref strSQL);
@@ -465,7 +464,7 @@ namespace Mirle.WinPLCCommu
 
                                             //有命令判斷是入庫還是庫對庫，填值 By Leon
                                             dtTmp = null;
-                                            strSQL = "SELECT TOP(1) * FROM CMD_MST WHERE STN_NO ='" +
+                                            strSQL = "SELECT TOP(1) * FROM CMD_MST WHERE Cmd_Sno<>'' and STN_NO ='" +
                                                      objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo +
                                                      "' AND CMD_STS <'3'";
                                             if (clsSystem.gobjDB.funGetDT(strSQL, ref dtTmp, ref strEM) ==
@@ -494,7 +493,59 @@ namespace Mirle.WinPLCCommu
                                             SystemTraceLog.LeftCmdSno = "Can't Get Cmd Sno!";
                                             funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
                                         }
-                                        // ------------------------------------------------------------
+
+                                        // Cmd_Dtl Insert 區段
+                                        // 取得儲位流水號 
+                                        strLocTxno = funGetEmptyPltLocTXNO();
+
+                                        if (!string.IsNullOrWhiteSpace(strLocTxno))
+                                        {
+                                            strSQL =
+                                                "INSERT INTO CMD_DTL(Cmd_Txno,CMD_SNO,PLT_QTY,TRN_QTY,Loc,Plt_Id,LOT_NO,IN_DATE";
+                                            strSQL +=
+                                                ",In_Tkt_No,In_Tkt_Seq,Trn_Tkt_No,Trn_Tkt_Seq,TKT_IO,Tkt_Type,Cyc_No,Item_No, cav_no,cust_no ";
+                                            strSQL +=
+                                                " , Cust_name,item_desc,Uom,Memo, cmdDtl01,CmdDtl02,Created_by,Created_Date) VALUES(";
+                                            strSQL += "'" + strLocTxno + "',";
+                                            strSQL += "'" + dtTmp.Rows[0]["Cmd_Sno"].ToString() + "',";
+                                            strSQL += "'0.000',";
+                                            strSQL += "'1.000',";
+                                            strSQL += "'" + strLoc + "',";
+                                            strSQL += "'" + dtTmp.Rows[0]["Plt_Id"].ToString() + "',";
+                                            strSQL += "'',";
+                                            strSQL += "'" + dtTmp.Rows[0]["CRT_DATE"].ToString() + "',";
+                                            strSQL += "'',";
+                                            strSQL += "'',";
+                                            strSQL += "'',";
+                                            strSQL += "'',";
+                                            strSQL += "'',";
+                                            strSQL += "'',";
+                                            strSQL += "'',";
+                                            strSQL += "'" + dtTmp.Rows[0]["Plt_Id"].ToString() + "',";
+                                            strSQL += "'',";
+                                            strSQL += "'',";
+                                            strSQL += "'',";
+                                            strSQL += "'',";
+                                            strSQL += "'',";
+                                            strSQL += "'',";
+                                            strSQL += "'',";
+                                            strSQL += "'',";
+                                            strSQL += "'WCS',";
+                                            strSQL += "'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "')";
+
+                                            if (clsSystem.gobjDB.funGetDT(strSQL, ref dtTmp, ref strEM) ==
+                                                ErrDef.ProcSuccess)
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
+                                                SystemTraceLog.LogMessage = "Create Empty Pallets Cmd_Dtl Fail!";
+                                                SystemTraceLog.LeftCmdSno = "Can't Create Cmd_Dtl!";
+                                                funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
+                                            }
+                                        }
                                     }
                                     else
                                     {
@@ -542,7 +593,7 @@ namespace Mirle.WinPLCCommu
                                 {
                                     //有命令判斷是入庫還是庫對庫，填值 By Leon
                                     dtTmp = null;
-                                    strSQL = "SELECT TOP(1) * FROM CMD_MST WHERE STN_NO ='" +
+                                    strSQL = "SELECT TOP(1) * FROM CMD_MST WHERE Cmd_Sno<>'' and STN_NO ='" +
                                              objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo + "' AND CMD_STS <'3'";
                                     if (clsSystem.gobjDB.funGetDT(strSQL, ref dtTmp, ref strEM) == ErrDef.ProcSuccess)
                                     {
@@ -627,15 +678,18 @@ namespace Mirle.WinPLCCommu
                             }
 
 
-                            if (objBCRData[intStn, clsBCR.enuBCRLoc.Once].CmdMode == "1" ||
-                                objBCRData[intStn, clsBCR.enuBCRLoc.Once].CmdMode == "3" &&
-                                     (objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType == "11") ||
-                                     (objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType == "12") ||
-                                     (objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType == "13") ||
-                                     (objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType == "62") ||
-                                     (objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType == "63")
-                                    )
+                            if ((objBCRData[intStn, clsBCR.enuBCRLoc.Once].CmdMode == "1" ||
+                                objBCRData[intStn, clsBCR.enuBCRLoc.Once].CmdMode == "3") &&
+                                     (objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType == "11" ||
+                                     objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType == "12" ||
+                                     objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType == "13" ||
+                                     objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType == "14" ||
+                                     objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType == "15" ||
+                                     objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType == "62" ||
+                                     objBCRData[intStn, clsBCR.enuBCRLoc.Once].IOType == "63"
+                                    ))
                             {
+                                #region 此段在遠紡無作用
                                 // 修改成判斷棧板荷有 or 貨物荷有 (目前無作用)
                                 string strLocSize = string.Empty;
                                 if (!objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_CargoLoad &&
@@ -650,6 +704,7 @@ namespace Mirle.WinPLCCommu
                                     //貨物荷有
                                     strLocSize = "S";
                                 }
+                                #endregion
 
                                 #region 尋找空儲位
 
@@ -671,7 +726,7 @@ namespace Mirle.WinPLCCommu
 
                                     //找到有命令先更新CMD_MST.STNNO
                                     strSQL = "Update CMD_MST SET STN_NO ='" +
-                                             objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo + "' WHERE PLT_ID ='" +
+                                             objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo + "' WHERE Cmd_Sno<>'' and PLT_ID ='" +
                                              objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID + "' AND CMD_STS<'3'";
                                     if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == 0)
                                     {
@@ -707,14 +762,19 @@ namespace Mirle.WinPLCCommu
                                         clsPLC.enuAddressSection.Mode,
                                         clsPC2PLC_Sts.cstrStnInMode);
 
+                                    //更新字幕機
+                                    funMvsData(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo, objBCRData[intStn, clsBCR.enuBCRLoc.Once].CmdSno, "1", "0", "", true);
+                                    clsSystem.funWriteExceptionLog("更新字幕機:  ", "funMvsData:-----1 " + objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo, SystemTraceLog.LogMessage);
                                     #region 更新Trace
 
 
-                                    strSQL = "UPDATE CMD_MST SET LOC = '" + strLoc + "',EQU_NO = '" + intCraneNo + "' ";
+                                    //strSQL = "UPDATE CMD_MST SET LOC = '" + strLoc + "',EQU_NO = '" + intCraneNo + "' ";
+                                    strSQL = "UPDATE CMD_MST SET LOC = '" + strLoc + "' ";
                                     strSQL += ",TRACE ='" + clsTrace.cstrStoreInTrace_ReleaseEquPLCCmd + "' ";
+                                    strSQL += ",trn_user ='WCS' ";
                                     // 再看看是否要設成1 By Leon
                                     //strSQL += ",CMD_STS = '1' ";
-                                    strSQL += " WHERE 1=1 ";
+                                    strSQL += " WHERE Cmd_Sno<>'' and 1=1 ";
                                     strSQL += "AND Plt_Id ='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID + "' ";
                                     strSQL += " AND CMD_SNO='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].CmdSno + "' ";
 
@@ -734,6 +794,7 @@ namespace Mirle.WinPLCCommu
                                     }
 
                                     #endregion 更新Trace
+                                    
                                 }
                                 else
                                 {
@@ -815,6 +876,7 @@ namespace Mirle.WinPLCCommu
                                     clsPLC.enuAddressSection.Mode,
                                     clsPC2PLC_Sts.cstrStnInMode);
 
+
                                 #region 更新Trace
 
                                 //判斷使用率
@@ -881,16 +943,12 @@ namespace Mirle.WinPLCCommu
                                     //objWTData[intStn, clsWT.enuWTLoc.Once].WT_Data = "0";
                                     //objWTData[intStn, clsWT.enuWTLoc.Once].WTSts = clsWT.enuWTSts.None;
                                 }
-
                                 #endregion 更新Trace
                             }
-
-                            //}
-
                             #endregion 若BCR無誤，預約儲位並更新Cmd_Mst和Cmd_Dtl
                         }
-                    }
 
+                    }
                     #region v1.0.1.0 註解
 
                     //else if (objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_Load &&
@@ -1217,7 +1275,7 @@ namespace Mirle.WinPLCCommu
                 try
                 {
                     #region 大立光-訊號條件
-
+                    //貨物荷有 or 棧板荷有 and 入庫 Ready and 有序號 and 入庫模式 and 自動
                     if ((objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_CargoLoad ||
                         objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_PalletLoad) &&
                         objBufferData.PLC2PCBuffer[StnDef.BufferIndex].Ready == (int)clsPLC2PCBuffer.enuReady.InReady &&
@@ -1253,7 +1311,7 @@ namespace Mirle.WinPLCCommu
                                 if (string.IsNullOrEmpty(strLoc))
                                     break;
                                 if (strCmdMode == clsInOutMode.cstrInMode || ((strCmdMode == clsInOutMode.cstrBoth) &&
-                                    strIOType == "11" || strIOType == "12" || strIOType == "13" || strIOType == "62") || strIOType == "63")
+                                    strIOType == "11" || strIOType == "12" || strIOType == "13" || strIOType == "14" || strIOType == "15" || strIOType == "62") || strIOType == "63")
                                 {
                                     //if (iCrn > 11)
                                     //{
@@ -1340,27 +1398,24 @@ namespace Mirle.WinPLCCommu
                                                 if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
                                                 {
                                                     //更新CMD_MST
-                                                    strSQL = "UPDATE CMD_MST SET LOC='" + strLoc + "',TRACE='" + clsTrace.cstrStoreInTrace_ItemOnStn + "'";
+                                                    strSQL = "UPDATE CMD_MST SET LOC='" + strLoc + "',TRACE='" + clsTrace.cstrStoreInTrace_ItemOnStn + "',Equ_No='" + intCraneNo + "'";
                                                     strSQL += " WHERE CMD_SNO='" + strCmdSno + "' AND TRACE='" + clsTrace.cstrStoreInTrace_ReleaseEquPLCCmd + "'";
                                                     if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
                                                     {
-                                                        clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
-                                                        strMessage = "預約儲位-Success! Trace[" + clsTrace.cstrStoreInTrace_ItemOnStn + "]";
-                                                        // 暫時不更新 CMD_DTL By Leon
                                                         //更新CMD_DTL
-                                                        //strSQL = "UPDATE CMD_DTL SET LOC = '" + strLoc + "' ";
-                                                        //strSQL += " WHERE CMD_SNO='" + strCmdSno + "' ";
+                                                        strSQL = "UPDATE CMD_DTL SET LOC = '" + strLoc + "' ";
+                                                        strSQL += " WHERE CMD_SNO='" + strCmdSno + "' ";
 
-                                                        //if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
-                                                        //{
-                                                        //    clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
-                                                        //    strMessage = "預約儲位-Success! Trace[" + clsTrace.cstrStoreInTrace_ItemOnStn + "]";
-                                                        //}
-                                                        //else
-                                                        //{
-                                                        //    clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
-                                                        //    strMessage = "預約儲位-更新Cmd_Dtl 失敗!";
-                                                        //}
+                                                        if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
+                                                        {
+                                                            clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
+                                                            strMessage = "預約儲位-Success! 更新CMD_MST、DTL 成功 Trace[" + clsTrace.cstrStoreInTrace_ItemOnStn + "]";
+                                                        }
+                                                        else
+                                                        {
+                                                            clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
+                                                            strMessage = "預約儲位-更新Cmd_Dtl 失敗!";
+                                                        }
                                                     }
                                                     else
                                                     {
@@ -1460,7 +1515,7 @@ namespace Mirle.WinPLCCommu
                 clsTraceLogEventArgs SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.None);
                 try
                 {
-                    //大立光
+                    //棧板荷有 or 貨物荷有 and 入庫ready and 有序號 and 入庫模式
                     if ((objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_CargoLoad ||
                         objBufferData.PLC2PCBuffer[StnDef.BufferIndex].StnModeCode_PalletLoad) &&
                         objBufferData.PLC2PCBuffer[StnDef.BufferIndex].Ready == (int)clsPLC2PCBuffer.enuReady.InReady &&
@@ -1480,13 +1535,14 @@ namespace Mirle.WinPLCCommu
 
                         #region Crane入庫
 
-                        strSQL = "SELECT TOP(1) LOC,PRTY FROM CMD_MST WHERE CMD_STS<'3' AND CMD_SNO ='" + strCmdSno + "' AND CMD_MODE IN ('1', '3')";
+                        strSQL = "SELECT TOP(1) LOC,PRTY ,STN_NO FROM CMD_MST WHERE CMD_STS<'3' AND CMD_SNO ='" + strCmdSno + "' AND CMD_MODE IN ('1', '3')";
                         strSQL += " AND TRACE = '" + clsTrace.cstrStoreInTrace_ItemOnStn + "' ORDER BY LOC DESC";
                         if (clsSystem.gobjDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
                         {
                             string strLoc = objDataTable.Rows[0]["LOC"].ToString();
                             string strPrt = objDataTable.Rows[0]["PRTY"].ToString();
                             string strPortno = StnDef.PortNo;
+                            string strStnNo = objDataTable.Rows[0]["STN_NO"].ToString();
                             //if (strPortno.Length == 7)
                             //    strPortno = strPortno.Replace("0","");
                             //string strEquPort = (clsTool.Double(strPortno) / 3).ToString(); ;
@@ -1512,8 +1568,10 @@ namespace Mirle.WinPLCCommu
                                         {
                                             if (funInsertStockInEquCmd(StnDef.CraneNo, strCmdSno, strLoc, StnDef.PortNo, strPrt))
                                             {
-                                                //更新字幕機Table
-                                                //funMvsData(StnDef.StnNo, strCmdSno, "1", "1", "");
+                                                //清除字幕機 By Leon 
+                                                funMvsData(strStnNo, strCmdSno, "2", "0", "", true);
+                                                clsSystem.funWriteExceptionLog("清除字幕機:  ", "funMvsData:-----2 :  " + strStnNo, SystemTraceLog.LogMessage);
+
                                                 clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
                                                 SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                                 SystemTraceLog.LogMessage = "Update Cmd Trace Success!";
@@ -1616,7 +1674,7 @@ namespace Mirle.WinPLCCommu
 
             try
             {
-                strSQL = "SELECT DISTINCT CMD_SNO , TRACE FROM CMD_MST WHERE CMD_MODE IN ('1','3') ";
+                strSQL = "SELECT DISTINCT CMD_SNO ,STN_NO , TRACE FROM CMD_MST WHERE CMD_MODE IN ('1','3') ";
                 strSQL += "AND CMD_STS ='1' AND TRACE = '" + clsTrace.cstrStoreInTrace_ReleaseCraneCmd + "'";
                 if (clsSystem.gobjDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
                 {
@@ -1634,6 +1692,7 @@ namespace Mirle.WinPLCCommu
                         }
 
                         string strCmdSno = objDataTable.Rows[intCount1]["CMD_SNO"].ToString();
+                        string strStnNo = objDataTable.Rows[intCount1]["STN_NO"].ToString();
                         objCmd = null;
                         strSQL = "SELECT * FROM EQUCMD WHERE CMDSNO='" + strCmdSno + "'";
                         strSQL += " AND RENEWFLAG <> 'F' AND CMDSTS='9'";

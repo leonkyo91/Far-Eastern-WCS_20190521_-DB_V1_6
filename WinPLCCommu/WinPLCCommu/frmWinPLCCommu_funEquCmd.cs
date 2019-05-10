@@ -407,7 +407,7 @@ namespace Mirle.WinPLCCommu
                     strLocSts = objDataTable.Rows[0]["LOC_STS"].ToString();
 
 
-                    strSQL = "SELECT * FROM CMD_MST WHERE PLT_ID ='" + objDataTable.Rows[0]["PLT_ID"].ToString() + "'AND CMD_Sts<'3'";
+                    strSQL = "SELECT * FROM CMD_MST WHERE Cmd_Sno<>'' and PLT_ID ='" + objDataTable.Rows[0]["PLT_ID"].ToString() + "'AND CMD_Sts<'3'";
                     if (clsSystem.gobjDB.funGetDT(strSQL, ref dtTmp, ref strEM) == ErrDef.ProcSuccess)
                     {
                         return;
@@ -646,16 +646,14 @@ namespace Mirle.WinPLCCommu
 
             try
             {
-                strSQL = "INSERT INTO CMD_MST (CMD_SNO,CMD_STS,PRTY,CMD_MODE,IO_TYPE,CRT_DATE,TRACE,STN_NO,TRN_USER,Plt_ID,Equ_No)VALUES";
+                strSQL = "INSERT INTO CMD_MST (CMD_SNO,CMD_STS,PRTY,CMD_MODE,IO_TYPE,WH_ID,CRT_DATE,TRACE,Plt_Count,STN_NO,TRN_USER,Plt_ID,Equ_No,Mix_qty,Avail,Weight)VALUES";
+                strSQL += "('" + CMDSNO + "','0',5,'1','14','ASRS','" + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "','0','1','" + STNNO + "','WCS',";
+                strSQL += "'" + PLT_ID + "','" + EQU_NO + "','1','100','1')";
 
-                        strSQL += "('" + CMDSNO + "','0',5,'1','13','" + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "','0','" + STNNO + "','WCS',";
-                        strSQL += "'" + PLT_ID + "','" + EQU_NO + "')";
-
-
-                        #region 產生CMD_MST 棧板入庫命令
+                #region 產生CMD_MST 棧板入庫命令
                         
-                            if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
-                            {
+                if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
+                {
                                 
                                         clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
                                         SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
@@ -664,9 +662,9 @@ namespace Mirle.WinPLCCommu
                                         SystemTraceLog.CmdSts = clsCmdSts.cstrCmdSts_Init;
                                         SystemTraceLog.CmdMode = clsEquCmdMode.cstrLocToLoc;
                                         funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
-                            }
-                            else
-                            {
+                }
+                else
+                {
                                 clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                 SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                 SystemTraceLog.LogMessage = "Create Empty Pallets Stock In Command Fail!";
@@ -674,13 +672,10 @@ namespace Mirle.WinPLCCommu
                                 SystemTraceLog.CmdSts = clsCmdSts.cstrCmdSts_Init;
                                 SystemTraceLog.CmdMode = clsEquCmdMode.cstrLocToLoc;
                                 funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
-                            }
-                        
+                }
 
-                        #endregion 產生CMD_MST 庫對庫命令
 
-                    
-                    
+                #endregion 產生CMD_MST 庫對庫命令
                 
             }
             catch (Exception ex)
@@ -1336,7 +1331,7 @@ namespace Mirle.WinPLCCommu
         }
 
         /// <summary>
-        /// 取得命令序號(20001~20999 為WCS自行產生的---ex:空棧板入庫用)
+        /// 取得命令序號(WCS自動產生---ex:空棧板入庫用)
         /// </summary>
         /// <returns></returns>
         private string funGetEmptyPltCmdSno()
@@ -1360,7 +1355,7 @@ namespace Mirle.WinPLCCommu
 
                 strSql = "SELECT C.SNO_TYPE,C.TRN_MONTH,C.SNO,M.MONTH_FLAG,M.INIT_SNO,M.MAX_SNO,M.SNO_LEN";
                 strSql += " FROM SNO_CTL C,SNO_MAX M WHERE C.SNO_TYPE=M.SNO_TYPE";
-                strSql += " AND C.SNO_TYPE='CMDSNO_WCS'";
+                strSql += " AND C.SNO_TYPE='CMDSNO'";
                 string strGetYearMonth = DateTime.Now.ToString("yyMM");
                 int intRtn = clsSystem.gobjDB.funGetDT(strSql, ref dtTmp, ref strEM);
                 if (intRtn == ErrDef.ProcSuccess)
@@ -1383,7 +1378,7 @@ namespace Mirle.WinPLCCommu
                     {
                         strSql += ",TRN_MONTH = '" + strGetYearMonth + "'";
                     }
-                    strSql += " WHERE SNO_TYPE = 'CMDSNO_WCS'";
+                    strSql += " WHERE SNO_TYPE = 'CMDSNO'";
                     strSql += " AND SNO = " + lngSeq2;
                 }
                 else if (intRtn == 110002)      //No Data Selected
@@ -1426,6 +1421,104 @@ namespace Mirle.WinPLCCommu
                 var varObject = MethodBase.GetCurrentMethod();
                 clsSystem.funWriteExceptionLog(varObject.DeclaringType.FullName, varObject.Name, ex.Message);
                 return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// 取得CMD_DTL命令序號(WCS自動產生---ex:空棧板入庫用)
+        /// </summary>
+        /// <returns></returns>
+        private string funGetEmptyPltLocTXNO()
+        {
+            int intGetCnt = 0;
+            long lngSeq1 = 0;
+            long lngSeq2 = 0;
+            string strSql = string.Empty;
+            string strEM = string.Empty;
+            string strMonthFlag = string.Empty;     //月異動 Y/N
+            int intSnoLen = 0;                      //Sno_Len 序號長度
+
+            DataTable dtSno = new DataTable();
+            int intRtn;
+
+            try
+            {
+
+            ProNext:
+
+                intGetCnt = intGetCnt + 1;
+
+                strSql = "SELECT C.SNO_TYPE,C.TRN_MONTH,C.SNO,M.MONTH_FLAG,M.INIT_SNO,M.MAX_SNO,M.SNO_LEN";
+                strSql += " FROM SNO_CTL C LEFT JOIN SNO_MAX M ON C.SNO_TYPE=M.SNO_TYPE";
+                strSql += " WHERE C.SNO_TYPE='LOCTXNO'";
+                string strGetYearMonth = DateTime.Now.ToString("yyMM");
+                
+                intRtn = clsSystem.gobjDB.funGetDT(strSql, ref dtSno, ref strEM);
+                if (intRtn == ErrDef.ProcSuccess)
+                {
+                    lngSeq2 = int.Parse(dtSno.Rows[0]["SNO"].ToString());
+                    strMonthFlag = dtSno.Rows[0]["MONTH_FLAG"].ToString();
+                    intSnoLen = int.Parse(dtSno.Rows[0]["SNO_LEN"].ToString());
+
+                    if (lngSeq2 >= int.Parse(dtSno.Rows[0]["MAX_SNO"].ToString()))
+                    {
+                        lngSeq1 = int.Parse(dtSno.Rows[0]["INIT_SNO"].ToString());
+                    }
+                    else
+                    {
+                        lngSeq1 = lngSeq2 + 1;
+                    }
+
+                    strSql = "UPDATE SNO_CTL SET SNO = " + lngSeq1;
+                    if (strMonthFlag == "Y")
+                    {
+                        strSql += ",TRN_MONTH = '" + strGetYearMonth + "'";
+                    }
+                    strSql += " WHERE SNO_TYPE = 'LOCTXNO'";
+                    strSql += " AND SNO = " + lngSeq2;
+                }
+                else if (intRtn == 110002)      //No Data Selected
+                {
+                    if (strMonthFlag == "Y")
+                    {
+                        strSql = "INSERT INTO SNO_CTL (SNO_TYPE,TRN_MONTH,SNO) VALUES ('LOCTXNO','" + strGetYearMonth + "',1)";
+                    }
+                    else
+                    {
+                        strSql = "INSERT INTO SNO_CTL (SNO_TYPE,TRN_MONTH,SNO) VALUES ('LOCTXNO','" + DateTime.Now.ToString("yyMM") + "',1)";
+                    }
+                    intSnoLen = 5;
+                    lngSeq1 = 1;
+                }
+                else
+                {
+                    return "";
+                }
+
+                if (clsSystem.gobjDB.funExecSql(strSql, ref strEM) != ErrDef.ProcSuccess)
+                {
+                    //讀取Count
+                    if (intGetCnt >= 5)
+                    {
+                        return "";
+                    }
+                    else
+                    {
+                        goto ProNext;
+                    }
+                }
+                return DateTime.Now.ToString("yyyyMMdd") + lngSeq1.ToString().PadLeft(intSnoLen, '0');
+                 
+            }
+            catch (Exception ex)
+            {
+                //var cmet = System.Reflection.MethodBase.GetCurrentMethod();
+                //clsInitSys.subWriteExLog(cmet.DeclaringType.FullName + "." + cmet.Name, ex.Message);
+                return string.Empty;
+            }
+            finally
+            {
+                dtSno.Dispose();
             }
         }
 
@@ -1589,8 +1682,8 @@ namespace Mirle.WinPLCCommu
         {
             string strStn = string.Empty;
             int iStn = clsTool.funConvertToInt(Data) % 2;
-            int iLevel = (clsTool.funConvertToInt(Data)) / 6;
-            int iLevel_re = (clsTool.funConvertToInt(Data)) % 6;
+            int iLevel = (clsTool.funConvertToInt(Data)) / 22;
+            int iLevel_re = (clsTool.funConvertToInt(Data)) % 22;
             if (iLevel_re == 0)
             {
                 iLevel = iLevel - 1;
@@ -1730,7 +1823,7 @@ namespace Mirle.WinPLCCommu
                             //v1.0.1.4 修改內儲位命令優先權
                             //v1.0.1.7 應包含  cmd_mode in ('2','3')  
                             //v1.0.1.7  strSQL = "Update Cmd_Mst Set Prty=" + (clsTool.funConvertToInt(Prty) - 1) + " Where Cmd_Sts<='3' and Loc='" + strInsideLoc+"' AND CMD_Mode ='2' ";
-                            strSQL = "Update Cmd_Mst Set Prty=" + (clsTool.funConvertToInt(Prty) - 1) + " Where Cmd_Sts<='3' and Loc='" + strInsideLoc + "' AND CMD_Mode in ('2','3') ";
+                            strSQL = "Update Cmd_Mst Set Prty=" + (clsTool.funConvertToInt(Prty) - 1) + " Where Cmd_Sno<>'' and Cmd_Sts<='3' and Loc='" + strInsideLoc + "' AND CMD_Mode in ('2','3') ";
                             if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
                             {
                                 SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
@@ -1907,10 +2000,10 @@ namespace Mirle.WinPLCCommu
             string strNewLoc = string.Empty;
             DataTable dtTmp = new DataTable();
             try
-            { 
+            {
 
                 //2019 v1.0.2.0 Julia
-                 
+
 
                 ////For 大立光 Oracle
                 //strSQL = "SELECT LOC FROM (";
@@ -1942,10 +2035,12 @@ namespace Mirle.WinPLCCommu
 
 
                 //For 遠紡
-               
-                strSQL = "SELECT LOC FROM LOC_MST WHERE LOC_STS = 'N' AND EQU_NO ='" + CraneNo + "' ";
                 
-                strSQL += " ORDER BY BAY_Y, LVL_Z, ROW_X ";
+                //strSQL = "SELECT LOC FROM LOC_MST WHERE LOC_STS = 'N' AND EQU_NO ='" + CraneNo + "' ";
+
+                // 給客戶看的見貨，先以深度取向。正式上線得修改回來 BY Leon
+                strSQL = "SELECT LOC FROM LOC_MST WHERE LOC_STS = 'N' AND EQU_NO ='" + CraneNo + "' ";
+                strSQL += " ORDER BY LVL_Z, BAY_Y, ROW_X ";
                 
                 //clsSystem.gobjDB.funGetScalar(strSQL, ref strNewLoc, ref strEM);
                 if (clsSystem.gobjDB.funGetDT(strSQL, ref dtTmp, ref strEM) == ErrDef.ProcSuccess)
@@ -1981,8 +2076,8 @@ namespace Mirle.WinPLCCommu
                 //strSQL = "SELECT COUNT (*) AS ICOUNT FROM CMD_MST WHERE CMDSTS < '3' AND  ";
                 //strSQL += " CMDSNO IN (SELECT CMDSNO FROM CMD_MST WHERE CMDSTS < '3' AND LOCID='" + Plt_Id + "')";
                 //Update for 大立光
-                strSQL = "SELECT COUNT(*) AS ICOUNT FROM CMD_MST WHERE CMD_STS <'3' AND ";
-                strSQL = "CMD_SNO IN (SELECT CMD_SNO FROM CMD_MST WHERE CMD_STS <'3' AND PLT_ID=' "+ Plt_Id +"')";
+                strSQL = "SELECT COUNT(*) AS ICOUNT FROM CMD_MST WHERE Cmd_Sno<>'' and CMD_STS <'3' AND ";
+                strSQL = "CMD_SNO IN (SELECT CMD_SNO FROM CMD_MST WHERE Cmd_Sno<>'' and CMD_STS <'3' AND PLT_ID=' " + Plt_Id +"')";
                 if(clsSystem.gobjDB.funGetScalar(strSQL, ref strCount, ref strEM) == ErrDef.ProcSuccess)
                     return int.Parse(strCount);
                 else

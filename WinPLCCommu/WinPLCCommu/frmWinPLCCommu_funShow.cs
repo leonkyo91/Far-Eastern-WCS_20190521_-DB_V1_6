@@ -195,15 +195,35 @@ namespace Mirle.WinPLCCommu
                     {
                         if(tlpCraneSts.Controls.ContainsKey("lblCrane" + objDataTable.Rows[intCount]["EQUNO"].ToString() + "Sts"))
                         {
+                            clsTraceLogEventArgs SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                             Label objLabel = (Label)tlpCraneSts.Controls["lblCrane" + objDataTable.Rows[intCount]["EQUNO"].ToString() + "Sts"];
                             string strCurrentCraneSts = objDataTable.Rows[intCount]["EQUSTS"].ToString();
                             string strLastCraneSts = objLabel.Text.Substring(0, 1);
                             string strCraneNo = objDataTable.Rows[intCount]["EQUNO"].ToString();
 
-                            if(strLastCraneSts != strCurrentCraneSts)
+
+                            SystemTraceLog.LogMessage = "intCount " + intCount;
+                            //clsSystem.funWriteExceptionLog("Crane_Mode_sts:  ", "funReadCraneSts      ", SystemTraceLog.LogMessage);
+
+                            SystemTraceLog.LogMessage = "strCurrentCraneSts " + objDataTable.Rows[intCount]["EQUSTS"].ToString();
+                            //clsSystem.funWriteExceptionLog("Crane_Mode_sts:  ", "funReadCraneSts      ", SystemTraceLog.LogMessage);
+
+                            SystemTraceLog.LogMessage = "objLabel " + objDataTable.Rows[intCount]["EQUNO"].ToString();
+                            //clsSystem.funWriteExceptionLog("Crane_Mode_sts:  ", "funReadCraneSts      ", SystemTraceLog.LogMessage);
+
+                            SystemTraceLog.LogMessage = "strCurrentCraneSts " + objDataTable.Rows[intCount]["EQUSTS"].ToString();
+                            //clsSystem.funWriteExceptionLog("Crane_Mode_sts:  ", "funReadCraneSts      ", SystemTraceLog.LogMessage);
+
+                            SystemTraceLog.LogMessage = "strLastCraneSts " + objLabel.Text.Substring(0, 1);
+                            //clsSystem.funWriteExceptionLog("Crane_Mode_sts:  ", "funReadCraneSts      ", SystemTraceLog.LogMessage);
+
+                            SystemTraceLog.LogMessage = "strCraneNo " + objDataTable.Rows[intCount]["EQUNO"].ToString();
+                            //clsSystem.funWriteExceptionLog("Crane_Mode_sts:  ", "funReadCraneSts      ", SystemTraceLog.LogMessage);
+
+
+                            if (strLastCraneSts != strCurrentCraneSts)
                             {
                                 funShowCraneSts(strCurrentCraneSts, ref objLabel);
-                                clsTraceLogEventArgs SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                 SystemTraceLog.LogMessage = "Crane " + strCraneNo + " Sts Change";
                                 SystemTraceLog.CraneNo = strCraneNo;
                                 SystemTraceLog.CraneSts = strCurrentCraneSts;

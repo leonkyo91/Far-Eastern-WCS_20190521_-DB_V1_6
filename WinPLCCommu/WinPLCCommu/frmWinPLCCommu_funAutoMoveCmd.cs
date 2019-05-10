@@ -69,7 +69,7 @@ namespace Mirle.WinPLCCommu
                 if(clsSystem.gobjDB.funGetDT(strSQL, ref objLoc, ref strEM) == ErrDef.ProcSuccess)
                 {
                     objLoc = new DataTable();
-                    strSQL = "SELECT COUNT(LOC) AS COUNT FROM CMD_MST WHERE CMDSTS < 9 AND IOTYP='" + clsIOType.cstrRtoR + "'";
+                    strSQL = "SELECT COUNT(LOC) AS COUNT FROM CMD_MST WHERE Cmd_Sno<>'' and Cmd_Sno<>'' and CMDSTS < 9 AND IOTYP='" + clsIOType.cstrRtoR + "'";
                     switch(CraneNo)
                     {
                         #region Crane儲位範圍
@@ -263,7 +263,7 @@ namespace Mirle.WinPLCCommu
 
             try
             {
-                strSQL = "SELECT LOC FROM CMD_MST WHERE CMD_MODE='5' AND CMD_STS < '9'";
+                strSQL = "SELECT LOC FROM CMD_MST WHERE Cmd_Sno<>'' and CMD_MODE='5' AND CMD_STS < '9'";
                 switch(CraneNo)
                 {
                     #region Crane儲位範圍
@@ -494,7 +494,7 @@ namespace Mirle.WinPLCCommu
 
             try
             {
-                strSQL = "SELECT LOC FROM CMD_MST WHERE CMDMODE='5' AND CMDSTS < '9'";
+                strSQL = "SELECT LOC FROM CMD_MST WHERE Cmd_Sno<>'' and CMDMODE='5' AND CMDSTS < '9'";
                 switch(CraneNo)
                 {
                     #region Crane儲位範圍

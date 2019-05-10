@@ -77,7 +77,7 @@ namespace Mirle.WinPLCCommu
             clsTraceLogEventArgs SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
             try
             {
-                strSQL = "SELECT * FROM CMD_MST WHERE CMD_MODE = '4' AND CMD_STS ='1' AND TRACE ='" + clsTrace.cstrStoreOutTrace_ReleaseEquPLCCmd + "' ORDER BY CMD_SNO,LOC,PRTY,Crt_Date";
+                strSQL = "SELECT * FROM CMD_MST WHERE Cmd_Sno<>'' and CMD_MODE = '4' AND CMD_STS ='1' AND TRACE ='" + clsTrace.cstrStoreOutTrace_ReleaseEquPLCCmd + "' ORDER BY CMD_SNO,LOC,PRTY,Crt_Date";
                 if (clsSystem.gobjDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
                 {
                     #region 取得命令
@@ -454,7 +454,7 @@ namespace Mirle.WinPLCCommu
             string strEM = string.Empty;
             try
             {
-                strSQL = "SELECT DISTINCT CMD_SNO, TRACE FROM CMD_MST WHERE CMD_MODE='4' AND CMD_STS='1'";
+                strSQL = "SELECT DISTINCT CMD_SNO, TRACE FROM CMD_MST WHERE Cmd_Sno<>'' and CMD_MODE='4' AND CMD_STS='1'";
                 strSQL += " AND TRACE='" + clsTrace.cstrStoreInTrace_ReleaseCraneCmd + "'";
                 if (clsSystem.gobjDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
                 {
@@ -567,7 +567,7 @@ namespace Mirle.WinPLCCommu
                     }
                 }
             }
-            catch (Exception ex)
+           catch (Exception ex)
             {
                 var varObject = MethodBase.GetCurrentMethod();
                 clsSystem.funWriteExceptionLog(varObject.DeclaringType.FullName, varObject.Name, ex.Message);

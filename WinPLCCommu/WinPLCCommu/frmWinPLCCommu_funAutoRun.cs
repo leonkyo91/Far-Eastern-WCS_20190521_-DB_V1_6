@@ -53,7 +53,7 @@ namespace Mirle.WinPLCCommu
                     strSQL += " ORDER BY TRNDATE";
                     if(clsSystem.gobjDB.funGetScalar(strSQL, ref strOutSideLoc, ref strEM) == ErrDef.ProcSuccess)
                     {
-                        strSQL = "SELECT COUNT(*) AS CNTS FROM CMD_MST WHERE CMDSTS='0' AND STNNO='" + StnDef.StnNo + "'";
+                        strSQL = "SELECT COUNT(*) AS CNTS FROM CMD_MST WHERE Cmd_Sno<>'' and CMDSTS='0' AND STNNO='" + StnDef.StnNo + "'";
                         switch(StnDef.CraneNo)
                         {
                             case 1:
@@ -245,7 +245,7 @@ namespace Mirle.WinPLCCommu
                 if(CraneNo <= 0 && CraneNo > 3)
                     return;
 
-                strSQL = "SELECT COUNT(*) AS CNTS FROM CMD_MST WHERE CMDSTS='0'";
+                strSQL = "SELECT COUNT(*) AS CNTS FROM CMD_MST WHERE Cmd_Sno<>'' and CMDSTS='0'";
                 switch(CraneNo)
                 {
                     #region Crane儲位範圍

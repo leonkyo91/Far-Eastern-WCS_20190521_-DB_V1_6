@@ -35,7 +35,7 @@ namespace Mirle.WinPLCCommu
             try
             {
                 //strSQL = "SELECT * FROM CMD_MST WHERE CMDMODE='5' AND CMDSTS='0' AND TRACE='0' ORDER BY CMDSNO, LOC, PRT, TRNDATE DESC";
-                strSQL = "SELECT * FROM CMD_MST WHERE CMD_MODE ='5' AND CMD_STS = '0' AND TRACE ='0' ORDER BY CMD_SNO ,LOC,PRTY,Crt_Date DESC";
+                strSQL = "SELECT * FROM CMD_MST WHERE Cmd_Sno<>'' and CMD_MODE ='5' AND CMD_STS = '0' AND TRACE ='0' ORDER BY CMD_SNO ,LOC,PRTY,Crt_Date DESC";
                 if(clsSystem.gobjDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
                 {
                     #region 取得命令
@@ -67,10 +67,15 @@ namespace Mirle.WinPLCCommu
                     {
                         #region 判斷是否為同Crane庫對庫命令
                         string strLoc_Row = CmdSno.Loc.Substring(0, 2);
-                        int intCrane = ((int.Parse(strLoc_Row) + 3) / 4);
+                        //Leon  int intCrane = ((int.Parse(strLoc_Row) + 3) / 2);
+
+                        int intCrane = ((int.Parse(strLoc_Row) - 1) / 2 + 1);
                         strLoc_Row = CmdSno.NewLoc.Substring(0, 2);
-                        int intNewCrane = ((int.Parse(strLoc_Row) + 3) / 4);
+                         
+                        //Leon int intNewCrane = ((int.Parse(strLoc_Row) + 3) / 4);
+                        int intNewCrane = ((int.Parse(strLoc_Row) -1) / 2 +1);
                         string Source = string.Empty;
+
                         string Destination = string.Empty;
                         Source = CmdSno.Loc;
                         Destination = CmdSno.NewLoc;
@@ -170,7 +175,7 @@ namespace Mirle.WinPLCCommu
 
             try
             {
-                strSQL = "SELECT DISTINCT CMD_SNO, TRACE FROM CMD_MST WHERE CMD_MODE='5' AND CMD_STS='1'";
+                strSQL = "SELECT DISTINCT CMD_SNO, TRACE FROM CMD_MST WHERE Cmd_Sno<>'' and CMD_MODE='5' AND CMD_STS='1'";
                 strSQL += " AND TRACE='" + clsTrace.cstrLocToLocTrace_ReleaseCraneCmd + "'";
                 if(clsSystem.gobjDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
                 {

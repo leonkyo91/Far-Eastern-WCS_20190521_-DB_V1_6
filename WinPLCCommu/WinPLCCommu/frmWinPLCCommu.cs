@@ -9,41 +9,8 @@
 ///	***********************************************************************************************
 ///     Date            Editor      Version         Description
 ///	***********************************************************************************************
-///     2017.09.09      Kuei       v1.0.0.9         改變字幕機顯示時機
-///     2017.09.18      Kuei       v1.0.0.11        新增周邊異常時顯示字幕機
-///     2017.09.20      Kuei       v1.0.0.12        修改周邊異常顯示清除時機
-///     2017.09.21      Kuei       v1.0.0.13        修改讀入Buffer資料效能(for->Parallel.For)
-///     2017.10.30      Kuei       v1.0.0.15        新增EQUCMD時Where條件 CMDSTS小於3
-///     2017.11.03      Kuei       v1.0.0.16        新增入庫時若Loc不足7碼就Continue
-///     2017.11.03      Kuei       v1.0.0.17        將入出庫部分異常時return改為Continue
-///     2017.11.14      Kuei       v1.0.0.18        1.Fix 發生空出庫時，更新Cmd_Mst
-///                                                 2.Fix 地上盤強制取消時，Update Cmd_Sts = 8,Cmd_Abnormal ='EF'
-///                                                 
-///     2018.01.17      Kuei       v1.0.0.19        新增盤點入庫條件IO_TYPE=63  frmWinPLCCommu_funStockIn.cs--->v1.02
-///     2018.01.18      Kuei       v1.0.0.20        Fix 產生庫對庫IOTYPE一律是51
-///                                                 Fix 產生庫對庫Trn_Qty=0
-///                                                 Fix 出庫卡其他Crane問題
-///     2018.01.18      Kuei       v1.0.0.21        新增Log 自動產生庫對庫 Begin失敗Log
-///     2018.01.22      Kuei       v1.0.0.22        1.Fix:移除產生庫對庫時，寫CMD_DTL
-///                                                 2.Fix 產生庫對庫時間改為24小時制
-///     2018.01.23      Kuei       v1.0.0.23        1.Add 新增預約Loc_Mst 寫入Trn_Date和MEMO='WCS'
-///                                                 2.Add 新增全部Begin Fail寫Log
-///     2018.01.23      Kuei       v1.0.0.24        1.Fix 顯示字幕機3F以上不顯示BUG
-///     2018.01.23      Kuei       v1.0.0.25        Fix Bug 新增更新Loc_Mst判斷條件 Loc_Sts='N'
-///     2018.01.24      Kuei       v1.0.0.26        Fix移除v1.0.0.17修改
-///     2018.01.29      Kuei       v1.0.1.0         修改入庫時預約儲位時機，並預約儲位同時更新Trace=12
-///     2018.02.08      Kuei       v1.0.1.1         Fix 新增Cmd_Mst Plt_Count加入單引號
-///     2018.04.19      Kuei       v1.0.1.2         1.Fix Begin 時 不可再重複Begin或Select     
-///                                                 2.新增DB PLC重新連線
-///     2018.05.15      Kuei       v1.0.1.4         1.Fix DB Lock
-///                                                 2.Fix 當外儲位與內儲位同時被出庫預約的情況
-///     2018.05.24      Kuei       v1.0.1.5         Update frmWinPLCCommu_funStockIn.cs v1.03
-///     2018.05.24      Kuei       v1.0.1.6         Update frmWinPLCCommu_funStockIn.cs v1.04
-///     2018.07.19      Julia      v1.0.1.7         Fix 當外儲位與內儲位同時被出庫預約的情況, 應包含 cmd_mode in ('3','2')
-///     2018.11.16      Julia      v1.0.1.8         找儲位條件,找 HNNH. (柱位的儲位,內儲位也要可以被找到)
-///     2018.12.07      Julia      v1.0.1.9         自動庫對庫的時候....找儲位條件,找 HNNH. (柱位的儲位,內儲位也要可以被找到)
-///     2019.01.03      Julia      v1.0.2.0         當庫位滿的時候, 要找暫存儲位.(storage_type='T')
-/// 
+///     2019.04.18      Leon       v1.0.0.0         臨時記帳程式用 (1F MRS 區)
+///
 /// 
 ///----------------------------------------------------------------------------------------------------
 ///         
@@ -90,6 +57,11 @@ namespace Mirle.WinPLCCommu
         private frmPLCModify PLCModify = null;
         private frmEquCmd EquCmd = null;
         private frmBufferInfo BufferInfo = null;
+        // --------------
+        DataTable dtTmp = new DataTable();
+        string strStnNo = string.Empty;
+        string strSQL = string.Empty;
+        string strEM = string.Empty;
 
         #region 建構函式
         /// <summary>
@@ -121,7 +93,7 @@ namespace Mirle.WinPLCCommu
             //chkAutoRunD04ToRM3.Enabled = chkAutoRunTest.Checked;
 
             funInitCraneStsLayout();
-            funInitBuffer(); 
+            funInitBuffer();
             funInitTimer();
             //內容已被註解完，無用 By Leon
             //SubObjectInit();
@@ -149,21 +121,22 @@ namespace Mirle.WinPLCCommu
         {
             timProgram.Stop();
             timProgram.Enabled = false;
+
             try
             {
-                if(chkAutoReconnect.Checked)
+                if (chkAutoReconnect.Checked)
                 {
-                    if(!clsSystem.gobjPLC.ConnectionFlag)
+                    if (!clsSystem.gobjPLC.ConnectionFlag)
                         funReconnectionPLC(0);
-                    if(!clsSystem.gobjDB.ConnFlag)
+                    if (!clsSystem.gobjDB.ConnFlag)
                         funReconnectionDB();
                 }
-                
-                if(clsSystem.gobjPLC.ConnectionFlag && bolAutoPaseFlag)
+
+                if (clsSystem.gobjPLC.ConnectionFlag && bolAutoPaseFlag)
                 {
                     #region Read PLC Data To Buffer/UI
                     objBufferData.funReadPC2PLCData2Buffer(1);
-                    if(objBufferData.funReadPLC2PCDataBuffer(1))
+                    if (objBufferData.funReadPLC2PCDataBuffer(1))
                     {
                         #region Read Success
                         //v1.0.0.13
@@ -186,6 +159,9 @@ namespace Mirle.WinPLCCommu
                                     BufferControl.PalletNo = clsTool.funGetEnumValue<uclBuffer.enuPalletNo>(((int)objBufferData.PLC2PCBuffer[intItem].Avail).ToString());
                                     BufferControl.Auto = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Auto;
                                     BufferControl.Manual = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Manual;
+
+                                    #region Show 字幕機
+                                    
                                     //v1.0.0.9決定顯示字幕機的時機
                                     int iBuffer_IN_Out = intItem % 2;//等於1為外Buffer，等於0為內Buffer
                                     if (objBufferData.PLC2PCBuffer[intItem].StnModeCode_In && iBuffer_IN_Out == 1 &&
@@ -217,155 +193,269 @@ namespace Mirle.WinPLCCommu
                                     else if (!objBufferData.PLC2PCBuffer[intItem].StnModeCode_CargoLoad)
                                     {
                                     }
-                                    if (objBufferData.PLC2PCBuffer[intItem].Error > 0)
+
+                                    #region   遠紡字幕機用顯示入庫資訊
+
+                                    // 0 是外Buffer By Leon
+                                    if (iBuffer_IN_Out == 0)
                                     {
-                                        if (intItem % 2 == 0)
+                                        if (objBufferData.PLC2PCBuffer[intItem].StnModeCode_In)
                                         {
-                                           
+                                            string strBuffName = BufferControl.BufferName;
+                                            string strStnName = "";
 
-                                            string strAlarmMsg = funAlarmLog(intItem, objBufferData.PLC2PCBuffer[intItem].Error);
-                                            if (objBufferData.PLC2PCBuffer[intItem + 1].Error > 0)
+                                            // 依靠Buffer編號換算站口編號
+                                            switch (strBuffName)
                                             {
-                                                strAlarmMsg += funAlarmLog(intItem + 1, objBufferData.PLC2PCBuffer[intItem + 1].Error);
+                                                case "A01":
+                                                    strStnName = "A101";
+                                                    break;
+                                                case "A02":
+                                                    strStnName = "A101";
+                                                    break;
+                                                case "A05":
+                                                    strStnName = "A103";
+                                                    break;
+                                                case "A06":
+                                                    strStnName = "A103";
+                                                    break;
+                                                case "A09":
+                                                    strStnName = "A105";
+                                                    break;
+                                                case "A10":
+                                                    strStnName = "A105";
+                                                    break;
+                                                case "A13":
+                                                    strStnName = "A107";
+                                                    break;
+                                                case "A14":
+                                                    strStnName = "A107";
+                                                    break;
+                                                case "A17":
+                                                    strStnName = "A109";
+                                                    break;
+                                                case "A18":
+                                                    strStnName = "A109";
+                                                    break;
+                                                case "A21":
+                                                    strStnName = "A111";
+                                                    break;
+                                                case "A22":
+                                                    strStnName = "A111";
+                                                    break;
+                                                case "A25":
+                                                    strStnName = "A113";
+                                                    break;
+                                                case "A26":
+                                                    strStnName = "A113";
+                                                    break;
+                                                case "A29":
+                                                    strStnName = "A115";
+                                                    break;
+                                                case "A30":
+                                                    strStnName = "A115";
+                                                    break;
+                                                case "A33":
+                                                    strStnName = "A117";
+                                                    break;
+                                                case "A34":
+                                                    strStnName = "A117";
+                                                    break;
+                                                case "A37":
+                                                    strStnName = "A119";
+                                                    break;
+                                                case "A38":
+                                                    strStnName = "A119";
+                                                    break;
+                                                case "A41":
+                                                    strStnName = "A121";
+                                                    break;
+                                                case "A42":
+                                                    strStnName = "A121";
+                                                    break;
                                             }
+                                            if (objBufferData.PLC2PCBuffer[intItem].StnModeCode_CargoLoad || objBufferData.PLC2PCBuffer[intItem].StnModeCode_PalletLoad)
+                                            {
+                                                dtTmp = null;
+                                                strSQL = "SELECT TOP(1) * FROM CMD_MST WHERE Cmd_Sno<>'' and STN_NO ='" +
+                                                         strStnName +
+                                                         "' AND CMD_STS <'3'";
 
-                                            //v1.0.0.11 異常時
-                                            string strStnNo = string.Empty;
-                                            switch (strAlarmMsg.Substring(0, 1))
-                                            {
-                                                case "A":
-                                                    strStnNo = "A10" + strAlarmMsg.Substring(4, 1);
-                                                    break;
-                                                case "B":
-                                                    strStnNo = "B20" + strAlarmMsg.Substring(4, 1);
-                                                    break;
-                                                case "C":
-                                                    strStnNo = "C30" + strAlarmMsg.Substring(4, 1);
-                                                    break;
-                                                case "D":
-                                                    strStnNo = "D40" + strAlarmMsg.Substring(4, 1);
-                                                    break;
-                                                case "E":
-                                                    strStnNo = "E50" + strAlarmMsg.Substring(4, 1);
-                                                    break;
-                                                case "F":
-                                                    strStnNo = "F60" + strAlarmMsg.Substring(4, 1);
-                                                    break;
-                                                case "G":
-                                                    strStnNo = "G70" + strAlarmMsg.Substring(4, 1);
-                                                    break;
+                                                if (clsSystem.gobjDB.funGetDT(strSQL, ref dtTmp, ref strEM) ==
+                                                    ErrDef.ProcSuccess)
+                                                {
+                                                    //if (dtTmp.Rows[0]["Cmd_Sno"].ToString() != "")
+                                                    //{
+                                                        //objBufferData.PLC2PCBuffer[intItem].LeftCmdSno =
+                                                        //    dtTmp.Rows[0]["Cmd_Sno"].ToString();
+
+                                                        funMvsData(strStnName,
+                                                            dtTmp.Rows[0]["Cmd_Sno"].ToString(), "1", "0",
+                                                            "", true);
+                                                        clsSystem.funWriteExceptionLog("show字幕機:  ",
+                                                            "funMvsData:-----1   " + strStnName, "");
+                                                    //}
+                                                }
                                             }
-                                            string strSQL = "Update MVS_MST SET Dsp_Flag='1',Error_Flag = '1',Error_Msg ='" + strAlarmMsg + "' Where Stn_No ='" + strStnNo + "'";
-                                            string strEM = string.Empty;
-                                            if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == 0)
+                                            else
                                             {
+
                                             }
                                         }
                                     }
-                                    else if (objBufferData.PLC2PCBuffer[intItem].Error == 0)
-                                    {
-                                        //v1.0.0.12
-                                        if (intItem % 2 == 0)
-                                        {
-                                            string strAlarmMsg = string.Empty;
-                                            if (objBufferData.PLC2PCBuffer[intItem + 1].Error > 0)
-                                            {
-                                                strAlarmMsg += funAlarmLog(intItem + 1, objBufferData.PLC2PCBuffer[intItem + 1].Error);
-                                                //v1.0.0.11 異常時
-                                                string strStnNo = string.Empty;
-                                                switch (strAlarmMsg.Substring(0, 1))
-                                                {
-                                                    case "A":
-                                                        strStnNo = "A10" + strAlarmMsg.Substring(4, 1);
-                                                        break;
-                                                    case "B":
-                                                        strStnNo = "B20" + strAlarmMsg.Substring(4, 1);
-                                                        break;
-                                                    case "C":
-                                                        strStnNo = "C30" + strAlarmMsg.Substring(4, 1);
-                                                        break;
-                                                    case "D":
-                                                        strStnNo = "D40" + strAlarmMsg.Substring(4, 1);
-                                                        break;
-                                                    case "E":
-                                                        strStnNo = "E50" + strAlarmMsg.Substring(4, 1);
-                                                        break;
-                                                    case "F":
-                                                        strStnNo = "F60" + strAlarmMsg.Substring(4, 1);
-                                                        break;
-                                                    case "G":
-                                                        strStnNo = "G70" + strAlarmMsg.Substring(4, 1);
-                                                        break;
-                                                }
-                                                string strSQL = "Update MVS_MST SET Dsp_Flag='1',Error_Flag = '1',Error_Msg ='" + strAlarmMsg + "' Where Stn_No ='" + strStnNo + "'";
-                                                string strEM = string.Empty;
-                                                if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == 0)
-                                                {
-                                                }
 
-                                            }
-                                            else if (objBufferData.PLC2PCBuffer[intItem + 1].Error == 0 &&
-                                            string.IsNullOrEmpty(objBufferData.PLC2PCBuffer[intItem].LeftCmdSno)
-                                                &&
-                                            string.IsNullOrEmpty(objBufferData.PLC2PCBuffer[intItem + 1].LeftCmdSno))
-                                            {
-                                                string strBufferName = objBufferData.PLC2PCBuffer[intItem + 1].AlarmSignal[1].BufferName;
-                                                string strStnNo = string.Empty;
-                                                switch (strBufferName.Substring(0, 1))
-                                                {
-                                                    case "A":
-                                                        strStnNo = "A10" + strBufferName.Substring(4, 1);
-                                                        break;
-                                                    case "B":
-                                                        strStnNo = "B20" + strBufferName.Substring(4, 1);
-                                                        break;
-                                                    case "C":
-                                                        strStnNo = "C30" + strBufferName.Substring(4, 1);
-                                                        break;
-                                                    case "D":
-                                                        strStnNo = "D40" + strBufferName.Substring(4, 1);
-                                                        break;
-                                                    case "E":
-                                                        strStnNo = "E50" + strBufferName.Substring(4, 1);
-                                                        break;
-                                                    case "F":
-                                                        strStnNo = "F60" + strBufferName.Substring(4, 1);
-                                                        break;
-                                                    case "G":
-                                                        strStnNo = "G70" + strBufferName.Substring(4, 1);
-                                                        break;
-                                                } 
-                                                string strSQL = "Update MVS_MST SET Dsp_Flag='1',Error_Flag = '1',Error_Msg ='' Where Stn_No ='" + strStnNo + "'";
-                                                string strEM = string.Empty;
-                                                if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == 0)
-                                                {
-                                                }
-                                            }
-                                        }
-                                    }
+                                    #endregion
+
+                                    #region  show err msg  //Julia 
+                                    //if (objBufferData.PLC2PCBuffer[intItem].Error > 0)
+                                    //{
+                                    //    if (intItem % 2 == 0)
+                                    //    {
+                                    //        string strAlarmMsg = funAlarmLog(intItem, objBufferData.PLC2PCBuffer[intItem].Error);
+                                    //        if (objBufferData.PLC2PCBuffer[intItem + 1].Error > 0)
+                                    //        {
+                                    //            strAlarmMsg += funAlarmLog(intItem + 1, objBufferData.PLC2PCBuffer[intItem + 1].Error);
+                                    //        }
+
+                                    //        //v1.0.0.11 異常時
+                                    //        string strStnNo = string.Empty;
+                                    //        switch (strAlarmMsg.Substring(0, 1))
+                                    //        {
+                                    //            case "A":
+                                    //                strStnNo = "A10" + strAlarmMsg.Substring(4, 1);
+                                    //                break;
+                                    //            case "B":
+                                    //                strStnNo = "B20" + strAlarmMsg.Substring(4, 1);
+                                    //                break;
+                                    //            case "C":
+                                    //                strStnNo = "C30" + strAlarmMsg.Substring(4, 1);
+                                    //                break;
+                                    //            case "D":
+                                    //                strStnNo = "D40" + strAlarmMsg.Substring(4, 1);
+                                    //                break;
+                                    //            case "E":
+                                    //                strStnNo = "E50" + strAlarmMsg.Substring(4, 1);
+                                    //                break;
+                                    //            case "F":
+                                    //                strStnNo = "F60" + strAlarmMsg.Substring(4, 1);
+                                    //                break;
+                                    //            case "G":
+                                    //                strStnNo = "G70" + strAlarmMsg.Substring(4, 1);
+                                    //                break;
+                                    //        }
+                                    //        string strSQL = "Update MVS_MST SET Dsp_Flag='1',Error_Flag = '1',Error_Msg ='" + strAlarmMsg + "' Where Stn_No ='" + strStnNo + "'";
+                                    //        string strEM = string.Empty;
+                                    //        if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == 0)
+                                    //        {
+                                    //        }
+                                    //    }
+                                    //}
+                                    //else if (objBufferData.PLC2PCBuffer[intItem].Error == 0)
+                                    //{
+                                    //    //v1.0.0.12
+                                    //    if (intItem % 2 == 0)
+                                    //    {
+                                    //        string strAlarmMsg = string.Empty;
+                                    //        if (objBufferData.PLC2PCBuffer[intItem + 1].Error > 0)
+                                    //        {
+                                    //            strAlarmMsg += funAlarmLog(intItem + 1, objBufferData.PLC2PCBuffer[intItem + 1].Error);
+                                    //            //v1.0.0.11 異常時
+                                    //            string strStnNo = string.Empty;
+                                    //            switch (strAlarmMsg.Substring(0, 1))
+                                    //            {
+                                    //                case "A":
+                                    //                    strStnNo = "A10" + strAlarmMsg.Substring(4, 1);
+                                    //                    break;
+                                    //                case "B":
+                                    //                    strStnNo = "B20" + strAlarmMsg.Substring(4, 1);
+                                    //                    break;
+                                    //                case "C":
+                                    //                    strStnNo = "C30" + strAlarmMsg.Substring(4, 1);
+                                    //                    break;
+                                    //                case "D":
+                                    //                    strStnNo = "D40" + strAlarmMsg.Substring(4, 1);
+                                    //                    break;
+                                    //                case "E":
+                                    //                    strStnNo = "E50" + strAlarmMsg.Substring(4, 1);
+                                    //                    break;
+                                    //                case "F":
+                                    //                    strStnNo = "F60" + strAlarmMsg.Substring(4, 1);
+                                    //                    break;
+                                    //                case "G":
+                                    //                    strStnNo = "G70" + strAlarmMsg.Substring(4, 1);
+                                    //                    break;
+                                    //            }
+                                    //            string strSQL = "Update MVS_MST SET Dsp_Flag='1',Error_Flag = '1',Error_Msg ='" + strAlarmMsg + "' Where Stn_No ='" + strStnNo + "'";
+                                    //            string strEM = string.Empty;
+                                    //            if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == 0)
+                                    //            {
+                                    //            }
+
+                                    //        }
+                                    //        else if (objBufferData.PLC2PCBuffer[intItem + 1].Error == 0 &&
+                                    //        string.IsNullOrEmpty(objBufferData.PLC2PCBuffer[intItem].LeftCmdSno)
+                                    //            &&
+                                    //        string.IsNullOrEmpty(objBufferData.PLC2PCBuffer[intItem + 1].LeftCmdSno))
+                                    //        {
+                                    //            string strBufferName = objBufferData.PLC2PCBuffer[intItem + 1].AlarmSignal[1].BufferName;
+                                    //            string strStnNo = string.Empty;
+                                    //            switch (strBufferName.Substring(0, 1))
+                                    //            {
+                                    //                case "A":
+                                    //                    strStnNo = "A10" + strBufferName.Substring(4, 1);
+                                    //                    break;
+                                    //                case "B":
+                                    //                    strStnNo = "B20" + strBufferName.Substring(4, 1);
+                                    //                    break;
+                                    //                case "C":
+                                    //                    strStnNo = "C30" + strBufferName.Substring(4, 1);
+                                    //                    break;
+                                    //                case "D":
+                                    //                    strStnNo = "D40" + strBufferName.Substring(4, 1);
+                                    //                    break;
+                                    //                case "E":
+                                    //                    strStnNo = "E50" + strBufferName.Substring(4, 1);
+                                    //                    break;
+                                    //                case "F":
+                                    //                    strStnNo = "F60" + strBufferName.Substring(4, 1);
+                                    //                    break;
+                                    //                case "G":
+                                    //                    strStnNo = "G70" + strBufferName.Substring(4, 1);
+                                    //                    break;
+                                    //            }
+                                    //            string strSQL = "Update MVS_MST SET Dsp_Flag='1',Error_Flag = '1',Error_Msg ='' Where Stn_No ='" + strStnNo + "'";
+                                    //            string strEM = string.Empty;
+                                    //            if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == 0)
+                                    //            {
+                                    //            }
+                                    //        }
+                                    //    }
+                                    //}
+
+                                    #endregion
+                                    #endregion
                                 }
                             });
                         //for(int intItem = 0; intItem < objBufferData.PLC2PCBuffer.Length; intItem++)
                         //{
-                            
+
                         //}
                         #endregion Read Success
                     }
                     else
                     {
                         #region Read Fail
-                        foreach(Control objControl in dicBufferMap.Values)
+                        foreach (Control objControl in dicBufferMap.Values)
                             ((uclBuffer)objControl).funReadPLCError();
                         #endregion Read Fail
                     }
                     #endregion Read PLC Data To Buffer/UI
 
                     #region Stock In/Out
-                    
+
                     funStockIn(1);
                     funStockOut();
-                    // 庫對庫停用 By Leon
-                    //funLocToLoc();
+                    funLocToLoc();
                     //funAutoMoveLoc();
                     #endregion Stock In/Out
 
@@ -405,7 +495,7 @@ namespace Mirle.WinPLCCommu
                     #endregion Read Fail
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var varObject = MethodBase.GetCurrentMethod();
                 clsSystem.funWriteExceptionLog(varObject.DeclaringType.FullName, varObject.Name, ex.Message);
@@ -573,7 +663,7 @@ namespace Mirle.WinPLCCommu
                                 //BufferControl.RightLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_RightLoad;
                                 BufferControl.PalletNo = clsTool.funGetEnumValue<uclBuffer.enuPalletNo>(((int)objBufferData.PLC2PCBuffer[intItem].Avail).ToString());
                                 BufferControl.Auto = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Auto;
-                                BufferControl.Manual = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Manual;                           
+                                BufferControl.Manual = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Manual;
                             }
                         }
                         #endregion Read Success
@@ -697,7 +787,7 @@ namespace Mirle.WinPLCCommu
                 #endregion  更新Crane Mode/Sts
 
                 #region Auto Reconnect
-                if(!chkAutoReconnect.Checked)
+                if (!chkAutoReconnect.Checked)
                 {
                     btnReconnectDB.Enabled = !clsSystem.gobjDB.ConnFlag;
                     btnReconnectPLC.Enabled = !clsSystem.gobjPLC.ConnectionFlag;
@@ -712,12 +802,12 @@ namespace Mirle.WinPLCCommu
                 #endregion WriteAutoRun
 
                 #region HandShaking & Set PLC DateTime
-                if(clsSystem.gobjPLC.ConnectionFlag)
+                if (clsSystem.gobjPLC.ConnectionFlag)
                 {
-                    if(!objBufferData.HandShaking)
-                        funWritePC2PLC_HandShake("1",1);
+                    if (!objBufferData.HandShaking)
+                        funWritePC2PLC_HandShake("1", 1);
                     else
-                        funWritePC2PLC_HandShake("0",1);
+                        funWritePC2PLC_HandShake("0", 1);
 
                     funWritePLCSetDateTime(1);
                 }
@@ -743,7 +833,7 @@ namespace Mirle.WinPLCCommu
 
                 #region 檢查是否有做完的命令並Update字幕機Table
 
-                
+
 
                 #endregion 檢查是否有做完的命令並Update字幕機Table
 
@@ -755,7 +845,7 @@ namespace Mirle.WinPLCCommu
                 funStnToStn();
                 #endregion 站對站
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var varObject = MethodBase.GetCurrentMethod();
                 clsSystem.funWriteExceptionLog(varObject.DeclaringType.FullName, varObject.Name, ex.Message);
@@ -823,7 +913,7 @@ namespace Mirle.WinPLCCommu
         /// <param name="e"></param>
         private void frmWinPLCCommu_Resize(object sender, EventArgs e)
         {
-            if(this.WindowState == FormWindowState.Minimized)
+            if (this.WindowState == FormWindowState.Minimized)
             {
                 this.Visible = false;
                 nfiMain.Visible = true;
@@ -857,7 +947,7 @@ namespace Mirle.WinPLCCommu
         /// <param name="e"></param>
         private void btnCraneCommand_Click(object sender, EventArgs e)
         {
-            if(EquCmd == null)
+            if (EquCmd == null)
             {
                 EquCmd = new frmEquCmd();
                 EquCmd.TopMost = true;
@@ -876,7 +966,7 @@ namespace Mirle.WinPLCCommu
         /// <param name="e"></param>
         private void btnPLCModify_Click(object sender, EventArgs e)
         {
-            if(PLCModify == null)
+            if (PLCModify == null)
             {
                 PLCModify = new frmPLCModify(objBufferData);
                 PLCModify.TopMost = true;
@@ -895,7 +985,7 @@ namespace Mirle.WinPLCCommu
         /// <param name="e"></param>
         private void btnBufferInfo_Click(object sender, EventArgs e)
         {
-            if(BufferInfo == null)
+            if (BufferInfo == null)
             {
                 BufferInfo = new frmBufferInfo();
                 BufferInfo.TopMost = true;
@@ -913,11 +1003,11 @@ namespace Mirle.WinPLCCommu
         /// <param name="e"></param>
         private void funMdiForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if(BufferInfo != null)
+            if (BufferInfo != null)
                 BufferInfo = null;
-            if(PLCModify != null)
+            if (PLCModify != null)
                 PLCModify = null;
-            if(EquCmd != null)
+            if (EquCmd != null)
                 EquCmd = null;
         }
 
@@ -928,10 +1018,10 @@ namespace Mirle.WinPLCCommu
         /// <param name="e"></param>
         private void uclBuffer_uclBufferClick(object sender, EventArgs e)
         {
-            if(sender is uclBuffer && PLCModify != null)
+            if (sender is uclBuffer && PLCModify != null)
             {
                 uclBuffer Buffer = (uclBuffer)sender;
-                if(clsSystem.gdicBufferIndex.ContainsKey(Buffer.BufferName))
+                if (clsSystem.gdicBufferIndex.ContainsKey(Buffer.BufferName))
                     PLCModify.funBufferIndexChange(clsSystem.gdicBufferIndex[Buffer.BufferName]);
             }
         }
@@ -964,7 +1054,7 @@ namespace Mirle.WinPLCCommu
             funShowSystemTrace(lsbAlarmList, TraceLogEventArgs, true);
             TraceLogEventArgs = null;
 
-            
+
         }
         /// <summary>
         /// 表示 MdiForm 觸發 ShowSystemTrace 事件處理方法
@@ -973,7 +1063,7 @@ namespace Mirle.WinPLCCommu
         /// <param name="e"></param>
         private void frmMdiForm_ShowSystemTrace(object sender, clsTraceLogEventArgs TraceLog)
         {
-            switch(TraceLog.objTraceLog)
+            switch (TraceLog.objTraceLog)
             {
                 case enuTraceLog.MPLC:
                     funShowSystemTrace(lsbMPLC, TraceLog, true);
@@ -1057,7 +1147,7 @@ namespace Mirle.WinPLCCommu
             tlpCraneSts.ColumnStyles.Clear();
             int intColumn = 0;
 
-            for(int intCount = 1; intCount <= clsSystem.gintRMQty; intCount++)
+            for (int intCount = 1; intCount <= clsSystem.gintRMQty; intCount++)
             {
                 tlpCraneSts.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100 / (clsSystem.gintRMQty * 2)));
                 tlpCraneSts.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100 / (clsSystem.gintRMQty * 2)));
@@ -1117,7 +1207,7 @@ namespace Mirle.WinPLCCommu
 
             timProgram.Stop();
             timProgram.Elapsed += new System.Timers.ElapsedEventHandler(timProgram_Elapsed);
-            timProgram.Interval = 1000;
+            timProgram.Interval = 3000;
             timProgram.Start();
 
             // 暫時不用 By Leon
@@ -1146,28 +1236,28 @@ namespace Mirle.WinPLCCommu
             {
                 #region dicBufferMap & dicPC2PLCMap
                 strSQL = "SELECT * FROM BufferDef ORDER BY BufferIndex, PLC2PC, PC2PLC";
-                if(clsSystem.gobjSystemDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
+                if (clsSystem.gobjSystemDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
                 {
                     List<Control> lstTmp = new List<Control>();
                     funGetControl(tbcMain, ref lstTmp);
-                    foreach(DataRow objDataRow in objDataTable.Rows)
+                    foreach (DataRow objDataRow in objDataTable.Rows)
                     {
                         try
                         {
                             Control objControl = lstTmp.Find(ctl => ctl.Name == objDataRow["ObjectName"].ToString());
-                            if(objControl != null)
+                            if (objControl != null)
                                 dicBufferMap.Add(int.Parse(objDataRow["BufferIndex"].ToString()), objControl);
 
-                            if(objDataRow["Buffer"].ToString() != "System")
+                            if (objDataRow["Buffer"].ToString() != "System")
                                 clsSystem.gdicBufferIndex.Add(objDataRow["Buffer"].ToString(), int.Parse(objDataRow["BufferIndex"].ToString()));
 
                             clsSystem.gdicPC2PLCMap.Add(objDataRow["Buffer"].ToString(), int.Parse(objDataRow["PC2PLC"].ToString()));
                             //For大立光新增PLCIndex
                             //if(!clsSystem.gdicPLCIndex.ContainsValue(int.Parse(objDataRow["PLCIndex"].ToString())))
-                                clsSystem.gdicPLCIndex.Add(objDataRow["Buffer"].ToString(), int.Parse(objDataRow["PLCIndex"].ToString()));
-                            
+                            clsSystem.gdicPLCIndex.Add(objDataRow["Buffer"].ToString(), int.Parse(objDataRow["PLCIndex"].ToString()));
+
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             var varObject = MethodBase.GetCurrentMethod();
                             clsSystem.funWriteExceptionLog(varObject.DeclaringType.FullName, varObject.Name, "BufferMap" + ex.Message);
@@ -1180,12 +1270,12 @@ namespace Mirle.WinPLCCommu
                 objDataTable = new DataTable();
                 //strSQL = "SELECT * FROM BCRDef ORDER BY BCRIndex";
                 strSQL = "select * from BCRDEF as a left join BufferDef as b where a.[Buffer] = b.[Buffer]";
-                if(clsSystem.gobjSystemDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
+                if (clsSystem.gobjSystemDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
                 {
-                    if(objDataTable.Rows.Count > 0)
+                    if (objDataTable.Rows.Count > 0)
                     {
                         clsBCR[] objarBCR = new clsBCR[objDataTable.Rows.Count];
-                        for(int intCount = 0; intCount < objDataTable.Rows.Count; intCount++)
+                        for (int intCount = 0; intCount < objDataTable.Rows.Count; intCount++)
                         {
                             objarBCR[intCount] = new clsBCR();
                             objarBCR[intCount].StnNo = objDataTable.Rows[intCount]["StnNo"].ToString();
@@ -1195,7 +1285,7 @@ namespace Mirle.WinPLCCommu
                             objarBCR[intCount].BufferName = objDataTable.Rows[intCount]["Buffer"].ToString();
                             objarBCR[intCount].StnIndex = int.Parse(objDataTable.Rows[intCount]["StnIndex"].ToString());
                             objarBCR[intCount].PLCIndex = objDataTable.Rows[intCount]["PLCIndex"].ToString();
-                            if(!lstStn.Contains(objarBCR[intCount].StnNo))
+                            if (!lstStn.Contains(objarBCR[intCount].StnNo))
                                 lstStn.Add(objarBCR[intCount].StnNo);
                         }
 
@@ -1230,7 +1320,7 @@ namespace Mirle.WinPLCCommu
                             objarWT[intCount].StnIndex = int.Parse(objDataTable.Rows[intCount]["StnIndex"].ToString());
                             objarWT[intCount].WeightNo = objDataTable.Rows[intCount]["WeightNo"].ToString();
                             objarWT[intCount].WeightIndex = int.Parse(objDataTable.Rows[intCount]["WeightIndex"].ToString());
-                           // objarWT[intCount].WTLoc = clsTool.funGetEnumValue<clsWT.enuWTLoc>(objDataTable.Rows[intCount]["WTLoc"].ToString());
+                            // objarWT[intCount].WTLoc = clsTool.funGetEnumValue<clsWT.enuWTLoc>(objDataTable.Rows[intCount]["WTLoc"].ToString());
                             objarWT[intCount].Buffer = objDataTable.Rows[intCount]["Buffer"].ToString();
                             if (!lstStn_WT.Contains(objarWT[intCount].StnNo))
                                 lstStn_WT.Add(objarWT[intCount].StnNo);
@@ -1243,9 +1333,9 @@ namespace Mirle.WinPLCCommu
                 #region StnDef
                 objDataTable = new DataTable();
                 strSQL = "SELECT * FROM StnDef";
-                if(clsSystem.gobjSystemDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
+                if (clsSystem.gobjSystemDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
                 {
-                    foreach(DataRow objDataRow in objDataTable.Rows)
+                    foreach (DataRow objDataRow in objDataTable.Rows)
                     {
                         clsStnDef StnDef = new clsStnDef();
                         StnDef.Buffer = objDataRow["Buffer"].ToString();
@@ -1256,7 +1346,7 @@ namespace Mirle.WinPLCCommu
                         StnDef.StnNo = objDataRow["StnNo"].ToString();
                         StnDef.StnIndex = int.Parse(objDataRow["StnIndex"].ToString());
 
-                        switch(objDataRow["Direction"].ToString())
+                        switch (objDataRow["Direction"].ToString())
                         {
                             case clsInOutMode.cstrInMode:
                                 lstInModeStnDef.Add(StnDef);
@@ -1276,18 +1366,18 @@ namespace Mirle.WinPLCCommu
                 #region AlarmCode
                 objDataTable = new DataTable();
                 strSQL = "SELECT * FROM AlarmCode";
-                if(clsSystem.gobjSystemDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
+                if (clsSystem.gobjSystemDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
                     objBufferData.funSetAlarmCode(objDataTable);
                 #endregion AlarmCode
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var varObject = MethodBase.GetCurrentMethod();
                 clsSystem.funWriteExceptionLog(varObject.DeclaringType.FullName, varObject.Name, ex.Message);
             }
             finally
             {
-                if(objDataTable != null)
+                if (objDataTable != null)
                 {
                     objDataTable.Clear();
                     objDataTable.Dispose();
@@ -1303,11 +1393,11 @@ namespace Mirle.WinPLCCommu
         /// <param name="ControlList"></param>
         private void funGetControl(Control control, ref List<Control> ControlList)
         {
-            for(int intCount = 0; intCount < control.Controls.Count; intCount++)
+            for (int intCount = 0; intCount < control.Controls.Count; intCount++)
             {
-                if(control.Controls[intCount] is uclBuffer)
+                if (control.Controls[intCount] is uclBuffer)
                     ControlList.Add(control.Controls[intCount]);
-                else if(control.Controls[intCount].Controls.Count > 0)
+                else if (control.Controls[intCount].Controls.Count > 0)
                 {
                     funGetControl(control.Controls[intCount], ref ControlList);
                     continue;
@@ -1357,7 +1447,7 @@ namespace Mirle.WinPLCCommu
             //uclWT_A_6L.subStart();
             //if (!uclWT_A_6L.Conn)
             //    strMSG += "\n" + uclWT_A_6L.ErrorMSG;
-         
+
             //#endregion 開啟2F秤重機Port
 
             //#region 開啟3F秤重機Port
@@ -1371,8 +1461,8 @@ namespace Mirle.WinPLCCommu
             //uclWT_B_6L.subStart();
             //if (!uclWT_B_6L.Conn)
             //    strMSG += "\n" + uclWT_B_6L.ErrorMSG;
-          
-          
+
+
             //#endregion 開啟3F秤重機Port
 
             //#region 開啟4F秤重機Port
@@ -1386,7 +1476,7 @@ namespace Mirle.WinPLCCommu
             //uclWT_C_6L.subStart();
             //if (!uclWT_C_6L.Conn)
             //    strMSG += "\n" + uclWT_C_6L.ErrorMSG;
-            
+
             //#endregion 開啟4F秤重機Port
 
             //#region 開啟5F秤重機Port
@@ -1457,7 +1547,7 @@ namespace Mirle.WinPLCCommu
         {
             frmCloseProgram objCloseProgram = new frmCloseProgram();
 
-            if(objCloseProgram.ShowDialog() == DialogResult.OK)
+            if (objCloseProgram.ShowDialog() == DialogResult.OK)
             {
                 timRefresh.Stop();
                 timProgram.Stop();
@@ -1497,7 +1587,7 @@ namespace Mirle.WinPLCCommu
         /// </summary>
         private async void funReconnectionDB()
         {
-            if(await clsInitSys.funReconnectionDB())
+            if (await clsInitSys.funReconnectionDB())
             {
                 clsTraceLogEventArgs SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                 SystemTraceLog.LogMessage = "Try Reconnection DB Success!";
@@ -1532,7 +1622,7 @@ namespace Mirle.WinPLCCommu
         /// <param name="WriteLog"></param>
         private void funShowSystemTrace(ListBox TraceListBox, clsTraceLogEventArgs TraceLog, bool WriteLog)
         {
-            if(this.InvokeRequired)
+            if (this.InvokeRequired)
             {
                 delShowSystemTrace ShowSystemTrace = new delShowSystemTrace(funShowSystemTrace);
                 this.Invoke(ShowSystemTrace, TraceListBox, TraceLog, WriteLog);
@@ -1542,66 +1632,66 @@ namespace Mirle.WinPLCCommu
                 try
                 {
                     string strLogMessage = TraceLog.LogMessage.PadRight(35, ' ');
-                    switch(TraceLog.objTraceLog)
+                    switch (TraceLog.objTraceLog)
                     {
                         case enuTraceLog.System:
                             #region System
-                            if(!string.IsNullOrWhiteSpace(TraceLog.BCRNo))
+                            if (!string.IsNullOrWhiteSpace(TraceLog.BCRNo))
                             {
                                 #region BCR相關
                                 strLogMessage += " => BCRNo:<" + TraceLog.BCRNo + "> ";
-                                if(!string.IsNullOrWhiteSpace(TraceLog.BCRSts))
+                                if (!string.IsNullOrWhiteSpace(TraceLog.BCRSts))
                                     strLogMessage += "BCRSts:<" + TraceLog.BCRSts + "> ";
-                                if(!string.IsNullOrWhiteSpace(TraceLog.BCRID))
+                                if (!string.IsNullOrWhiteSpace(TraceLog.BCRID))
                                     strLogMessage += "BCRID:<" + TraceLog.BCRID + "> ";
                                 #endregion BCR相關
                             }
-                            else if(!string.IsNullOrWhiteSpace(TraceLog.LeftCmdSno) || !string.IsNullOrWhiteSpace(TraceLog.RightCmdSno))
+                            else if (!string.IsNullOrWhiteSpace(TraceLog.LeftCmdSno) || !string.IsNullOrWhiteSpace(TraceLog.RightCmdSno))
                             {
                                 #region CmdSno相關
                                 strLogMessage += " => CmdSno:<";
-                                if(!string.IsNullOrWhiteSpace(TraceLog.LeftCmdSno) && !string.IsNullOrWhiteSpace(TraceLog.RightCmdSno))
+                                if (!string.IsNullOrWhiteSpace(TraceLog.LeftCmdSno) && !string.IsNullOrWhiteSpace(TraceLog.RightCmdSno))
                                     strLogMessage += TraceLog.LeftCmdSno + ", " + TraceLog.RightCmdSno + "> ";
-                                else if(!string.IsNullOrWhiteSpace(TraceLog.LeftCmdSno))
+                                else if (!string.IsNullOrWhiteSpace(TraceLog.LeftCmdSno))
                                     strLogMessage += TraceLog.LeftCmdSno + "> ";
-                                else if(!string.IsNullOrWhiteSpace(TraceLog.RightCmdSno))
+                                else if (!string.IsNullOrWhiteSpace(TraceLog.RightCmdSno))
                                     strLogMessage += TraceLog.RightCmdSno + "> ";
                                 else
                                     strLogMessage += "> ";
 
-                                if(!string.IsNullOrWhiteSpace(TraceLog.SNO))
+                                if (!string.IsNullOrWhiteSpace(TraceLog.SNO))
                                     strLogMessage += "SNO:<" + TraceLog.SNO + "> ";
-                                if(!string.IsNullOrWhiteSpace(TraceLog.CmdSts))
+                                if (!string.IsNullOrWhiteSpace(TraceLog.CmdSts))
                                     strLogMessage += "CmdSts:<" + TraceLog.CmdSts + "> ";
-                                if(!string.IsNullOrWhiteSpace(TraceLog.CmdMode))
+                                if (!string.IsNullOrWhiteSpace(TraceLog.CmdMode))
                                     strLogMessage += "CmdMode:<" + TraceLog.CmdMode + "> ";
-                                if(!string.IsNullOrWhiteSpace(TraceLog.Trace))
+                                if (!string.IsNullOrWhiteSpace(TraceLog.Trace))
                                     strLogMessage += "Trace:<" + TraceLog.Trace + "> ";
-                                if(!string.IsNullOrWhiteSpace(TraceLog.StnNo))
+                                if (!string.IsNullOrWhiteSpace(TraceLog.StnNo))
                                     strLogMessage += "StnNo:<" + TraceLog.StnNo + "> ";
-                                if(!string.IsNullOrWhiteSpace(TraceLog.CmdCraneNo))
+                                if (!string.IsNullOrWhiteSpace(TraceLog.CmdCraneNo))
                                     strLogMessage += "CmdCraneNo:<" + TraceLog.CmdCraneNo + "> ";
-                                if(!string.IsNullOrWhiteSpace(TraceLog.LocID))
+                                if (!string.IsNullOrWhiteSpace(TraceLog.LocID))
                                     strLogMessage += "LocID:<" + TraceLog.LocID + "> ";
-                                if(!string.IsNullOrWhiteSpace(TraceLog.NewLocID))
+                                if (!string.IsNullOrWhiteSpace(TraceLog.NewLocID))
                                     strLogMessage += "NewLocID:<" + TraceLog.NewLocID + "> ";
                                 #endregion CmdSno相關
                             }
-                            else if(!string.IsNullOrWhiteSpace(TraceLog.CraneNo))
+                            else if (!string.IsNullOrWhiteSpace(TraceLog.CraneNo))
                             {
                                 #region Crane相關
                                 strLogMessage += " => CraneNo:<" + TraceLog.CraneNo + "> ";
-                                if(!string.IsNullOrWhiteSpace(TraceLog.CraneSts))
+                                if (!string.IsNullOrWhiteSpace(TraceLog.CraneSts))
                                     strLogMessage += "CraneSts:<" + TraceLog.CraneSts + "> ";
-                                if(!string.IsNullOrWhiteSpace(TraceLog.CraneStsLast))
+                                if (!string.IsNullOrWhiteSpace(TraceLog.CraneStsLast))
                                     strLogMessage += "CraneStsLast:<" + TraceLog.CraneStsLast + "> ";
-                                if(!string.IsNullOrWhiteSpace(TraceLog.CraneMode))
+                                if (!string.IsNullOrWhiteSpace(TraceLog.CraneMode))
                                     strLogMessage += "CraneMode:<" + TraceLog.CraneMode + "> ";
-                                if(!string.IsNullOrWhiteSpace(TraceLog.CraneModeLast))
+                                if (!string.IsNullOrWhiteSpace(TraceLog.CraneModeLast))
                                     strLogMessage += "CraneModeLast:<" + TraceLog.CraneModeLast + "> ";
                                 #endregion Crane相關
                             }
-                            else if(!string.IsNullOrWhiteSpace(TraceLog.LocSts))
+                            else if (!string.IsNullOrWhiteSpace(TraceLog.LocSts))
                             {
                                 #region LocSts相關
                                 strLogMessage += " => Loc:<" + TraceLog.LocID + "> ";
@@ -1610,61 +1700,61 @@ namespace Mirle.WinPLCCommu
                                 #endregion LocSts相關
                             }
 
-                            if(strLastSystemTraceLog.LogMessage != TraceLog.LogMessage)
+                            if (strLastSystemTraceLog.LogMessage != TraceLog.LogMessage)
                             {
-                                if(TraceListBox.Items.Count > 200)
+                                if (TraceListBox.Items.Count > 200)
                                     TraceListBox.Items.RemoveAt(0);
 
                                 TraceListBox.Items.Add("[" + DateTime.Now.ToString("HH:mm:ss.fff") + "] " + strLogMessage);
                                 TraceListBox.SelectedIndex = TraceListBox.Items.Count - 1;
                                 strLastSystemTraceLog = TraceLog;
 
-                                if(WriteLog)
+                                if (WriteLog)
                                     clsSystem.funWriteSystemTraceLog(strLogMessage);
                             }
                             #endregion System
                             break;
                         case enuTraceLog.MPLC:
                             #region MPLC
-                            if(!string.IsNullOrWhiteSpace(TraceLog.BufferName))
+                            if (!string.IsNullOrWhiteSpace(TraceLog.BufferName))
                             {
                                 strLogMessage += " => BuffwerName:<" + TraceLog.BufferName + "> ";
-                                if(!string.IsNullOrWhiteSpace(TraceLog.AddressSection))
+                                if (!string.IsNullOrWhiteSpace(TraceLog.AddressSection))
                                     strLogMessage += "AddressSection:<" + TraceLog.AddressSection + "> ";
-                                if(TraceLog.PLCValues.Length > 0)
+                                if (TraceLog.PLCValues.Length > 0)
                                     strLogMessage += "PLCValues:<" + string.Join(", ", TraceLog.PLCValues) + "> ";
                             }
 
-                            if(strLastMPLCTraceLog.LogMessage != TraceLog.LogMessage)
+                            if (strLastMPLCTraceLog.LogMessage != TraceLog.LogMessage)
                             {
-                                if(TraceListBox.Items.Count > 200)
+                                if (TraceListBox.Items.Count > 200)
                                     TraceListBox.Items.RemoveAt(0);
 
                                 TraceListBox.Items.Add("[" + DateTime.Now.ToString("HH:mm:ss.fff") + "] " + strLogMessage);
                                 TraceListBox.SelectedIndex = TraceListBox.Items.Count - 1;
                                 strLastMPLCTraceLog = TraceLog;
 
-                                if(WriteLog)
+                                if (WriteLog)
                                     clsSystem.funWriteMPLCTraceLog(strLogMessage);
                             }
                             #endregion MPLC
                             break;
                         case enuTraceLog.Alarm:
                             #region Alarm
-                            if(TraceLog.AlarmClear)
+                            if (TraceLog.AlarmClear)
                             {
-                                if(TraceListBox.Items.Contains(TraceLog.LogMessage))
+                                if (TraceListBox.Items.Contains(TraceLog.LogMessage))
                                     TraceListBox.Items.Remove(TraceLog.LogMessage);
 
-                                if(WriteLog)
+                                if (WriteLog)
                                     clsSystem.funWriteAlarmLog("Alarm Clear  => " + TraceLog.LogMessage);
                             }
                             else
                             {
-                                if(!TraceListBox.Items.Contains(TraceLog.LogMessage))
+                                if (!TraceListBox.Items.Contains(TraceLog.LogMessage))
                                     TraceListBox.Items.Add(TraceLog.LogMessage);
 
-                                if(WriteLog)
+                                if (WriteLog)
                                     clsSystem.funWriteAlarmLog("Alarm Set => " + TraceLog.LogMessage);
                             }
                             #endregion Alarm
@@ -1679,7 +1769,7 @@ namespace Mirle.WinPLCCommu
                             break;
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     var varObject = MethodBase.GetCurrentMethod();
                     clsSystem.funWriteExceptionLog(varObject.DeclaringType.FullName, varObject.Name, ex.Message);
@@ -1821,7 +1911,7 @@ namespace Mirle.WinPLCCommu
                     if (charAlarm[i].ToString() == "1")
                     {
                         //strAlarmMsg += objarPLC2PCBuffer[iBufferIndex].AlarmSignal[iAlarmIndex].AlarmDesc;
-                        strAlarmMsg += objBufferData.PLC2PCBuffer[iBufferIndex].AlarmSignal[iAlarmIndex].AlarmDesc +" ";
+                        strAlarmMsg += objBufferData.PLC2PCBuffer[iBufferIndex].AlarmSignal[iAlarmIndex].AlarmDesc + " ";
 
                     }
                     iAlarmIndex--;
@@ -1837,6 +1927,6 @@ namespace Mirle.WinPLCCommu
             {
             }
         }
-        
+
     }
 }

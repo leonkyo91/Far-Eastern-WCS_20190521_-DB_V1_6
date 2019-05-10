@@ -89,7 +89,7 @@ namespace Mirle.WinPLCCommu
                     {
                         #region 大立光 Select
                         strSQL = "SELECT Distinct LOC,CMD_SNO,CMD_MODE,Prty From CMD_MST ";
-                        strSQL += "WHERE CMD_STS='0' AND CMD_MODE IN ('2','3') AND STN_NO ='" + StnDef.StnNo + "'";
+                        strSQL += "WHERE Cmd_Sno<>'' and CMD_STS='0' AND CMD_MODE IN ('2','3') AND STN_NO ='" + StnDef.StnNo + "'";
                         strSQL += "";
                         switch (StnDef.CraneNo)
                         {
@@ -106,7 +106,7 @@ namespace Mirle.WinPLCCommu
                                 strSQL += " AND LOC >'0700000' AND LOC < '0900000'";
                                 break;
                             case 5:
-                                strSQL += " AND LOC >'900000' AND LOC < '1100000'";
+                                strSQL += " AND LOC >'0900000' AND LOC < '1100000'";
                                 break;
                             case 6:
                                 strSQL += " AND LOC >'1100000' AND LOC < '1300000'";
@@ -185,7 +185,7 @@ namespace Mirle.WinPLCCommu
                                         if (bolRight)
                                         {
                                             //檢查該站口命令，若有則退出，避免Update Trace
-                                            strSQL = "SELECT Count(*) as CmdCount FROM CMD_MST WHERE CMD_STS<'3' AND TRACE='" + clsTrace.cstrStoreOutTrace_ReleaseEquPLCCmd + "' AND STN_NO='" + StnDef.StnNo + "' ";
+                                            strSQL = "SELECT Count(*) as CmdCount FROM CMD_MST WHERE Cmd_Sno<>'' and CMD_STS<'3' AND TRACE='" + clsTrace.cstrStoreOutTrace_ReleaseEquPLCCmd + "' AND STN_NO='" + StnDef.StnNo + "' ";
 
                                             if (clsSystem.gobjDB.funGetDT(strSQL, ref objCheckCMD, ref strEM) == ErrDef.ProcSuccess)
                                             {
@@ -477,12 +477,13 @@ namespace Mirle.WinPLCCommu
 
 
 
-                            strSQL = "SELECT TOP(1) LOC,PRTY FROM CMD_MST WHERE CMD_STS<'3' AND CMD_SNO='" + strCmdSno + "' AND CMD_MODE IN ('2', '3')";
+                            strSQL = "SELECT TOP(1) LOC,PRTY,STN_NO FROM CMD_MST WHERE CMD_STS<'3' AND CMD_SNO='" + strCmdSno + "' AND CMD_MODE IN ('2', '3')";
                             strSQL += " AND TRACE='" + clsTrace.cstrStoreOutTrace_ReleaseEquPLCCmd + "' ORDER BY LOC DESC";
                             if (clsSystem.gobjDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
                             {
                                 string strLoc = objDataTable.Rows[0]["LOC"].ToString();
                                 string strPrt = objDataTable.Rows[0]["PRTY"].ToString();
+                                string strStn_No = objDataTable.Rows[0]["STN_NO"].ToString();
 
                                 if (funCheckLocMatchCrane(strLoc, StnDef.CraneNo, strCmdSno) &&
                                     !funCheckEquCmdRepeat(StnDef.PortNo, StnDef.CraneNo, clsEquCmdMode.cstrOutMode))
@@ -495,7 +496,8 @@ namespace Mirle.WinPLCCommu
                                         {
                                             if (funInsertStockOutEquCmd(StnDef.CraneNo, strCmdSno, strLoc, StnDef.PortNo, strPrt))
                                             {
-                                                //funMvsData(StnDef.StnNo,strCmdSno,"1","1","");
+                                                //更新字幕機 出庫顯示
+                                                funMvsData(strStn_No, strCmdSno, "1", "0", "", true);
 
                                                 clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
                                                 SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
@@ -571,7 +573,7 @@ namespace Mirle.WinPLCCommu
 
             try
             {
-                strSQL = "SELECT DISTINCT CMD_SNO, CMD_MODE, TRACE FROM CMD_MST WHERE CMD_MODE IN ('2', '3')";
+                strSQL = "SELECT DISTINCT CMD_SNO, CMD_MODE, TRACE FROM CMD_MST WHERE Cmd_Sno<>'' and CMD_MODE IN ('2', '3')";
                 strSQL += " AND CMD_STS='1' AND TRACE='" + clsTrace.cstrStoreOutTrace_ReleaseCraneCmd + "'";
                 if (clsSystem.gobjDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
                 {
