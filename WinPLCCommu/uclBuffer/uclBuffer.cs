@@ -19,7 +19,7 @@ namespace Mirle.WinPLCCommu
         private enuReadNotice objReadNotice = enuReadNotice.None;
         private enuFunNotice objFunNotice = enuFunNotice.None;
         private enuStnChange objStnChange = enuStnChange.None;
-        private enuPalletNo objPalletNo = enuPalletNo.None;   
+        private enuOverSize objOverSize = enuOverSize.None;   
         private string strError = string.Empty;
         private bool bolRightLoad = false;
         private bool bolCargoLoad = false;
@@ -105,7 +105,7 @@ namespace Mirle.WinPLCCommu
         /// <summary>
         /// 站口切換列舉
         /// </summary>
-        public enum enuPalletNo
+        public enum enuOverSize
         {
             None = 0
         }
@@ -408,25 +408,25 @@ namespace Mirle.WinPLCCommu
         }
 
         /// <summary>
-        /// 棧板號 
+        /// 荷姿超寬超高 
         /// </summary>
-        [Category("自訂屬性"), Description("棧板號")]
-        public enuPalletNo PalletNo
+        [Category("自訂屬性"), Description("荷姿超寬超高")]
+        public enuOverSize OverSize
         {
            get
             {
-                return objPalletNo;
+                return objOverSize;
             }
             set
             {
-                objPalletNo = value;
-                if (((int)objPalletNo) != 0)
+                objOverSize = value;
+                if (((int)objOverSize) != 0)
                 {
-                    funUpdate(lblPalletNo, ((int)objPalletNo).ToString(), Color.Lime);
+                    funUpdate(lblOverSize, ((int)objOverSize).ToString(), Color.Lime);
                 }
                 else
                 {
-                    funUpdate(lblPalletNo, string.Empty, Color.White);
+                    funUpdate(lblOverSize, string.Empty, Color.White);
                 }
             }
         }
@@ -663,7 +663,7 @@ namespace Mirle.WinPLCCommu
             string strFunNotice = "功能通知:棧板荷有";
             string strError = "Error Code";
             string strtLoad = "貨物荷有";
-            string strPalletNo = "棧板號";
+            string strOverSize = "荷姿超寬超高";
             string strStnChange = "站口模式切換";
             string strAuto = "自動";
             string strManual = "手動";
@@ -686,7 +686,7 @@ namespace Mirle.WinPLCCommu
             objToolTip.SetToolTip(lblReadNotice, strReadNotice);
             objToolTip.SetToolTip(lblFunNotice, strFunNotice);
             objToolTip.SetToolTip(lblStnChanges, strStnChange);
-            objToolTip.SetToolTip(lblPalletNo, strPalletNo);
+            objToolTip.SetToolTip(lblOverSize, strOverSize);
             objToolTip.SetToolTip(lblCargoLoad, strtLoad);
             objToolTip.SetToolTip(lblAuto,strAuto);
             objToolTip.SetToolTip(lblManual,strManual);

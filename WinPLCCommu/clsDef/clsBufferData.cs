@@ -463,6 +463,9 @@ namespace Mirle.WinPLCCommu
                         //objarPLC2PCBuffer[intBuffer].FunNotice = intarPLC2PCResultData[intResultData * (intBufferLoc + 1) + 5];
                         objarPLC2PCBuffer[intBuffer].PathNotice = intarPLC2PCResultData[intResultData * (intBufferLoc + 1) + 5];
                         objarPLC2PCBuffer[intBuffer].FunNotice = intarPLC2PCResultData[intResultData * (intBufferLoc + 1) + 6];
+
+                        objarPLC2PCBuffer[intBuffer].OverSize = intarPLC2PCResultData[intResultData * (intBufferLoc + 1) + 7];
+
                         objarPLC2PCBuffer[intBuffer].Error = intarPLC2PCResultData[intResultData * (intBufferLoc + 1) + 8];//異常碼 1
                         if (objarPLC2PCBuffer[intBuffer].Error > 0)
                         {
@@ -471,8 +474,8 @@ namespace Mirle.WinPLCCommu
 
                             //funAlarmLog(intBuffer, objarPLC2PCBuffer[intBuffer].Error);
 
-                            // LOG 會不斷寫入再看看怎麼改
-                            //wcsAlarmData(this, new clsAlarmEventArgs(funAlarmLog(intBuffer, objarPLC2PCBuffer[intBuffer].Error,1), false, intBuffer, objarPLC2PCBuffer[intBuffer].Error));
+                            // Error 1 寫入 Alarm Log
+                            wcsAlarmData(this, new clsAlarmEventArgs(funAlarmLog(intBuffer, objarPLC2PCBuffer[intBuffer].Error,1), false, intBuffer, objarPLC2PCBuffer[intBuffer].Error));
                             
                             //Update MVS_MST
                             
@@ -486,13 +489,14 @@ namespace Mirle.WinPLCCommu
                             //funAlarmLog(intBuffer, objarPLC2PCBuffer[intBuffer].Error);
                             
 
-                            // LOG 會不斷寫入再看看怎麼改
-                            //wcsAlarmData(this, new clsAlarmEventArgs(funAlarmLog(intBuffer, objarPLC2PCBuffer[intBuffer].Error_2,2), false, intBuffer, objarPLC2PCBuffer[intBuffer].Error_2));
+                            // Error 2 寫入 Alarm Log
+                            wcsAlarmData(this, new clsAlarmEventArgs(funAlarmLog(intBuffer, objarPLC2PCBuffer[intBuffer].Error_2,2), false, intBuffer, objarPLC2PCBuffer[intBuffer].Error_2));
                             
                             
                             //Update MVS_MST
 
                         }
+                     
 
                         //objarPLC2PCBuffer[intBuffer].StnChange = intarPLC2PCResultData[intResultData * (intBufferLoc + 1) + 7];
                         //objarPLC2PCBuffer[intBuffer].Avail = intarPLC2PCResultData[intResultData * (intBufferLoc + 1) + 19];

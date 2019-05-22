@@ -257,13 +257,16 @@ namespace Mirle.WinPLCCommu
                                                     clsSystem.intBegin = 1;
 
                                                     #region 啟動BCR
+                                                    clsSystem.funWriteExceptionLog("[funStockIn_CheckSign]", "啟動 BCR [Begin-Start]", " BufferName=" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName);
                                                     if (clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin, ref strEM) == ErrDef.ProcSuccess)
                                                     {
+
                                                         if (funUpdateBCRSts(clsBCR.enuBCRSts.Reading, objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo, clsReBCRID.cstrBCRDataInit))
                                                         {
                                                             objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRSts = clsBCR.enuBCRSts.Reading;
                                                             objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID = clsReBCRID.cstrBCRDataInit;
 
+                                                            clsSystem.funWriteExceptionLog("[funStockIn_CheckSign]", "啟動 BCR [Commit-Start]", " BufferName=" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName);
                                                             clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
                                                             SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                                             SystemTraceLog.LogMessage = "Update Both BCR Sts Success!";
@@ -274,6 +277,7 @@ namespace Mirle.WinPLCCommu
                                                         }
                                                         else
                                                         {
+                                                            clsSystem.funWriteExceptionLog("[funStockIn_CheckSign]", "啟動 BCR [Rollback-Start]", " BufferName=" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName);
                                                             clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                                             SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                                             SystemTraceLog.LogMessage = "Update Both BCR Sts Fail!";
@@ -284,6 +288,7 @@ namespace Mirle.WinPLCCommu
                                                     }
                                                     else
                                                     {
+                                                        clsSystem.funWriteExceptionLog("[funStockIn_CheckSign]", "啟動 BCR [Begin Fail-Start]", " BufferName=" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName);
                                                         SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                                         SystemTraceLog.LogMessage = "[Begin Fail]:[funStockIn_CheckSign]:[BCR]" + strEM;
                                                         SystemTraceLog.BCRSts = clsBCR.enuBCRSts.Reading.ToString();
@@ -336,6 +341,7 @@ namespace Mirle.WinPLCCommu
 
                                     #region 回傳ERROR 退出站口
 
+                                    clsSystem.funWriteExceptionLog("[funStockIn_CheckSign]", "回傳ERROR 退出站口 [Begin-Start]", " BufferName=" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName);
                                     if (clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin, ref strEM) == ErrDef.ProcSuccess)
                                     {
                                         if (funUpdateBCRSts(clsBCR.enuBCRSts.None, objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo, clsReBCRID.cstrBCRDataInit))
@@ -371,7 +377,7 @@ namespace Mirle.WinPLCCommu
                                                 clsSystem.gobjDB.funExecSql(strSQL, ref strEM);
 
                                                 #endregion 更新BCR
-
+                                                clsSystem.funWriteExceptionLog("[funStockIn_CheckSign]", "回傳ERROR 退出站口 [Commit-Start]", " BufferName=" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName);
                                                 clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
                                                 SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                                 SystemTraceLog.LogMessage = "BCR Read Fail!";
@@ -380,10 +386,14 @@ namespace Mirle.WinPLCCommu
                                                 funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
                                             }
                                             else
+                                            {
+                                                clsSystem.funWriteExceptionLog("[funStockIn_CheckSign]", "回傳ERROR 退出站口 [Rollback-Start]", " BufferName=" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName);
                                                 clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
+                                            }
                                         }
                                         else
                                         {
+                                            clsSystem.funWriteExceptionLog("[funStockIn_CheckSign]", "回傳ERROR 退出站口 [Rollback-Start]", " BufferName=" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName);
                                             clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                             SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                             SystemTraceLog.LogMessage = "Update BCR Sts Fail!";
@@ -420,14 +430,15 @@ namespace Mirle.WinPLCCommu
                             string strMessge = string.Empty;
                             int iBuffindex = objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex;
 
-                            // 算式要再確認 
-                            if (iBuffindex > 12) iBuffindex = iBuffindex - 12;
-                            if (iBuffindex > 12) iBuffindex = iBuffindex - 12;
-                            if (iBuffindex > 12) iBuffindex = iBuffindex - 12;
-                            if (iBuffindex > 12) iBuffindex = iBuffindex - 12;
-                            if (iBuffindex > 12) iBuffindex = iBuffindex - 12;
-                            if (iBuffindex > 12) iBuffindex = iBuffindex - 12;
-                            if (iBuffindex > 12) iBuffindex = iBuffindex - 12;
+                            //if (iBuffindex > 12) iBuffindex = iBuffindex - 12;
+                            //if (iBuffindex > 12) iBuffindex = iBuffindex - 12;
+                            //if (iBuffindex > 12) iBuffindex = iBuffindex - 12;
+                            //if (iBuffindex > 12) iBuffindex = iBuffindex - 12;
+                            //if (iBuffindex > 12) iBuffindex = iBuffindex - 12;
+                            //if (iBuffindex > 12) iBuffindex = iBuffindex - 12;
+                            //if (iBuffindex > 12) iBuffindex = iBuffindex - 12;
+
+                            // 此變數供第一次找儲位使用。
                             int intCraneNo = (iBuffindex / 4) + 1;
 
                             //找尋站口是否有命令 By Leon
@@ -456,6 +467,8 @@ namespace Mirle.WinPLCCommu
                                             strLocSize = "E";
                                             strLoc = funGetEmptyLoc(intCraneNo, 0, clsLocSts.cstrLoc_NNNN, false, false,
                                                 strLocSize, ref strSQL);
+
+                                            clsSystem.funWriteExceptionLog("[第一次找儲位使用]:  ", "intCraneNo:----    " + intCraneNo + " Loc= " + strLoc, "");
 
                                             strStnNo = objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo;
                                             strCraneNo = "" + intCraneNo;
@@ -764,7 +777,7 @@ namespace Mirle.WinPLCCommu
 
                                     //更新字幕機
                                     funMvsData(objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo, objBCRData[intStn, clsBCR.enuBCRLoc.Once].CmdSno, "1", "0", "", true);
-                                    clsSystem.funWriteExceptionLog("更新字幕機:  ", "funMvsData:-----1 " + objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo, SystemTraceLog.LogMessage);
+                                    //clsSystem.funWriteExceptionLog("更新字幕機:  ", "funMvsData:-----1 " + objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo, SystemTraceLog.LogMessage);
                                     #region 更新Trace
 
 
@@ -774,10 +787,10 @@ namespace Mirle.WinPLCCommu
                                     strSQL += ",trn_user ='WCS' ";
                                     // 再看看是否要設成1 By Leon
                                     //strSQL += ",CMD_STS = '1' ";
-                                    strSQL += " WHERE Cmd_Sno<>'' and 1=1 ";
+                                    strSQL += " WHERE Cmd_Sno<>'' and 1=1  "; 
                                     strSQL += "AND Plt_Id ='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID + "' ";
                                     strSQL += " AND CMD_SNO='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].CmdSno + "' ";
-
+                                    clsSystem.funWriteExceptionLog("[第一次找UPDATE CMD_MST]:  ", "strSQL:----    " + strSQL + " Loc= " + strLoc + " Trace= " + clsTrace.cstrStoreInTrace_ReleaseEquPLCCmd, "");
                                     if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
                                     {
                                         SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
@@ -1162,6 +1175,8 @@ namespace Mirle.WinPLCCommu
                     //}
                     catch (Exception ex)
                     {
+                        clsSystem.funWriteExceptionLog("[funStockIn_CheckSign]", "Exception [Rollback-Start]", " BufferName=" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName);
+
                         clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                         clsSystem.intBegin = 0;
                         throw new System.Exception(ex.Message);
@@ -1250,6 +1265,8 @@ namespace Mirle.WinPLCCommu
                 }
                 catch (Exception ex)
                 {
+                    clsSystem.funWriteExceptionLog("[funStockIn_ReleaseEquPLCCmdFinish]", "Exception [Rollback-Start]", " BufferName=" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName);
+
                     clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                     var varObject = MethodBase.GetCurrentMethod();
                     clsSystem.funWriteExceptionLog(varObject.DeclaringType.FullName, varObject.Name, ex.Message);
@@ -1375,7 +1392,7 @@ namespace Mirle.WinPLCCommu
                                     #region 尋找空儲位
 
                                     strLoc = funGetEmptyLoc(intCraneNo, 0, clsLocSts.cstrLoc_NNNN, false, false, strLocSize, ref strSQL);
-
+                                    clsSystem.funWriteExceptionLog("[第2次找尋找空儲位]:  ", "strSQL:----    " + strSQL + " Loc= " + strLoc  , "");
                                     #endregion 尋找空儲位
 
                                     #region 預約儲位&命令
@@ -1387,6 +1404,7 @@ namespace Mirle.WinPLCCommu
                                             clsSystem.intBegin = 1;
 
                                             #region 預約儲位 、 更新CMD
+                                            clsSystem.funWriteExceptionLog("[funStockIn_ItemOnStn]", "預約儲位、更新CMD [Begin-Start]", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
 
                                             if (clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin, ref strEM) == ErrDef.ProcSuccess)
                                             {
@@ -1395,11 +1413,13 @@ namespace Mirle.WinPLCCommu
                                                 strSQL = "UPDATE Loc_Mst Set Loc_Sts = 'I',Old_sts = loc_sts , Trn_Date='" + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "'";
                                                 strSQL += ",MEMO='WCS'";
                                                 strSQL += " Where Loc = '" + strLoc + "' AND LOC_STS='N' ";
+                                                clsSystem.funWriteExceptionLog("[第2次找UPDATE Loc_Mst]:  ", "strSQL:----    " + strSQL + " Loc= " + strLoc, "");
                                                 if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
                                                 {
                                                     //更新CMD_MST
                                                     strSQL = "UPDATE CMD_MST SET LOC='" + strLoc + "',TRACE='" + clsTrace.cstrStoreInTrace_ItemOnStn + "',Equ_No='" + intCraneNo + "'";
                                                     strSQL += " WHERE CMD_SNO='" + strCmdSno + "' AND TRACE='" + clsTrace.cstrStoreInTrace_ReleaseEquPLCCmd + "'";
+                                                    clsSystem.funWriteExceptionLog("[第2次找UPDATE CMD_MST]:  ", "strSQL:----    " + strSQL + " Loc= " + strLoc+ "iCrane =" + intCraneNo, "");
                                                     if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
                                                     {
                                                         //更新CMD_DTL
@@ -1413,18 +1433,24 @@ namespace Mirle.WinPLCCommu
                                                         }
                                                         else
                                                         {
+                                                            clsSystem.funWriteExceptionLog("[funStockIn_ItemOnStn]", "預約儲位、更新CMD [Rollback-Start] Cmd_Dtl 失敗", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+
                                                             clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                                             strMessage = "預約儲位-更新Cmd_Dtl 失敗!";
                                                         }
                                                     }
                                                     else
                                                     {
+                                                        clsSystem.funWriteExceptionLog("[funStockIn_ItemOnStn]", "預約儲位、更新CMD [Rollback-Start] Cmd_Mst 失敗", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+
                                                         clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                                         strMessage = "預約儲位-更新CMD_Mst 失敗!";
                                                     }
                                                 }
                                                 else
                                                 {
+                                                    clsSystem.funWriteExceptionLog("[funStockIn_ItemOnStn]", "預約儲位、更新CMD [Rollback-Start] Loc_Mst 失敗", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+
                                                     clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                                     strMessage = "預約儲位-更新Loc_Mst 失敗!";
                                                 }
@@ -1562,6 +1588,8 @@ namespace Mirle.WinPLCCommu
 
                                     #region 更新Trace 和 新增EQUCMD
 
+                                    clsSystem.funWriteExceptionLog("[funStockIn_ReleaseCraneCmd]", "更新Trace 和 新增EQUCMD [Begin-Start]", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+
                                     if (clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin, ref strEM) == ErrDef.ProcSuccess)
                                     {
                                         if (funUpdateCmdTrace(strCmdSno, clsCmdSts.cstrCmdSts_Start, clsTrace.cstrStoreInTrace_ReleaseCraneCmd))
@@ -1570,7 +1598,8 @@ namespace Mirle.WinPLCCommu
                                             {
                                                 //清除字幕機 By Leon 
                                                 funMvsData(strStnNo, strCmdSno, "2", "0", "", true);
-                                                clsSystem.funWriteExceptionLog("清除字幕機:  ", "funMvsData:-----2 :  " + strStnNo, SystemTraceLog.LogMessage);
+                                                //clsSystem.funWriteExceptionLog("清除字幕機:  ", "funMvsData:-----2 :  " + strStnNo, SystemTraceLog.LogMessage);
+                                                clsSystem.funWriteExceptionLog("[funStockIn_ReleaseCraneCmd]", "更新Trace 和 新增EQUCMD [Commit-Start]", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
 
                                                 clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
                                                 SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
@@ -1582,6 +1611,8 @@ namespace Mirle.WinPLCCommu
                                             }
                                             else
                                             {
+                                                clsSystem.funWriteExceptionLog("[funStockIn_ReleaseCraneCmd]", "更新Trace 和 新增EQUCMD  [Rollback-Start] Release Equ Cmd Fail! ", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+
                                                 clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                                 SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                                 SystemTraceLog.LogMessage = "Release Equ Cmd Fail!";
@@ -1593,6 +1624,8 @@ namespace Mirle.WinPLCCommu
                                         }
                                         else
                                         {
+                                            clsSystem.funWriteExceptionLog("[funStockIn_ReleaseCraneCmd]", "更新Trace 和 新增EQUCMD [Rollback-Start] Update Cmd Trace Fail! ", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+
                                             clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                             SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                             SystemTraceLog.LogMessage = "Update Cmd Trace Fail!";
@@ -1635,6 +1668,8 @@ namespace Mirle.WinPLCCommu
                 {
                     if (clsSystem.intBegin == 1)
                         clsSystem.intBegin = 0;
+                    clsSystem.funWriteExceptionLog("[funStockIn_ReleaseCraneCmd]", "更新Trace 和 新增EQUCMD Exception [Rollback-Start]", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+
                     clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                     var varObject = MethodBase.GetCurrentMethod();
                     clsSystem.funWriteExceptionLog(varObject.DeclaringType.FullName, varObject.Name, ex.Data.ToString());

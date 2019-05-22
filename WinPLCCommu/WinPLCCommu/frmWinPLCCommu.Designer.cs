@@ -137,29 +137,6 @@
             this.uclBuffer_A18 = new Mirle.WinPLCCommu.uclBuffer();
             this.uclBuffer_A19 = new Mirle.WinPLCCommu.uclBuffer();
             this.uclBuffer_A20 = new Mirle.WinPLCCommu.uclBuffer();
-            this.tbpASRS_A = new System.Windows.Forms.TabPage();
-            this.tlpASRS_A = new System.Windows.Forms.TableLayoutPanel();
-            this.uclBuffer_A01_1_1 = new Mirle.WinPLCCommu.uclBuffer();
-            this.uclBuffer_A01_1_L = new Mirle.WinPLCCommu.uclBuffer();
-            this.uclBuffer_A01_2_L = new Mirle.WinPLCCommu.uclBuffer();
-            this.uclBuffer_A01_2_1 = new Mirle.WinPLCCommu.uclBuffer();
-            this.uclBuffer_A01_3_L = new Mirle.WinPLCCommu.uclBuffer();
-            this.uclBuffer_A01_3_1 = new Mirle.WinPLCCommu.uclBuffer();
-            this.uclBuffer_A01_4_L = new Mirle.WinPLCCommu.uclBuffer();
-            this.uclBuffer_A01_4_1 = new Mirle.WinPLCCommu.uclBuffer();
-            this.ptbA02 = new System.Windows.Forms.PictureBox();
-            this.ptbA04 = new System.Windows.Forms.PictureBox();
-            this.uclBuffer_A01_5_1 = new Mirle.WinPLCCommu.uclBuffer();
-            this.uclBuffer_A01_5_L = new Mirle.WinPLCCommu.uclBuffer();
-            this.uclBuffer_A01_6_1 = new Mirle.WinPLCCommu.uclBuffer();
-            this.uclBuffer_A01_6_L = new Mirle.WinPLCCommu.uclBuffer();
-            this.ptbA06 = new System.Windows.Forms.PictureBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.ptbA01 = new System.Windows.Forms.PictureBox();
-            this.ptbA03 = new System.Windows.Forms.PictureBox();
-            this.ptbA05 = new System.Windows.Forms.PictureBox();
             this.tbpSystem = new System.Windows.Forms.TabPage();
             this.sctSystem = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -212,14 +189,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox20)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox21)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox22)).BeginInit();
-            this.tbpASRS_A.SuspendLayout();
-            this.tlpASRS_A.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ptbA02)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ptbA04)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ptbA06)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ptbA01)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ptbA03)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ptbA05)).BeginInit();
             this.tbpSystem.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sctSystem)).BeginInit();
             this.sctSystem.Panel1.SuspendLayout();
@@ -631,7 +600,6 @@
             // tbcMain
             // 
             this.tbcMain.Controls.Add(this.tbpASRS_1F_MRS);
-            this.tbcMain.Controls.Add(this.tbpASRS_A);
             this.tbcMain.Controls.Add(this.tbpSystem);
             this.tbcMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbcMain.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -794,7 +762,7 @@
             this.uclBuffer_A21.Manual = false;
             this.uclBuffer_A21.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A21.Name = "uclBuffer_A21";
-            this.uclBuffer_A21.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A21.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A21.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A21.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A21.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -826,7 +794,7 @@
             this.uclBuffer_A22.Manual = false;
             this.uclBuffer_A22.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A22.Name = "uclBuffer_A22";
-            this.uclBuffer_A22.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A22.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A22.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A22.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A22.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -858,7 +826,7 @@
             this.uclBuffer_A24.Manual = false;
             this.uclBuffer_A24.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A24.Name = "uclBuffer_A24";
-            this.uclBuffer_A24.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A24.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A24.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A24.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A24.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -890,7 +858,7 @@
             this.uclBuffer_A23.Manual = false;
             this.uclBuffer_A23.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A23.Name = "uclBuffer_A23";
-            this.uclBuffer_A23.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A23.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A23.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A23.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A23.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -922,7 +890,7 @@
             this.uclBuffer_A26.Manual = false;
             this.uclBuffer_A26.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A26.Name = "uclBuffer_A26";
-            this.uclBuffer_A26.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A26.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A26.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A26.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A26.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -954,7 +922,7 @@
             this.uclBuffer_A25.Manual = false;
             this.uclBuffer_A25.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A25.Name = "uclBuffer_A25";
-            this.uclBuffer_A25.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A25.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A25.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A25.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A25.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -986,7 +954,7 @@
             this.uclBuffer_A28.Manual = false;
             this.uclBuffer_A28.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A28.Name = "uclBuffer_A28";
-            this.uclBuffer_A28.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A28.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A28.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A28.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A28.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -1018,7 +986,7 @@
             this.uclBuffer_A27.Manual = false;
             this.uclBuffer_A27.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A27.Name = "uclBuffer_A27";
-            this.uclBuffer_A27.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A27.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A27.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A27.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A27.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -1050,7 +1018,7 @@
             this.uclBuffer_A29.Manual = false;
             this.uclBuffer_A29.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A29.Name = "uclBuffer_A29";
-            this.uclBuffer_A29.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A29.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A29.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A29.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A29.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -1082,7 +1050,7 @@
             this.uclBuffer_A30.Manual = false;
             this.uclBuffer_A30.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A30.Name = "uclBuffer_A30";
-            this.uclBuffer_A30.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A30.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A30.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A30.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A30.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -1114,7 +1082,7 @@
             this.uclBuffer_A31.Manual = false;
             this.uclBuffer_A31.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A31.Name = "uclBuffer_A31";
-            this.uclBuffer_A31.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A31.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A31.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A31.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A31.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -1146,7 +1114,7 @@
             this.uclBuffer_A32.Manual = false;
             this.uclBuffer_A32.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A32.Name = "uclBuffer_A32";
-            this.uclBuffer_A32.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A32.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A32.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A32.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A32.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -1617,7 +1585,7 @@
             this.uclBuffer_A33.Manual = false;
             this.uclBuffer_A33.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A33.Name = "uclBuffer_A33";
-            this.uclBuffer_A33.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A33.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A33.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A33.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A33.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -1648,7 +1616,7 @@
             this.uclBuffer_A34.Manual = false;
             this.uclBuffer_A34.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A34.Name = "uclBuffer_A34";
-            this.uclBuffer_A34.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A34.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A34.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A34.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A34.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -1679,7 +1647,7 @@
             this.uclBuffer_A35.Manual = false;
             this.uclBuffer_A35.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A35.Name = "uclBuffer_A35";
-            this.uclBuffer_A35.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A35.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A35.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A35.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A35.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -1710,7 +1678,7 @@
             this.uclBuffer_A36.Manual = false;
             this.uclBuffer_A36.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A36.Name = "uclBuffer_A36";
-            this.uclBuffer_A36.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A36.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A36.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A36.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A36.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -1741,7 +1709,7 @@
             this.uclBuffer_A37.Manual = false;
             this.uclBuffer_A37.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A37.Name = "uclBuffer_A37";
-            this.uclBuffer_A37.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A37.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A37.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A37.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A37.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -1772,7 +1740,7 @@
             this.uclBuffer_A38.Manual = false;
             this.uclBuffer_A38.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A38.Name = "uclBuffer_A38";
-            this.uclBuffer_A38.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A38.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A38.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A38.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A38.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -1803,7 +1771,7 @@
             this.uclBuffer_A39.Manual = false;
             this.uclBuffer_A39.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A39.Name = "uclBuffer_A39";
-            this.uclBuffer_A39.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A39.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A39.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A39.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A39.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -1834,7 +1802,7 @@
             this.uclBuffer_A40.Manual = false;
             this.uclBuffer_A40.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A40.Name = "uclBuffer_A40";
-            this.uclBuffer_A40.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A40.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A40.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A40.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A40.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -1865,7 +1833,7 @@
             this.uclBuffer_A41.Manual = false;
             this.uclBuffer_A41.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A41.Name = "uclBuffer_A41";
-            this.uclBuffer_A41.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A41.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A41.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A41.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A41.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -1896,7 +1864,7 @@
             this.uclBuffer_A42.Manual = false;
             this.uclBuffer_A42.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A42.Name = "uclBuffer_A42";
-            this.uclBuffer_A42.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A42.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A42.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A42.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A42.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -1927,7 +1895,7 @@
             this.uclBuffer_A43.Manual = false;
             this.uclBuffer_A43.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A43.Name = "uclBuffer_A43";
-            this.uclBuffer_A43.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A43.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A43.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A43.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A43.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -1958,7 +1926,7 @@
             this.uclBuffer_A44.Manual = false;
             this.uclBuffer_A44.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A44.Name = "uclBuffer_A44";
-            this.uclBuffer_A44.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A44.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A44.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A44.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A44.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -1989,7 +1957,7 @@
             this.uclBuffer_A01.Manual = false;
             this.uclBuffer_A01.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A01.Name = "uclBuffer_A01";
-            this.uclBuffer_A01.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A01.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A01.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A01.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A01.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -2020,7 +1988,7 @@
             this.uclBuffer_A02.Manual = false;
             this.uclBuffer_A02.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A02.Name = "uclBuffer_A02";
-            this.uclBuffer_A02.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A02.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A02.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A02.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A02.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -2051,7 +2019,7 @@
             this.uclBuffer_A03.Manual = false;
             this.uclBuffer_A03.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A03.Name = "uclBuffer_A03";
-            this.uclBuffer_A03.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A03.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A03.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A03.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A03.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -2082,7 +2050,7 @@
             this.uclBuffer_A04.Manual = false;
             this.uclBuffer_A04.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A04.Name = "uclBuffer_A04";
-            this.uclBuffer_A04.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A04.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A04.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A04.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A04.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -2113,7 +2081,7 @@
             this.uclBuffer_A05.Manual = false;
             this.uclBuffer_A05.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A05.Name = "uclBuffer_A05";
-            this.uclBuffer_A05.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A05.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A05.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A05.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A05.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -2144,7 +2112,7 @@
             this.uclBuffer_A06.Manual = false;
             this.uclBuffer_A06.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A06.Name = "uclBuffer_A06";
-            this.uclBuffer_A06.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A06.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A06.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A06.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A06.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -2175,7 +2143,7 @@
             this.uclBuffer_A07.Manual = false;
             this.uclBuffer_A07.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A07.Name = "uclBuffer_A07";
-            this.uclBuffer_A07.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A07.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A07.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A07.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A07.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -2206,7 +2174,7 @@
             this.uclBuffer_A08.Manual = false;
             this.uclBuffer_A08.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A08.Name = "uclBuffer_A08";
-            this.uclBuffer_A08.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A08.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A08.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A08.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A08.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -2237,7 +2205,7 @@
             this.uclBuffer_A09.Manual = false;
             this.uclBuffer_A09.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A09.Name = "uclBuffer_A09";
-            this.uclBuffer_A09.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A09.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A09.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A09.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A09.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -2268,7 +2236,7 @@
             this.uclBuffer_A10.Manual = false;
             this.uclBuffer_A10.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A10.Name = "uclBuffer_A10";
-            this.uclBuffer_A10.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A10.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A10.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A10.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A10.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -2299,7 +2267,7 @@
             this.uclBuffer_A11.Manual = false;
             this.uclBuffer_A11.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A11.Name = "uclBuffer_A11";
-            this.uclBuffer_A11.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A11.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A11.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A11.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A11.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -2330,7 +2298,7 @@
             this.uclBuffer_A12.Manual = false;
             this.uclBuffer_A12.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A12.Name = "uclBuffer_A12";
-            this.uclBuffer_A12.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A12.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A12.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A12.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A12.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -2361,7 +2329,7 @@
             this.uclBuffer_A13.Manual = false;
             this.uclBuffer_A13.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A13.Name = "uclBuffer_A13";
-            this.uclBuffer_A13.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A13.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A13.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A13.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A13.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -2392,7 +2360,7 @@
             this.uclBuffer_A14.Manual = false;
             this.uclBuffer_A14.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A14.Name = "uclBuffer_A14";
-            this.uclBuffer_A14.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A14.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A14.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A14.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A14.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -2423,7 +2391,7 @@
             this.uclBuffer_A15.Manual = false;
             this.uclBuffer_A15.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A15.Name = "uclBuffer_A15";
-            this.uclBuffer_A15.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A15.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A15.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A15.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A15.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -2454,7 +2422,7 @@
             this.uclBuffer_A16.Manual = false;
             this.uclBuffer_A16.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A16.Name = "uclBuffer_A16";
-            this.uclBuffer_A16.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A16.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A16.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A16.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A16.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -2485,7 +2453,7 @@
             this.uclBuffer_A17.Manual = false;
             this.uclBuffer_A17.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A17.Name = "uclBuffer_A17";
-            this.uclBuffer_A17.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A17.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A17.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A17.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A17.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -2516,7 +2484,7 @@
             this.uclBuffer_A18.Manual = false;
             this.uclBuffer_A18.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A18.Name = "uclBuffer_A18";
-            this.uclBuffer_A18.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A18.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A18.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A18.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A18.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -2547,7 +2515,7 @@
             this.uclBuffer_A19.Manual = false;
             this.uclBuffer_A19.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A19.Name = "uclBuffer_A19";
-            this.uclBuffer_A19.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A19.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A19.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A19.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A19.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -2578,7 +2546,7 @@
             this.uclBuffer_A20.Manual = false;
             this.uclBuffer_A20.Margin = new System.Windows.Forms.Padding(0);
             this.uclBuffer_A20.Name = "uclBuffer_A20";
-            this.uclBuffer_A20.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer_A20.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer_A20.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
             this.uclBuffer_A20.ReadNoticeColor = System.Drawing.Color.White;
             this.uclBuffer_A20.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
@@ -2590,583 +2558,6 @@
             this.uclBuffer_A20.StnMode = Mirle.WinPLCCommu.uclBuffer.enuStnMode.None;
             this.uclBuffer_A20.StnModeColor = System.Drawing.Color.White;
             this.uclBuffer_A20.TabIndex = 161;
-            // 
-            // tbpASRS_A
-            // 
-            this.tbpASRS_A.AutoScroll = true;
-            this.tbpASRS_A.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.tbpASRS_A.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.tbpASRS_A.Controls.Add(this.tlpASRS_A);
-            this.tbpASRS_A.Location = new System.Drawing.Point(4, 27);
-            this.tbpASRS_A.Name = "tbpASRS_A";
-            this.tbpASRS_A.Padding = new System.Windows.Forms.Padding(3);
-            this.tbpASRS_A.Size = new System.Drawing.Size(1546, 587);
-            this.tbpASRS_A.TabIndex = 0;
-            this.tbpASRS_A.Text = " ASRS 2F(A區)";
-            // 
-            // tlpASRS_A
-            // 
-            this.tlpASRS_A.ColumnCount = 13;
-            this.tlpASRS_A.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.32753F));
-            this.tlpASRS_A.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 86F));
-            this.tlpASRS_A.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
-            this.tlpASRS_A.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 86F));
-            this.tlpASRS_A.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.059235F));
-            this.tlpASRS_A.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 86F));
-            this.tlpASRS_A.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
-            this.tlpASRS_A.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 86F));
-            this.tlpASRS_A.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.059235F));
-            this.tlpASRS_A.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 86F));
-            this.tlpASRS_A.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
-            this.tlpASRS_A.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 86F));
-            this.tlpASRS_A.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.554F));
-            this.tlpASRS_A.Controls.Add(this.uclBuffer_A01_1_1, 1, 3);
-            this.tlpASRS_A.Controls.Add(this.uclBuffer_A01_1_L, 1, 2);
-            this.tlpASRS_A.Controls.Add(this.uclBuffer_A01_2_L, 3, 2);
-            this.tlpASRS_A.Controls.Add(this.uclBuffer_A01_2_1, 3, 3);
-            this.tlpASRS_A.Controls.Add(this.uclBuffer_A01_3_L, 5, 2);
-            this.tlpASRS_A.Controls.Add(this.uclBuffer_A01_3_1, 5, 3);
-            this.tlpASRS_A.Controls.Add(this.uclBuffer_A01_4_L, 7, 2);
-            this.tlpASRS_A.Controls.Add(this.uclBuffer_A01_4_1, 7, 3);
-            this.tlpASRS_A.Controls.Add(this.ptbA02, 3, 4);
-            this.tlpASRS_A.Controls.Add(this.ptbA04, 7, 4);
-            this.tlpASRS_A.Controls.Add(this.uclBuffer_A01_5_1, 9, 3);
-            this.tlpASRS_A.Controls.Add(this.uclBuffer_A01_5_L, 9, 2);
-            this.tlpASRS_A.Controls.Add(this.uclBuffer_A01_6_1, 11, 3);
-            this.tlpASRS_A.Controls.Add(this.uclBuffer_A01_6_L, 11, 2);
-            this.tlpASRS_A.Controls.Add(this.ptbA06, 11, 4);
-            this.tlpASRS_A.Controls.Add(this.label3, 2, 1);
-            this.tlpASRS_A.Controls.Add(this.label2, 6, 1);
-            this.tlpASRS_A.Controls.Add(this.label1, 10, 1);
-            this.tlpASRS_A.Controls.Add(this.ptbA01, 1, 4);
-            this.tlpASRS_A.Controls.Add(this.ptbA03, 5, 4);
-            this.tlpASRS_A.Controls.Add(this.ptbA05, 9, 4);
-            this.tlpASRS_A.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpASRS_A.Location = new System.Drawing.Point(3, 3);
-            this.tlpASRS_A.Name = "tlpASRS_A";
-            this.tlpASRS_A.RowCount = 7;
-            this.tlpASRS_A.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpASRS_A.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 68F));
-            this.tlpASRS_A.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 68F));
-            this.tlpASRS_A.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 68F));
-            this.tlpASRS_A.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 41F));
-            this.tlpASRS_A.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 68F));
-            this.tlpASRS_A.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpASRS_A.Size = new System.Drawing.Size(1536, 577);
-            this.tlpASRS_A.TabIndex = 0;
-            // 
-            // uclBuffer_A01_1_1
-            // 
-            this.uclBuffer_A01_1_1.Auto = false;
-            this.uclBuffer_A01_1_1.BackColor = System.Drawing.Color.Transparent;
-            this.uclBuffer_A01_1_1.BufferName = "A01-1-1";
-            this.uclBuffer_A01_1_1.BufferNameColor = System.Drawing.Color.Green;
-            this.uclBuffer_A01_1_1.CargoLoad = false;
-            this.uclBuffer_A01_1_1.CmdMode = Mirle.WinPLCCommu.uclBuffer.enuCmdMode.None;
-            this.uclBuffer_A01_1_1.CmdModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_1_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uclBuffer_A01_1_1.Error = "";
-            this.uclBuffer_A01_1_1.FunNotice = false;
-            this.uclBuffer_A01_1_1.FunNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_1_1.LeftCmdSno = "";
-            this.uclBuffer_A01_1_1.LeftCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_1_1.Location = new System.Drawing.Point(339, 268);
-            this.uclBuffer_A01_1_1.Manual = false;
-            this.uclBuffer_A01_1_1.Margin = new System.Windows.Forms.Padding(0);
-            this.uclBuffer_A01_1_1.Name = "uclBuffer_A01_1_1";
-            this.uclBuffer_A01_1_1.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
-            this.uclBuffer_A01_1_1.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
-            this.uclBuffer_A01_1_1.ReadNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_1_1.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
-            this.uclBuffer_A01_1_1.ReadyColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_1_1.RightCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_1_1.RightLoad = false;
-            this.uclBuffer_A01_1_1.Size = new System.Drawing.Size(86, 68);
-            this.uclBuffer_A01_1_1.StnChange = Mirle.WinPLCCommu.uclBuffer.enuStnChange.None;
-            this.uclBuffer_A01_1_1.StnMode = Mirle.WinPLCCommu.uclBuffer.enuStnMode.None;
-            this.uclBuffer_A01_1_1.StnModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_1_1.TabIndex = 0;
-            // 
-            // uclBuffer_A01_1_L
-            // 
-            this.uclBuffer_A01_1_L.Auto = false;
-            this.uclBuffer_A01_1_L.BackColor = System.Drawing.Color.Transparent;
-            this.uclBuffer_A01_1_L.BufferName = "A01-1-L";
-            this.uclBuffer_A01_1_L.BufferNameColor = System.Drawing.Color.Green;
-            this.uclBuffer_A01_1_L.CargoLoad = false;
-            this.uclBuffer_A01_1_L.CmdMode = Mirle.WinPLCCommu.uclBuffer.enuCmdMode.None;
-            this.uclBuffer_A01_1_L.CmdModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_1_L.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uclBuffer_A01_1_L.Error = "";
-            this.uclBuffer_A01_1_L.FunNotice = false;
-            this.uclBuffer_A01_1_L.FunNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_1_L.LeftCmdSno = "";
-            this.uclBuffer_A01_1_L.LeftCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_1_L.Location = new System.Drawing.Point(339, 200);
-            this.uclBuffer_A01_1_L.Manual = false;
-            this.uclBuffer_A01_1_L.Margin = new System.Windows.Forms.Padding(0);
-            this.uclBuffer_A01_1_L.Name = "uclBuffer_A01_1_L";
-            this.uclBuffer_A01_1_L.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
-            this.uclBuffer_A01_1_L.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
-            this.uclBuffer_A01_1_L.ReadNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_1_L.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
-            this.uclBuffer_A01_1_L.ReadyColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_1_L.RightCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_1_L.RightLoad = false;
-            this.uclBuffer_A01_1_L.Size = new System.Drawing.Size(86, 68);
-            this.uclBuffer_A01_1_L.StnChange = Mirle.WinPLCCommu.uclBuffer.enuStnChange.None;
-            this.uclBuffer_A01_1_L.StnMode = Mirle.WinPLCCommu.uclBuffer.enuStnMode.None;
-            this.uclBuffer_A01_1_L.StnModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_1_L.TabIndex = 1;
-            // 
-            // uclBuffer_A01_2_L
-            // 
-            this.uclBuffer_A01_2_L.Auto = false;
-            this.uclBuffer_A01_2_L.BackColor = System.Drawing.Color.Transparent;
-            this.uclBuffer_A01_2_L.BufferName = "A01-2-L";
-            this.uclBuffer_A01_2_L.BufferNameColor = System.Drawing.Color.Green;
-            this.uclBuffer_A01_2_L.CargoLoad = false;
-            this.uclBuffer_A01_2_L.CmdMode = Mirle.WinPLCCommu.uclBuffer.enuCmdMode.None;
-            this.uclBuffer_A01_2_L.CmdModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_2_L.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uclBuffer_A01_2_L.Error = "";
-            this.uclBuffer_A01_2_L.FunNotice = false;
-            this.uclBuffer_A01_2_L.FunNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_2_L.LeftCmdSno = "";
-            this.uclBuffer_A01_2_L.LeftCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_2_L.Location = new System.Drawing.Point(470, 200);
-            this.uclBuffer_A01_2_L.Manual = false;
-            this.uclBuffer_A01_2_L.Margin = new System.Windows.Forms.Padding(0);
-            this.uclBuffer_A01_2_L.Name = "uclBuffer_A01_2_L";
-            this.uclBuffer_A01_2_L.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
-            this.uclBuffer_A01_2_L.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
-            this.uclBuffer_A01_2_L.ReadNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_2_L.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
-            this.uclBuffer_A01_2_L.ReadyColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_2_L.RightCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_2_L.RightLoad = false;
-            this.uclBuffer_A01_2_L.Size = new System.Drawing.Size(86, 68);
-            this.uclBuffer_A01_2_L.StnChange = Mirle.WinPLCCommu.uclBuffer.enuStnChange.None;
-            this.uclBuffer_A01_2_L.StnMode = Mirle.WinPLCCommu.uclBuffer.enuStnMode.None;
-            this.uclBuffer_A01_2_L.StnModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_2_L.TabIndex = 9;
-            // 
-            // uclBuffer_A01_2_1
-            // 
-            this.uclBuffer_A01_2_1.Auto = false;
-            this.uclBuffer_A01_2_1.BackColor = System.Drawing.Color.Transparent;
-            this.uclBuffer_A01_2_1.BufferName = "A01-2-1";
-            this.uclBuffer_A01_2_1.BufferNameColor = System.Drawing.Color.Green;
-            this.uclBuffer_A01_2_1.CargoLoad = false;
-            this.uclBuffer_A01_2_1.CmdMode = Mirle.WinPLCCommu.uclBuffer.enuCmdMode.None;
-            this.uclBuffer_A01_2_1.CmdModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_2_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uclBuffer_A01_2_1.Error = "";
-            this.uclBuffer_A01_2_1.FunNotice = false;
-            this.uclBuffer_A01_2_1.FunNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_2_1.LeftCmdSno = "";
-            this.uclBuffer_A01_2_1.LeftCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_2_1.Location = new System.Drawing.Point(470, 268);
-            this.uclBuffer_A01_2_1.Manual = false;
-            this.uclBuffer_A01_2_1.Margin = new System.Windows.Forms.Padding(0);
-            this.uclBuffer_A01_2_1.Name = "uclBuffer_A01_2_1";
-            this.uclBuffer_A01_2_1.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
-            this.uclBuffer_A01_2_1.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
-            this.uclBuffer_A01_2_1.ReadNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_2_1.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
-            this.uclBuffer_A01_2_1.ReadyColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_2_1.RightCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_2_1.RightLoad = false;
-            this.uclBuffer_A01_2_1.Size = new System.Drawing.Size(86, 68);
-            this.uclBuffer_A01_2_1.StnChange = Mirle.WinPLCCommu.uclBuffer.enuStnChange.None;
-            this.uclBuffer_A01_2_1.StnMode = Mirle.WinPLCCommu.uclBuffer.enuStnMode.None;
-            this.uclBuffer_A01_2_1.StnModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_2_1.TabIndex = 10;
-            // 
-            // uclBuffer_A01_3_L
-            // 
-            this.uclBuffer_A01_3_L.Auto = false;
-            this.uclBuffer_A01_3_L.BackColor = System.Drawing.Color.Transparent;
-            this.uclBuffer_A01_3_L.BufferName = "A01-3-L";
-            this.uclBuffer_A01_3_L.BufferNameColor = System.Drawing.Color.Green;
-            this.uclBuffer_A01_3_L.CargoLoad = false;
-            this.uclBuffer_A01_3_L.CmdMode = Mirle.WinPLCCommu.uclBuffer.enuCmdMode.None;
-            this.uclBuffer_A01_3_L.CmdModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_3_L.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uclBuffer_A01_3_L.Error = "";
-            this.uclBuffer_A01_3_L.FunNotice = false;
-            this.uclBuffer_A01_3_L.FunNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_3_L.LeftCmdSno = "";
-            this.uclBuffer_A01_3_L.LeftCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_3_L.Location = new System.Drawing.Point(636, 200);
-            this.uclBuffer_A01_3_L.Manual = false;
-            this.uclBuffer_A01_3_L.Margin = new System.Windows.Forms.Padding(0);
-            this.uclBuffer_A01_3_L.Name = "uclBuffer_A01_3_L";
-            this.uclBuffer_A01_3_L.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
-            this.uclBuffer_A01_3_L.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
-            this.uclBuffer_A01_3_L.ReadNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_3_L.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
-            this.uclBuffer_A01_3_L.ReadyColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_3_L.RightCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_3_L.RightLoad = false;
-            this.uclBuffer_A01_3_L.Size = new System.Drawing.Size(86, 68);
-            this.uclBuffer_A01_3_L.StnChange = Mirle.WinPLCCommu.uclBuffer.enuStnChange.None;
-            this.uclBuffer_A01_3_L.StnMode = Mirle.WinPLCCommu.uclBuffer.enuStnMode.None;
-            this.uclBuffer_A01_3_L.StnModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_3_L.TabIndex = 12;
-            // 
-            // uclBuffer_A01_3_1
-            // 
-            this.uclBuffer_A01_3_1.Auto = false;
-            this.uclBuffer_A01_3_1.BackColor = System.Drawing.Color.Transparent;
-            this.uclBuffer_A01_3_1.BufferName = "A01-3-1";
-            this.uclBuffer_A01_3_1.BufferNameColor = System.Drawing.Color.Green;
-            this.uclBuffer_A01_3_1.CargoLoad = false;
-            this.uclBuffer_A01_3_1.CmdMode = Mirle.WinPLCCommu.uclBuffer.enuCmdMode.None;
-            this.uclBuffer_A01_3_1.CmdModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_3_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uclBuffer_A01_3_1.Error = "";
-            this.uclBuffer_A01_3_1.FunNotice = false;
-            this.uclBuffer_A01_3_1.FunNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_3_1.LeftCmdSno = "";
-            this.uclBuffer_A01_3_1.LeftCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_3_1.Location = new System.Drawing.Point(636, 268);
-            this.uclBuffer_A01_3_1.Manual = false;
-            this.uclBuffer_A01_3_1.Margin = new System.Windows.Forms.Padding(0);
-            this.uclBuffer_A01_3_1.Name = "uclBuffer_A01_3_1";
-            this.uclBuffer_A01_3_1.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
-            this.uclBuffer_A01_3_1.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
-            this.uclBuffer_A01_3_1.ReadNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_3_1.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
-            this.uclBuffer_A01_3_1.ReadyColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_3_1.RightCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_3_1.RightLoad = false;
-            this.uclBuffer_A01_3_1.Size = new System.Drawing.Size(86, 68);
-            this.uclBuffer_A01_3_1.StnChange = Mirle.WinPLCCommu.uclBuffer.enuStnChange.None;
-            this.uclBuffer_A01_3_1.StnMode = Mirle.WinPLCCommu.uclBuffer.enuStnMode.None;
-            this.uclBuffer_A01_3_1.StnModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_3_1.TabIndex = 11;
-            // 
-            // uclBuffer_A01_4_L
-            // 
-            this.uclBuffer_A01_4_L.Auto = false;
-            this.uclBuffer_A01_4_L.BackColor = System.Drawing.Color.Transparent;
-            this.uclBuffer_A01_4_L.BufferName = "A01-4-L";
-            this.uclBuffer_A01_4_L.BufferNameColor = System.Drawing.Color.Green;
-            this.uclBuffer_A01_4_L.CargoLoad = false;
-            this.uclBuffer_A01_4_L.CmdMode = Mirle.WinPLCCommu.uclBuffer.enuCmdMode.None;
-            this.uclBuffer_A01_4_L.CmdModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_4_L.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uclBuffer_A01_4_L.Error = "";
-            this.uclBuffer_A01_4_L.FunNotice = false;
-            this.uclBuffer_A01_4_L.FunNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_4_L.LeftCmdSno = "";
-            this.uclBuffer_A01_4_L.LeftCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_4_L.Location = new System.Drawing.Point(767, 200);
-            this.uclBuffer_A01_4_L.Manual = false;
-            this.uclBuffer_A01_4_L.Margin = new System.Windows.Forms.Padding(0);
-            this.uclBuffer_A01_4_L.Name = "uclBuffer_A01_4_L";
-            this.uclBuffer_A01_4_L.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
-            this.uclBuffer_A01_4_L.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
-            this.uclBuffer_A01_4_L.ReadNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_4_L.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
-            this.uclBuffer_A01_4_L.ReadyColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_4_L.RightCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_4_L.RightLoad = false;
-            this.uclBuffer_A01_4_L.Size = new System.Drawing.Size(86, 68);
-            this.uclBuffer_A01_4_L.StnChange = Mirle.WinPLCCommu.uclBuffer.enuStnChange.None;
-            this.uclBuffer_A01_4_L.StnMode = Mirle.WinPLCCommu.uclBuffer.enuStnMode.None;
-            this.uclBuffer_A01_4_L.StnModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_4_L.TabIndex = 20;
-            // 
-            // uclBuffer_A01_4_1
-            // 
-            this.uclBuffer_A01_4_1.Auto = false;
-            this.uclBuffer_A01_4_1.BackColor = System.Drawing.Color.Transparent;
-            this.uclBuffer_A01_4_1.BufferName = "A01-4-1";
-            this.uclBuffer_A01_4_1.BufferNameColor = System.Drawing.Color.Green;
-            this.uclBuffer_A01_4_1.CargoLoad = false;
-            this.uclBuffer_A01_4_1.CmdMode = Mirle.WinPLCCommu.uclBuffer.enuCmdMode.None;
-            this.uclBuffer_A01_4_1.CmdModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_4_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uclBuffer_A01_4_1.Error = "";
-            this.uclBuffer_A01_4_1.FunNotice = false;
-            this.uclBuffer_A01_4_1.FunNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_4_1.LeftCmdSno = "";
-            this.uclBuffer_A01_4_1.LeftCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_4_1.Location = new System.Drawing.Point(767, 268);
-            this.uclBuffer_A01_4_1.Manual = false;
-            this.uclBuffer_A01_4_1.Margin = new System.Windows.Forms.Padding(0);
-            this.uclBuffer_A01_4_1.Name = "uclBuffer_A01_4_1";
-            this.uclBuffer_A01_4_1.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
-            this.uclBuffer_A01_4_1.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
-            this.uclBuffer_A01_4_1.ReadNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_4_1.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
-            this.uclBuffer_A01_4_1.ReadyColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_4_1.RightCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_4_1.RightLoad = false;
-            this.uclBuffer_A01_4_1.Size = new System.Drawing.Size(86, 68);
-            this.uclBuffer_A01_4_1.StnChange = Mirle.WinPLCCommu.uclBuffer.enuStnChange.None;
-            this.uclBuffer_A01_4_1.StnMode = Mirle.WinPLCCommu.uclBuffer.enuStnMode.None;
-            this.uclBuffer_A01_4_1.StnModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_4_1.TabIndex = 21;
-            // 
-            // ptbA02
-            // 
-            this.ptbA02.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ptbA02.Image = global::Mirle.WinPLCCommu.Properties.Resources.Top;
-            this.ptbA02.Location = new System.Drawing.Point(470, 336);
-            this.ptbA02.Margin = new System.Windows.Forms.Padding(0);
-            this.ptbA02.Name = "ptbA02";
-            this.ptbA02.Size = new System.Drawing.Size(86, 41);
-            this.ptbA02.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.ptbA02.TabIndex = 60;
-            this.ptbA02.TabStop = false;
-            this.ptbA02.Tag = "IN";
-            this.ptbA02.DoubleClick += new System.EventHandler(this.ptbA02_DoubleClick);
-            // 
-            // ptbA04
-            // 
-            this.ptbA04.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ptbA04.Image = ((System.Drawing.Image)(resources.GetObject("ptbA04.Image")));
-            this.ptbA04.Location = new System.Drawing.Point(767, 336);
-            this.ptbA04.Margin = new System.Windows.Forms.Padding(0);
-            this.ptbA04.Name = "ptbA04";
-            this.ptbA04.Size = new System.Drawing.Size(86, 41);
-            this.ptbA04.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.ptbA04.TabIndex = 61;
-            this.ptbA04.TabStop = false;
-            this.ptbA04.Tag = "IN";
-            this.ptbA04.DoubleClick += new System.EventHandler(this.ptbA04_DoubleClick);
-            // 
-            // uclBuffer_A01_5_1
-            // 
-            this.uclBuffer_A01_5_1.Auto = false;
-            this.uclBuffer_A01_5_1.BackColor = System.Drawing.Color.Transparent;
-            this.uclBuffer_A01_5_1.BufferName = "A01-5-1";
-            this.uclBuffer_A01_5_1.BufferNameColor = System.Drawing.Color.Green;
-            this.uclBuffer_A01_5_1.CargoLoad = false;
-            this.uclBuffer_A01_5_1.CmdMode = Mirle.WinPLCCommu.uclBuffer.enuCmdMode.None;
-            this.uclBuffer_A01_5_1.CmdModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_5_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uclBuffer_A01_5_1.Error = "";
-            this.uclBuffer_A01_5_1.FunNotice = false;
-            this.uclBuffer_A01_5_1.FunNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_5_1.LeftCmdSno = "";
-            this.uclBuffer_A01_5_1.LeftCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_5_1.Location = new System.Drawing.Point(933, 268);
-            this.uclBuffer_A01_5_1.Manual = false;
-            this.uclBuffer_A01_5_1.Margin = new System.Windows.Forms.Padding(0);
-            this.uclBuffer_A01_5_1.Name = "uclBuffer_A01_5_1";
-            this.uclBuffer_A01_5_1.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
-            this.uclBuffer_A01_5_1.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
-            this.uclBuffer_A01_5_1.ReadNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_5_1.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
-            this.uclBuffer_A01_5_1.ReadyColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_5_1.RightCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_5_1.RightLoad = false;
-            this.uclBuffer_A01_5_1.Size = new System.Drawing.Size(86, 68);
-            this.uclBuffer_A01_5_1.StnChange = Mirle.WinPLCCommu.uclBuffer.enuStnChange.None;
-            this.uclBuffer_A01_5_1.StnMode = Mirle.WinPLCCommu.uclBuffer.enuStnMode.None;
-            this.uclBuffer_A01_5_1.StnModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_5_1.TabIndex = 26;
-            // 
-            // uclBuffer_A01_5_L
-            // 
-            this.uclBuffer_A01_5_L.Auto = false;
-            this.uclBuffer_A01_5_L.BackColor = System.Drawing.Color.Transparent;
-            this.uclBuffer_A01_5_L.BufferName = "A01-5-L";
-            this.uclBuffer_A01_5_L.BufferNameColor = System.Drawing.Color.Green;
-            this.uclBuffer_A01_5_L.CargoLoad = false;
-            this.uclBuffer_A01_5_L.CmdMode = Mirle.WinPLCCommu.uclBuffer.enuCmdMode.None;
-            this.uclBuffer_A01_5_L.CmdModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_5_L.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uclBuffer_A01_5_L.Error = "";
-            this.uclBuffer_A01_5_L.FunNotice = false;
-            this.uclBuffer_A01_5_L.FunNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_5_L.LeftCmdSno = "";
-            this.uclBuffer_A01_5_L.LeftCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_5_L.Location = new System.Drawing.Point(933, 200);
-            this.uclBuffer_A01_5_L.Manual = false;
-            this.uclBuffer_A01_5_L.Margin = new System.Windows.Forms.Padding(0);
-            this.uclBuffer_A01_5_L.Name = "uclBuffer_A01_5_L";
-            this.uclBuffer_A01_5_L.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
-            this.uclBuffer_A01_5_L.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
-            this.uclBuffer_A01_5_L.ReadNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_5_L.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
-            this.uclBuffer_A01_5_L.ReadyColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_5_L.RightCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_5_L.RightLoad = false;
-            this.uclBuffer_A01_5_L.Size = new System.Drawing.Size(86, 68);
-            this.uclBuffer_A01_5_L.StnChange = Mirle.WinPLCCommu.uclBuffer.enuStnChange.None;
-            this.uclBuffer_A01_5_L.StnMode = Mirle.WinPLCCommu.uclBuffer.enuStnMode.None;
-            this.uclBuffer_A01_5_L.StnModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_5_L.TabIndex = 25;
-            // 
-            // uclBuffer_A01_6_1
-            // 
-            this.uclBuffer_A01_6_1.Auto = false;
-            this.uclBuffer_A01_6_1.BackColor = System.Drawing.Color.Transparent;
-            this.uclBuffer_A01_6_1.BufferName = "A01-6-1";
-            this.uclBuffer_A01_6_1.BufferNameColor = System.Drawing.Color.Green;
-            this.uclBuffer_A01_6_1.CargoLoad = false;
-            this.uclBuffer_A01_6_1.CmdMode = Mirle.WinPLCCommu.uclBuffer.enuCmdMode.None;
-            this.uclBuffer_A01_6_1.CmdModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_6_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uclBuffer_A01_6_1.Error = "";
-            this.uclBuffer_A01_6_1.FunNotice = false;
-            this.uclBuffer_A01_6_1.FunNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_6_1.LeftCmdSno = "";
-            this.uclBuffer_A01_6_1.LeftCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_6_1.Location = new System.Drawing.Point(1064, 268);
-            this.uclBuffer_A01_6_1.Manual = false;
-            this.uclBuffer_A01_6_1.Margin = new System.Windows.Forms.Padding(0);
-            this.uclBuffer_A01_6_1.Name = "uclBuffer_A01_6_1";
-            this.uclBuffer_A01_6_1.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
-            this.uclBuffer_A01_6_1.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
-            this.uclBuffer_A01_6_1.ReadNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_6_1.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
-            this.uclBuffer_A01_6_1.ReadyColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_6_1.RightCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_6_1.RightLoad = false;
-            this.uclBuffer_A01_6_1.Size = new System.Drawing.Size(86, 68);
-            this.uclBuffer_A01_6_1.StnChange = Mirle.WinPLCCommu.uclBuffer.enuStnChange.None;
-            this.uclBuffer_A01_6_1.StnMode = Mirle.WinPLCCommu.uclBuffer.enuStnMode.None;
-            this.uclBuffer_A01_6_1.StnModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_6_1.TabIndex = 27;
-            // 
-            // uclBuffer_A01_6_L
-            // 
-            this.uclBuffer_A01_6_L.Auto = false;
-            this.uclBuffer_A01_6_L.BackColor = System.Drawing.Color.Transparent;
-            this.uclBuffer_A01_6_L.BufferName = "A01-6-L";
-            this.uclBuffer_A01_6_L.BufferNameColor = System.Drawing.Color.Green;
-            this.uclBuffer_A01_6_L.CargoLoad = false;
-            this.uclBuffer_A01_6_L.CmdMode = Mirle.WinPLCCommu.uclBuffer.enuCmdMode.None;
-            this.uclBuffer_A01_6_L.CmdModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_6_L.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uclBuffer_A01_6_L.Error = "";
-            this.uclBuffer_A01_6_L.FunNotice = false;
-            this.uclBuffer_A01_6_L.FunNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_6_L.LeftCmdSno = "";
-            this.uclBuffer_A01_6_L.LeftCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_6_L.Location = new System.Drawing.Point(1064, 200);
-            this.uclBuffer_A01_6_L.Manual = false;
-            this.uclBuffer_A01_6_L.Margin = new System.Windows.Forms.Padding(0);
-            this.uclBuffer_A01_6_L.Name = "uclBuffer_A01_6_L";
-            this.uclBuffer_A01_6_L.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
-            this.uclBuffer_A01_6_L.ReadNotice = Mirle.WinPLCCommu.uclBuffer.enuReadNotice.None;
-            this.uclBuffer_A01_6_L.ReadNoticeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_6_L.Ready = Mirle.WinPLCCommu.uclBuffer.enuReady.NoReady;
-            this.uclBuffer_A01_6_L.ReadyColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_6_L.RightCmdSnoColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_6_L.RightLoad = false;
-            this.uclBuffer_A01_6_L.Size = new System.Drawing.Size(86, 68);
-            this.uclBuffer_A01_6_L.StnChange = Mirle.WinPLCCommu.uclBuffer.enuStnChange.None;
-            this.uclBuffer_A01_6_L.StnMode = Mirle.WinPLCCommu.uclBuffer.enuStnMode.None;
-            this.uclBuffer_A01_6_L.StnModeColor = System.Drawing.Color.White;
-            this.uclBuffer_A01_6_L.TabIndex = 28;
-            // 
-            // ptbA06
-            // 
-            this.ptbA06.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ptbA06.Image = ((System.Drawing.Image)(resources.GetObject("ptbA06.Image")));
-            this.ptbA06.Location = new System.Drawing.Point(1064, 336);
-            this.ptbA06.Margin = new System.Windows.Forms.Padding(0);
-            this.ptbA06.Name = "ptbA06";
-            this.ptbA06.Size = new System.Drawing.Size(86, 41);
-            this.ptbA06.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.ptbA06.TabIndex = 62;
-            this.ptbA06.TabStop = false;
-            this.ptbA06.Tag = "IN";
-            this.ptbA06.DoubleClick += new System.EventHandler(this.ptbA06_DoubleClick);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Yellow;
-            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(425, 132);
-            this.label3.Margin = new System.Windows.Forms.Padding(0);
-            this.label3.Name = "label3";
-            this.tlpASRS_A.SetRowSpan(this.label3, 2);
-            this.label3.Size = new System.Drawing.Size(45, 136);
-            this.label3.TabIndex = 65;
-            this.label3.Text = "Crane 1";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Yellow;
-            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(722, 132);
-            this.label2.Margin = new System.Windows.Forms.Padding(0);
-            this.label2.Name = "label2";
-            this.tlpASRS_A.SetRowSpan(this.label2, 2);
-            this.label2.Size = new System.Drawing.Size(45, 136);
-            this.label2.TabIndex = 64;
-            this.label2.Text = "Crane 2";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Yellow;
-            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(1019, 132);
-            this.label1.Margin = new System.Windows.Forms.Padding(0);
-            this.label1.Name = "label1";
-            this.tlpASRS_A.SetRowSpan(this.label1, 2);
-            this.label1.Size = new System.Drawing.Size(45, 136);
-            this.label1.TabIndex = 63;
-            this.label1.Text = "Crane 3";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // ptbA01
-            // 
-            this.ptbA01.Image = global::Mirle.WinPLCCommu.Properties.Resources.Bottom;
-            this.ptbA01.Location = new System.Drawing.Point(339, 336);
-            this.ptbA01.Margin = new System.Windows.Forms.Padding(0);
-            this.ptbA01.Name = "ptbA01";
-            this.ptbA01.Size = new System.Drawing.Size(86, 41);
-            this.ptbA01.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.ptbA01.TabIndex = 66;
-            this.ptbA01.TabStop = false;
-            this.ptbA01.Tag = "OUT";
-            this.ptbA01.DoubleClick += new System.EventHandler(this.ptbA01_DoubleClick_1);
-            // 
-            // ptbA03
-            // 
-            this.ptbA03.Image = global::Mirle.WinPLCCommu.Properties.Resources.Bottom;
-            this.ptbA03.Location = new System.Drawing.Point(636, 336);
-            this.ptbA03.Margin = new System.Windows.Forms.Padding(0);
-            this.ptbA03.Name = "ptbA03";
-            this.ptbA03.Size = new System.Drawing.Size(86, 41);
-            this.ptbA03.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.ptbA03.TabIndex = 67;
-            this.ptbA03.TabStop = false;
-            this.ptbA03.Tag = "OUT";
-            this.ptbA03.DoubleClick += new System.EventHandler(this.ptbA03_DoubleClick);
-            // 
-            // ptbA05
-            // 
-            this.ptbA05.Image = global::Mirle.WinPLCCommu.Properties.Resources.Bottom;
-            this.ptbA05.Location = new System.Drawing.Point(933, 336);
-            this.ptbA05.Margin = new System.Windows.Forms.Padding(0);
-            this.ptbA05.Name = "ptbA05";
-            this.ptbA05.Size = new System.Drawing.Size(86, 41);
-            this.ptbA05.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.ptbA05.TabIndex = 68;
-            this.ptbA05.TabStop = false;
-            this.ptbA05.Tag = "OUT";
-            this.ptbA05.DoubleClick += new System.EventHandler(this.ptbA05_DoubleClick);
             // 
             // tbpSystem
             // 
@@ -3478,15 +2869,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox20)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox21)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox22)).EndInit();
-            this.tbpASRS_A.ResumeLayout(false);
-            this.tlpASRS_A.ResumeLayout(false);
-            this.tlpASRS_A.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ptbA02)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ptbA04)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ptbA06)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ptbA01)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ptbA03)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ptbA05)).EndInit();
             this.tbpSystem.ResumeLayout(false);
             this.sctSystem.Panel1.ResumeLayout(false);
             this.sctSystem.Panel1.PerformLayout();
@@ -3530,26 +2912,6 @@
         private System.Windows.Forms.Label lblCmuSts;
         private System.Windows.Forms.Label lblCmuStsLabel;
         private System.Windows.Forms.TabControl tbcMain;
-        private System.Windows.Forms.TabPage tbpASRS_A;
-        private System.Windows.Forms.TableLayoutPanel tlpASRS_A;
-        private uclBuffer uclBuffer_A01_1_1;
-        private uclBuffer uclBuffer_A01_1_L;
-        private uclBuffer uclBuffer_A01_2_L;
-        private uclBuffer uclBuffer_A01_2_1;
-        private uclBuffer uclBuffer_A01_3_1;
-        private uclBuffer uclBuffer_A01_3_L;
-        private uclBuffer uclBuffer_A01_4_L;
-        private uclBuffer uclBuffer_A01_4_1;
-        private uclBuffer uclBuffer_A01_5_L;
-        private uclBuffer uclBuffer_A01_5_1;
-        private uclBuffer uclBuffer_A01_6_1;
-        private uclBuffer uclBuffer_A01_6_L;
-        private System.Windows.Forms.PictureBox ptbA02;
-        private System.Windows.Forms.PictureBox ptbA04;
-        private System.Windows.Forms.PictureBox ptbA06;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TabPage tbpSystem;
         private System.Windows.Forms.SplitContainer sctSystem;
         private System.Windows.Forms.Button btnReconnectDB;
@@ -3578,9 +2940,6 @@
         private System.Windows.Forms.CheckBox chkWeight;
         private System.Windows.Forms.CheckBox chkBCR;
         private System.Windows.Forms.Button btnReconnectWeight;
-        private System.Windows.Forms.PictureBox ptbA01;
-        private System.Windows.Forms.PictureBox ptbA03;
-        private System.Windows.Forms.PictureBox ptbA05;
         private System.Windows.Forms.TabPage tbpASRS_1F_MRS;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private uclBuffer uclBuffer_A21;

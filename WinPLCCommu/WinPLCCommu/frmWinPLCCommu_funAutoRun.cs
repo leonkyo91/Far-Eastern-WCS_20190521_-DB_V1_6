@@ -107,6 +107,7 @@ namespace Mirle.WinPLCCommu
                                             strSQL += "'" + strCmdSno + "', '" + strSNO_I + "', '0', '5', '3', '33', '" + strInSideLoc + "', ";
                                             strSQL += "'" + DateTime.Now.ToString("yyyy/MM/dd") + "', '" + DateTime.Now.ToString("HH:mm:ss") + "', ";
                                             strSQL += "'MainControl', '" + strInSideLocID + "', '0','" + StnDef.StnNo + "','Y')";
+                                            clsSystem.funWriteExceptionLog("[funAutoRunTest1]", " [Begin-Start]", "");
                                             clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin);
                                             if(clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
                                             {
@@ -121,6 +122,7 @@ namespace Mirle.WinPLCCommu
                                                     strSQL += " LOC IN ('" + strInSideLoc + "', '" + strOutSideLoc + "')";
                                                     if(clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
                                                     {
+                                                        clsSystem.funWriteExceptionLog("[funAutoRunTest1]", " [Commit-Start]", "");
                                                         clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
                                                         SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                                         SystemTraceLog.LogMessage = "Create Auto Run Command Success!";
@@ -144,6 +146,7 @@ namespace Mirle.WinPLCCommu
                                                     }
                                                     else
                                                     {
+                                                        clsSystem.funWriteExceptionLog("[funAutoRunTest1]", " [Rollback-Start]", "");
                                                         clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                                         SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                                         SystemTraceLog.LogMessage = "Reserve Auto Run Loc Fail!";
@@ -158,6 +161,7 @@ namespace Mirle.WinPLCCommu
                                                 }
                                                 else
                                                 {
+                                                    clsSystem.funWriteExceptionLog("[funAutoRunTest1]", " [Rollback-Start]", "");
                                                     clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                                     SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                                     SystemTraceLog.LogMessage = "Create Auto Run Command Fail!";
@@ -173,6 +177,7 @@ namespace Mirle.WinPLCCommu
                                             }
                                             else
                                             {
+                                                clsSystem.funWriteExceptionLog("[funAutoRunTest1]", " [Rollback-Start]", "");
                                                 clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                                 SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                                 SystemTraceLog.LogMessage = "Create Auto Run Command Fail!";
@@ -216,6 +221,7 @@ namespace Mirle.WinPLCCommu
             }
             catch(Exception ex)
             {
+                clsSystem.funWriteExceptionLog("[funAutoRunTest1]", " Exception [Rollback-Start]", "");
                 clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                 var varObject = MethodBase.GetCurrentMethod();
                 clsSystem.funWriteExceptionLog(varObject.DeclaringType.FullName, varObject.Name, ex.Message);

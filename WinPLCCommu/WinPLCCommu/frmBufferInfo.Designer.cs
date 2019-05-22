@@ -116,7 +116,7 @@
             // uclBuffer1
             // 
             this.uclBuffer1.Auto = false;
-            this.uclBuffer1.PalletNo = Mirle.WinPLCCommu.uclBuffer.enuPalletNo.None;
+            this.uclBuffer1.OverSize = Mirle.WinPLCCommu.uclBuffer.enuOverSize.None;
             this.uclBuffer1.BackColor = System.Drawing.Color.Transparent;
             this.uclBuffer1.BufferName = "BufName";
             this.uclBuffer1.BufferNameColor = System.Drawing.Color.Green;

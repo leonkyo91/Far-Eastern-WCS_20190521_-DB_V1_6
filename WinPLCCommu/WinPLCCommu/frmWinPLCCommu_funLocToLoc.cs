@@ -91,6 +91,8 @@ namespace Mirle.WinPLCCommu
                         {
                             clsSystem.intBegin = 1;
                             #region 更新Trace 和 EQUCMD
+                            clsSystem.funWriteExceptionLog("[funLocToLoc_ReleaseCraneCmd]", "更新Trace 和 EQUCMD [Begin-Start]", " CmdSno=" + CmdSno.CmdSno);
+
                             if (clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin) == ErrDef.ProcSuccess)
                             {
                                 if (funUpdateCmdTrace(CmdSno.CmdSno, clsCmdSts.cstrCmdSts_Start, clsTrace.cstrLocToLocTrace_ReleaseCraneCmd))
@@ -98,6 +100,7 @@ namespace Mirle.WinPLCCommu
                                     //將命令寫入EQUCMD
                                     if (funInsertLocToLocEquCmd(intCrane, CmdSno.CmdSno, Source, Destination, CmdSno.Priority.ToString()))
                                     {
+                                        clsSystem.funWriteExceptionLog("[funLocToLoc_ReleaseCraneCmd]", "更新Trace 和 EQUCMD [Commit-Start]", " CmdSno=" + CmdSno.CmdSno);
                                         clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
                                         SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                         SystemTraceLog.LogMessage = "Transfer Cmd Initiated!";
@@ -108,6 +111,7 @@ namespace Mirle.WinPLCCommu
                                     }
                                     else
                                     {
+                                        clsSystem.funWriteExceptionLog("[funLocToLoc_ReleaseCraneCmd]", "更新Trace 和 EQUCMD [Rollback-Start] Release Equ Cmd Fail!", " CmdSno=" + CmdSno.CmdSno);
                                         clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                         SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                         SystemTraceLog.LogMessage = "Release Equ Cmd Fail!";
@@ -119,6 +123,8 @@ namespace Mirle.WinPLCCommu
                                 }
                                 else
                                 {
+                                    clsSystem.funWriteExceptionLog("[funLocToLoc_ReleaseCraneCmd]", "更新Trace 和 EQUCMD [Rollback-Start] Update Transfer Cmd Trace Fail!", " CmdSno=" + CmdSno.CmdSno);
+
                                     clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                     SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                     SystemTraceLog.LogMessage = "Update Transfer Cmd Trace Fail!";
@@ -138,6 +144,8 @@ namespace Mirle.WinPLCCommu
             }
             catch(Exception ex)
             {
+                clsSystem.funWriteExceptionLog("[funLocToLoc_ReleaseCraneCmd]", "更新 Trace 和 EQUCMD Exception [Rollback-Start]", "");
+
                 clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                 var varObject = MethodBase.GetCurrentMethod();
                 clsSystem.funWriteExceptionLog(varObject.DeclaringType.FullName, varObject.Name, ex.Message);
@@ -321,6 +329,8 @@ namespace Mirle.WinPLCCommu
             }
             catch(Exception ex)
             {
+                clsSystem.funWriteExceptionLog("[funLocToLoc_ReleaseCraneCmd]", "更新Trace 和 EQUCMD [Rollback-Start] Exception ", "");
+
                 clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                 var varObject = MethodBase.GetCurrentMethod();
                 clsSystem.funWriteExceptionLog(varObject.DeclaringType.FullName, varObject.Name, ex.Message);

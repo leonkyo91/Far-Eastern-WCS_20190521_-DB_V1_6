@@ -43,6 +43,7 @@ namespace Mirle.WinPLCCommu
             }
             catch (Exception ex)
             {
+                clsSystem.funWriteExceptionLog("[funCheckLocMatchCrane]", "Exception [Rollback-Start]", "");
                 clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                 var varObject = MethodBase.GetCurrentMethod();
                 clsSystem.funWriteExceptionLog(varObject.DeclaringType.FullName, varObject.Name, ex.Message);
@@ -425,10 +426,12 @@ namespace Mirle.WinPLCCommu
                         //v1.0.1.1  SQL Plt_Count 加入單引號
                         strSQL += "('" + strCmdSno + "','0',4,'5','" + IOType + "','" + Source + "','" + Destination + "','" + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "','','0','0','WCS','" + objDataTable.Rows[0]["PLT_COUNT"].ToString() + "',";
                         strSQL += "'" + objDataTable.Rows[0]["PLT_ID"].ToString() + "','" + objDataTable.Rows[0]["WEIGHT"].ToString() + "','','" + objDataTable.Rows[0]["Equ_No"].ToString() + "','ASRS')";
-                        
-                           
-                            #region 產生CMD_MST 庫對庫命令
-                            if (clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin, ref strEM) == 0)
+
+
+                        #region 產生CMD_MST 庫對庫命令
+                        clsSystem.funWriteExceptionLog("[funInsertLocToLocCmd]", "產生CMD_MST 庫對庫命令 [Begin-Start]", " CmdSno=" + strCmdSno);
+
+                        if (clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin, ref strEM) == 0)
                             {
                                 if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
                                 {
@@ -443,7 +446,8 @@ namespace Mirle.WinPLCCommu
                                         strSQL += " WHERE LOC_STS='N' AND LOC='" + Destination + "'";
                                         if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
                                         {
-                                            clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
+                                            clsSystem.funWriteExceptionLog("[funInsertLocToLocCmd]", "產生CMD_MST 庫對庫命令 [Commit-Start]", " CmdSno=" + strCmdSno);
+                                        clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
                                             SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                             SystemTraceLog.LogMessage = "Create Loc To Loc Command Success!";
                                             SystemTraceLog.LeftCmdSno = strCmdSno;
@@ -455,6 +459,7 @@ namespace Mirle.WinPLCCommu
                                         }
                                         else
                                         {
+                                            clsSystem.funWriteExceptionLog("[funInsertLocToLocCmd]", "產生CMD_MST 庫對庫命令 [Rollback-Start] Reserve Loc Fail!", " CmdSno=" + strCmdSno);
                                             clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                             SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                             SystemTraceLog.LogMessage = "Reserve Loc Fail!";
@@ -469,7 +474,9 @@ namespace Mirle.WinPLCCommu
                                     }
                                     else
                                     {
-                                        clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
+                                    clsSystem.funWriteExceptionLog("[funInsertLocToLocCmd]", "產生CMD_MST 庫對庫命令 [Rollback-Start] Reserve Loc Fail!", " CmdSno=" + strCmdSno);
+
+                                    clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                         SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                         SystemTraceLog.LogMessage = "Reserve Loc Fail!";
                                         SystemTraceLog.LeftCmdSno = strCmdSno;
@@ -557,7 +564,9 @@ namespace Mirle.WinPLCCommu
                                 }
                                 else
                                 {
-                                    clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
+                                    clsSystem.funWriteExceptionLog("[funInsertLocToLocCmd]", "產生CMD_MST 庫對庫命令 [Rollback-Start]Create Loc To Loc Command Fail!", " CmdSno=" + strCmdSno);
+
+                                clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                     SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                     SystemTraceLog.LogMessage = "Create Loc To Loc Command Fail!";
                                     SystemTraceLog.LeftCmdSno = strCmdSno;
@@ -596,6 +605,8 @@ namespace Mirle.WinPLCCommu
             }
             catch (Exception ex)
             {
+                clsSystem.funWriteExceptionLog("[funInsertLocToLocCmd]", "產生CMD_MST 庫對庫命令 Exception [Rollback-Start]", " CmdSno=" + strCmdSno);
+
                 clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                 var varObject = MethodBase.GetCurrentMethod();
                 clsSystem.funWriteExceptionLog(varObject.DeclaringType.FullName, varObject.Name, ex.Message+":"+ex.Data);
@@ -654,8 +665,9 @@ namespace Mirle.WinPLCCommu
                         
                 if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
                 {
-                                
-                                        clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
+                    clsSystem.funWriteExceptionLog("[funInsertEmptyPltInCmd]", "產生CMD_MST 棧板入庫命令 [Commit-Start]", " CmdSno=" + CMDSNO);
+
+                    clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
                                         SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                         SystemTraceLog.LogMessage = "Create Empty Pallets Stock In Success!";
                                         SystemTraceLog.LeftCmdSno = CMDSNO;
@@ -665,7 +677,8 @@ namespace Mirle.WinPLCCommu
                 }
                 else
                 {
-                                clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
+                    clsSystem.funWriteExceptionLog("[funInsertEmptyPltInCmd]", "產生CMD_MST 棧板入庫命令 [Rollback-Start] Create Empty Pallets Stock In Command Fail", " CmdSno=" + CMDSNO);
+                    clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                 SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                 SystemTraceLog.LogMessage = "Create Empty Pallets Stock In Command Fail!";
                                 SystemTraceLog.LeftCmdSno = CMDSNO;
@@ -680,6 +693,8 @@ namespace Mirle.WinPLCCommu
             }
             catch (Exception ex)
             {
+                clsSystem.funWriteExceptionLog("[funInsertEmptyPltInCmd]", "產生CMD_MST 棧板入庫命令 Exception [Rollback-Start] ", " CmdSno=" + CMDSNO);
+
                 clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                 var varObject = MethodBase.GetCurrentMethod();
                 clsSystem.funWriteExceptionLog(varObject.DeclaringType.FullName, varObject.Name, ex.Message + ":" + ex.Data);
@@ -754,6 +769,8 @@ namespace Mirle.WinPLCCommu
                     strSQL += " '" + DateTime.Now.ToString("yyyy/MM/dd") + "', '" + DateTime.Now.ToString("HH:mm:ss") + "', 'MainControl',";
                     strSQL += " '" + strLocID_L + "', '0', '')";
                     #region 產生庫對庫命令 CMD_MST
+                    clsSystem.funWriteExceptionLog("[funInsertLotToLocCmd]", "產生庫對庫命令 CMD_MST [Begin-Start] ", " CmdSno=" + strCmdSno);
+
                     if (clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin) == ErrDef.ProcSuccess)
                     {
                         if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
@@ -776,6 +793,8 @@ namespace Mirle.WinPLCCommu
                                             strSQL = "UPDATE LOC_MST SET LOCSTS='I',OLDSTS='N' WHERE LOCSTS='N' AND LOC='" + ToLoc_R + "'";
                                             if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
                                             {
+                                                clsSystem.funWriteExceptionLog("[funInsertLotToLocCmd]", "產生庫對庫命令 CMD_MST [Commit-Start] ", " CmdSno=" + strCmdSno);
+
                                                 clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
                                                 SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                                 SystemTraceLog.LogMessage = "Create Loc To Loc Command Success!";
@@ -788,6 +807,8 @@ namespace Mirle.WinPLCCommu
                                             }
                                             else
                                             {
+                                                clsSystem.funWriteExceptionLog("[funInsertLotToLocCmd]", "產生庫對庫命令 CMD_MST [Rollback-Start] Reserve Loc Fail!", " CmdSno=" + strCmdSno);
+
                                                 clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                                 SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                                 SystemTraceLog.LogMessage = "Reserve Loc Fail!";
@@ -801,6 +822,8 @@ namespace Mirle.WinPLCCommu
                                         }
                                         else
                                         {
+                                            clsSystem.funWriteExceptionLog("[funInsertLotToLocCmd]", "產生庫對庫命令 CMD_MST [Rollback-Start] Reserve Loc Fail!", " CmdSno=" + strCmdSno);
+
                                             clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                             SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                             SystemTraceLog.LogMessage = "Reserve Loc Fail!";
@@ -814,6 +837,8 @@ namespace Mirle.WinPLCCommu
                                     }
                                     else
                                     {
+                                        clsSystem.funWriteExceptionLog("[funInsertLotToLocCmd]", "產生庫對庫命令 CMD_MST [Rollback-Start] Create Command Fail!", " CmdSno=" + strCmdSno);
+
                                         clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                         SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                         SystemTraceLog.LogMessage = "Create Command Fail!";
@@ -828,6 +853,8 @@ namespace Mirle.WinPLCCommu
                                 }
                                 else
                                 {
+                                    clsSystem.funWriteExceptionLog("[funInsertLotToLocCmd]", "產生庫對庫命令 CMD_MST [Rollback-Start] Reserve Loc Fail!", " CmdSno=" + strCmdSno);
+
                                     clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                     SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                     SystemTraceLog.LogMessage = "Reserve Loc Fail!";
@@ -841,6 +868,8 @@ namespace Mirle.WinPLCCommu
                             }
                             else
                             {
+                                clsSystem.funWriteExceptionLog("[funInsertLotToLocCmd]", "產生庫對庫命令 CMD_MST [Rollback-Start] Reserve Loc Fail!", " CmdSno=" + strCmdSno);
+
                                 clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                 SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                 SystemTraceLog.LogMessage = "Reserve Loc Fail!";
@@ -854,6 +883,8 @@ namespace Mirle.WinPLCCommu
                         }
                         else
                         {
+                            clsSystem.funWriteExceptionLog("[funInsertLotToLocCmd]", "產生庫對庫命令 CMD_MST [Rollback-Start] Create Command Fail!", " CmdSno=" + strCmdSno);
+
                             clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                             SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                             SystemTraceLog.LogMessage = "Create Command Fail!";
@@ -938,6 +969,7 @@ namespace Mirle.WinPLCCommu
                         strSQL += " ('" + strCmdSno + "', '1', '0', '" + Prt + "', '5', '" + IOType + "',";
                         strSQL += " '" + Source + "', '" + Destination + "', '" + DateTime.Now.ToString("yyyy/MM/dd") + "',";
                         strSQL += " '" + DateTime.Now.ToString("HH:mm:ss") + "', 'MainControl', '" + strLocID + "', '0','')";
+
                         clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin);
                         if(clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
                         {

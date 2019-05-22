@@ -75,10 +75,11 @@ namespace Mirle.WinPLCCommu
         /// <param name="e"></param>
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if(txtPassword.Text.Trim() == DateTime.Now.ToString("MMddHHmm")||txtPassword.Text.Trim() == "5992")
+            // 不需要密碼關閉即可關閉。 
+            //if(txtPassword.Text.Trim() == DateTime.Now.ToString("MMddHHmm")||txtPassword.Text.Trim() == "5992")
                 this.DialogResult = DialogResult.OK;
-            else
-                this.DialogResult = DialogResult.No;
+            //else
+            //    this.DialogResult = DialogResult.No;
         }
 
         /// <summary>

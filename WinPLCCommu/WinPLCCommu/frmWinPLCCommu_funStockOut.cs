@@ -201,8 +201,10 @@ namespace Mirle.WinPLCCommu
                                                 }
                                             }
 
-                                            #region 在Crane左HP側站口出庫
-                                            if (clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin) == ErrDef.ProcSuccess)
+                                        #region 在Crane左HP側站口出庫
+                                        clsSystem.funWriteExceptionLog("[funStockOut_ReleaseEquPLCCmd]", "在Crane左HP側站口出庫 [Begin-Start]", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+
+                                        if (clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin) == ErrDef.ProcSuccess)
                                             {
                                                 if (funUpdateCmdTrace(strCmdSno, clsCmdSts.cstrCmdSts_Start, clsTrace.cstrStoreOutTrace_ReleaseEquPLCCmd))
                                                 {
@@ -222,6 +224,8 @@ namespace Mirle.WinPLCCommu
 
                                                        ))
                                                     {
+                                                        clsSystem.funWriteExceptionLog("[funStockOut_ReleaseEquPLCCmd]", "在Crane左HP側站口出庫 [Commit-Start]", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+
                                                         clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
                                                         SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                                         SystemTraceLog.LogMessage = "Write PLC Sucess!";
@@ -236,6 +240,8 @@ namespace Mirle.WinPLCCommu
                                                     }
                                                     else
                                                     {
+                                                        clsSystem.funWriteExceptionLog("[funStockOut_ReleaseEquPLCCmd]", "在Crane左HP側站口出庫 [Rollback-Start] Write PLC Fail!", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+
                                                         clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
 
                                                         SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
@@ -252,6 +258,8 @@ namespace Mirle.WinPLCCommu
                                                 }
                                                 else
                                                 {
+                                                    clsSystem.funWriteExceptionLog("[funStockOut_ReleaseEquPLCCmd]", "在Crane左HP側站口出庫 [Rollback-Start] Update Cmd Trace Fail!", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+
                                                     clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                                     SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                                     SystemTraceLog.LogMessage = "Update Cmd Trace Fail!";
@@ -271,8 +279,9 @@ namespace Mirle.WinPLCCommu
                                         }
                                         else if (bolLeft)
                                         {
-                                            #region 在Crane右OP側站口出庫
-                                            clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin);
+                                        #region 在Crane右OP側站口出庫
+                                        clsSystem.funWriteExceptionLog("[funStockOut_ReleaseEquPLCCmd]", "在Crane右OP側站口出庫 [Begin-Start]", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+                                        clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin);
                                             if (funUpdateCmdTrace(strCmdSno, clsCmdSts.cstrCmdSts_Start, clsTrace.cstrStoreOutTrace_ReleaseEquPLCCmd))
                                             {
                                                 if (funWritePC2PLCSingel(
@@ -285,6 +294,8 @@ namespace Mirle.WinPLCCommu
                                                     CmdSno.ReadNotice_L.ToString(),
                                                     CmdSno.PathNotice_L.ToString()))
                                                 {
+                                                    clsSystem.funWriteExceptionLog("[funStockOut_ReleaseEquPLCCmd]", "在Crane右OP側站口出庫 [Commit-Start]", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+
                                                     clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
                                                     SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                                     SystemTraceLog.LogMessage = "Left Stock Out Cmd Initiated!";
@@ -295,10 +306,16 @@ namespace Mirle.WinPLCCommu
                                                     funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
                                                 }
                                                 else
-                                                    clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
+                                                {
+                                                clsSystem.funWriteExceptionLog("[funStockOut_ReleaseEquPLCCmd]", "在Crane右OP側站口出庫 [Rollback-Start]", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+
+                                                clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
+                                                }
                                             }
                                             else
                                             {
+                                                clsSystem.funWriteExceptionLog("[funStockOut_ReleaseEquPLCCmd]", "在Crane右OP側站口出庫 [Rollback-Start] Update Left Cmd Trace Fail!", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+
                                                 clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                                 SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                                 SystemTraceLog.LogMessage = "Update Left Cmd Trace Fail!";
@@ -317,6 +334,8 @@ namespace Mirle.WinPLCCommu
                                 {
 
                                     #region Update Trace寫入PLC
+                                    clsSystem.funWriteExceptionLog("[funStockOut_ReleaseEquPLCCmd]", "Update Trace寫入PLC [Begin-Start]", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+
                                     if (clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin) == ErrDef.ProcSuccess)
                                     {
                                         if (funUpdateCmdTrace(strCmdSno, clsCmdSts.cstrCmdSts_Start, clsTrace.cstrStoreOutTrace_ReleaseEquPLCCmd))
@@ -331,6 +350,8 @@ namespace Mirle.WinPLCCommu
                                                 CmdSno.ReadNotice_L.ToString(),
                                                 CmdSno.PathNotice_L.ToString()))
                                             {
+                                                clsSystem.funWriteExceptionLog("[funStockOut_ReleaseEquPLCCmd]", "Update Trace寫入PLC [Commit-Start]", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+
                                                 clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
                                                 SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                                 SystemTraceLog.LogMessage = "Both Stock Out Cmd Initiated!";
@@ -341,10 +362,14 @@ namespace Mirle.WinPLCCommu
                                                 funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
                                             }
                                             else
+                                            {
+                                                clsSystem.funWriteExceptionLog("[funStockOut_ReleaseEquPLCCmd]", "Update Trace寫入PLC [Rollback-Start]", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
                                                 clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
+                                            }
                                         }
                                         else
                                         {
+                                            clsSystem.funWriteExceptionLog("[funStockOut_ReleaseEquPLCCmd]", "Update Trace寫入PLC [Rollback-Start] Update Both Cmd Trace Fail!", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
                                             clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                             SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                             SystemTraceLog.LogMessage = "Update Both Cmd Trace Fail!";
@@ -429,6 +454,8 @@ namespace Mirle.WinPLCCommu
                 }
                 catch (Exception ex)
                 {
+                    clsSystem.funWriteExceptionLog("[funStockOut_ReleaseEquPLCCmd]", "Exception [Rollback-Start] ", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+
                     clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                     var varObject = MethodBase.GetCurrentMethod();
                     clsSystem.funWriteExceptionLog(varObject.DeclaringType.FullName, varObject.Name, ex.Message);
@@ -490,6 +517,8 @@ namespace Mirle.WinPLCCommu
                                 {
 
                                     #region 更新Trace 和 新增EQUCMD
+                                    clsSystem.funWriteExceptionLog("[funStockOut_ReleaseCraneCmd]", "更新Trace 和 新增EQUCMD [Begin-Start]", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+
                                     if (clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Begin, ref strEM) == ErrDef.ProcSuccess)
                                     {
                                         if (funUpdateCmdTrace(strCmdSno, clsCmdSts.cstrCmdSts_Start, clsTrace.cstrStoreOutTrace_ReleaseCraneCmd))
@@ -498,6 +527,8 @@ namespace Mirle.WinPLCCommu
                                             {
                                                 //更新字幕機 出庫顯示
                                                 funMvsData(strStn_No, strCmdSno, "1", "0", "", true);
+
+                                                clsSystem.funWriteExceptionLog("[funStockOut_ReleaseCraneCmd]", "更新Trace 和 新增EQUCMD [Commit-Start]", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
 
                                                 clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
                                                 SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
@@ -510,6 +541,8 @@ namespace Mirle.WinPLCCommu
                                         }
                                         else
                                         {
+                                            clsSystem.funWriteExceptionLog("[funStockOut_ReleaseCraneCmd]", "更新Trace 和 新增EQUCMD [Rollback-Start]Update Cmd Trace Fail!", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+
                                             clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                                             SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                             SystemTraceLog.LogMessage = "Update Cmd Trace Fail!";
@@ -540,6 +573,8 @@ namespace Mirle.WinPLCCommu
                 }
                 catch (Exception ex)
                 {
+                    clsSystem.funWriteExceptionLog("[funStockOut_ReleaseCraneCmd]", "Exception [Rollback-Start]Update Cmd Trace Fail!", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+
                     clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Rollback);
                     var varObject = MethodBase.GetCurrentMethod();
                     clsSystem.funWriteExceptionLog(varObject.DeclaringType.FullName, varObject.Name, ex.Message);

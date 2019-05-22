@@ -99,6 +99,15 @@ namespace Mirle.WinPLCCommu
             set;
         }
 
+        /// <summary>
+        /// 荷資超寬超高
+        /// </summary>
+        public int OverSize
+        {
+            get;
+            set;
+        }
+
         #region 錯誤碼
 
         /// <summary>

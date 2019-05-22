@@ -10,6 +10,7 @@
 ///     Date            Editor      Version         Description
 ///	***********************************************************************************************
 ///     2019.04.18      Leon       v1.0.0.0         臨時記帳程式用 (1F MRS 區)
+///     2019.05.22      Leon       v1.0.0.4         所有DB Begin,Commit,Rollback 加 ExceptionLog 追查 DB 不穩問題
 ///
 /// 
 ///----------------------------------------------------------------------------------------------------
@@ -156,7 +157,7 @@ namespace Mirle.WinPLCCommu
                                     BufferControl.Error = objBufferData.PLC2PCBuffer[intItem].Error.ToString();
                                     BufferControl.CargoLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_CargoLoad;
                                     //BufferControl.RightLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_RightLoad;
-                                    BufferControl.PalletNo = clsTool.funGetEnumValue<uclBuffer.enuPalletNo>(((int)objBufferData.PLC2PCBuffer[intItem].Avail).ToString());
+                                    BufferControl.OverSize = clsTool.funGetEnumValue<uclBuffer.enuOverSize>(((int)objBufferData.PLC2PCBuffer[intItem].OverSize).ToString());
                                     BufferControl.Auto = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Auto;
                                     BufferControl.Manual = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Manual;
 
@@ -276,25 +277,49 @@ namespace Mirle.WinPLCCommu
                                             }
                                             if (objBufferData.PLC2PCBuffer[intItem].StnModeCode_CargoLoad || objBufferData.PLC2PCBuffer[intItem].StnModeCode_PalletLoad)
                                             {
-                                                dtTmp = null;
+                                                //dtTmp = null;
+                                                dtTmp.Clear();
+                                                dtTmp.Dispose();
+
+                                                string strCmdSno;
                                                 strSQL = "SELECT TOP(1) * FROM CMD_MST WHERE Cmd_Sno<>'' and STN_NO ='" +
                                                          strStnName +
                                                          "' AND CMD_STS <'3'";
 
+                                                
+
                                                 if (clsSystem.gobjDB.funGetDT(strSQL, ref dtTmp, ref strEM) ==
                                                     ErrDef.ProcSuccess)
                                                 {
-                                                    //if (dtTmp.Rows[0]["Cmd_Sno"].ToString() != "")
-                                                    //{
-                                                        //objBufferData.PLC2PCBuffer[intItem].LeftCmdSno =
-                                                        //    dtTmp.Rows[0]["Cmd_Sno"].ToString();
+                                                    if (dtTmp.Rows[0]["Cmd_Sno"].ToString() != "")
+                                                    {
+                                                    //objBufferData.PLC2PCBuffer[intItem].LeftCmdSno =
+                                                    //    dtTmp.Rows[0]["Cmd_Sno"].ToString();
 
-                                                        funMvsData(strStnName,
-                                                            dtTmp.Rows[0]["Cmd_Sno"].ToString(), "1", "0",
-                                                            "", true);
-                                                        clsSystem.funWriteExceptionLog("show字幕機:  ",
-                                                            "funMvsData:-----1   " + strStnName, "");
-                                                    //}
+
+                                                    //strCmdSno = dtTmp.Rows[0]["Cmd_Sno"].ToString();
+                                                    //    funMvsData(strStnName,
+                                                    //        strCmdSno, "1", "0",
+                                                    //        "", true);
+                                                        string strSQL;
+
+                                                        //UPDATE Mvs_Mst Set CMD_SNO = (select top(1) cmd_sno from cmd_mst where stn_no = 'A103'  AND CMD_STS<'3' ) ,DSP_FLAG = '1' ,Error_Flag = '0' ,Error_Msg = '' Where STN_NO = 'A103'
+                                                        // 防止相鄰的兩個站口同時有命令，同時棧板荷有。字幕機亂顯示問題。
+                                                        strSQL = "UPDATE Mvs_Mst Set ";
+                                                        strSQL += "CMD_SNO = (select top(1) cmd_sno from cmd_mst where stn_no = '"+ strStnName + "'  AND CMD_STS<'3' ) ,";
+                                                        strSQL += "DSP_FLAG ='1' ,";
+                                                        strSQL += "Error_Flag ='0' ,";
+                                                        strSQL += "Error_Msg ='' ";
+                                                        strSQL += "Where STN_NO ='" + strStnName + "' ";
+                                                        if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
+                                                        {
+                                                        }
+
+                                                    //clsSystem.funWriteExceptionLog("show字幕機:  ","funMvsData:-----1   " + strStnName + ",Cmd_Sno=" + dtTmp.Rows[0]["Cmd_Sno"].ToString()," ");
+                                                    }
+                                                    dtTmp.Clear();
+                                                    dtTmp.Clone();
+                                                    //dtTmp = null;
                                                 }
                                             }
                                             else
@@ -549,7 +574,7 @@ namespace Mirle.WinPLCCommu
                                 BufferControl.Error = objBufferData.PLC2PCBuffer[intItem].Error.ToString();
                                 BufferControl.CargoLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_CargoLoad;
                                 //BufferControl.RightLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_RightLoad;
-                                BufferControl.PalletNo = clsTool.funGetEnumValue<uclBuffer.enuPalletNo>(((int)objBufferData.PLC2PCBuffer[intItem].Avail).ToString());
+                                BufferControl.OverSize = clsTool.funGetEnumValue<uclBuffer.enuOverSize>(((int)objBufferData.PLC2PCBuffer[intItem].Avail).ToString());
                                 BufferControl.Auto = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Auto;
                                 BufferControl.Manual = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Manual;
                             }
@@ -661,7 +686,7 @@ namespace Mirle.WinPLCCommu
                                 BufferControl.Error = objBufferData.PLC2PCBuffer[intItem].Error.ToString();
                                 BufferControl.CargoLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_CargoLoad;
                                 //BufferControl.RightLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_RightLoad;
-                                BufferControl.PalletNo = clsTool.funGetEnumValue<uclBuffer.enuPalletNo>(((int)objBufferData.PLC2PCBuffer[intItem].Avail).ToString());
+                                BufferControl.OverSize = clsTool.funGetEnumValue<uclBuffer.enuOverSize>(((int)objBufferData.PLC2PCBuffer[intItem].Avail).ToString());
                                 BufferControl.Auto = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Auto;
                                 BufferControl.Manual = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Manual;
                             }
@@ -842,7 +867,7 @@ namespace Mirle.WinPLCCommu
                 #endregion Release 暫存儲位
 
                 #region 站對站
-                funStnToStn();
+               // funStnToStn();
                 #endregion 站對站
             }
             catch (Exception ex)
@@ -1792,16 +1817,7 @@ namespace Mirle.WinPLCCommu
             if (MessageBox.Show("確定更換站口(A01)方向?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
 
-                if (ptbA01.Tag == "IN")
-                {
-                    ptbA01.Tag = "OUT";
-                    ptbA01.Image = global::Mirle.WinPLCCommu.Properties.Resources.Bottom;
-                }
-                else
-                {
-                    ptbA01.Tag = "IN";
-                    ptbA01.Image = global::Mirle.WinPLCCommu.Properties.Resources.Top;
-                }
+        
             }
         }
         private void ptbA02_DoubleClick(object sender, EventArgs e)
@@ -1809,16 +1825,7 @@ namespace Mirle.WinPLCCommu
             if (MessageBox.Show("確定更換站口(A02)方向?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
 
-                if (ptbA02.Tag == "IN")
-                {
-                    ptbA02.Tag = "OUT";
-                    ptbA02.Image = global::Mirle.WinPLCCommu.Properties.Resources.Bottom;
-                }
-                else
-                {
-                    ptbA02.Tag = "IN";
-                    ptbA02.Image = global::Mirle.WinPLCCommu.Properties.Resources.Top;
-                }
+               
             }
         }
 
@@ -1827,16 +1834,7 @@ namespace Mirle.WinPLCCommu
             if (MessageBox.Show("確定更換站口(A03)方向?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
 
-                if (ptbA03.Tag == "IN")
-                {
-                    ptbA03.Tag = "OUT";
-                    ptbA03.Image = global::Mirle.WinPLCCommu.Properties.Resources.Bottom;
-                }
-                else
-                {
-                    ptbA03.Tag = "IN";
-                    ptbA03.Image = global::Mirle.WinPLCCommu.Properties.Resources.Top;
-                }
+                
             }
         }
 
@@ -1845,16 +1843,7 @@ namespace Mirle.WinPLCCommu
             if (MessageBox.Show("確定更換站口(A04)方向?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
 
-                if (ptbA04.Tag == "IN")
-                {
-                    ptbA04.Tag = "OUT";
-                    ptbA04.Image = global::Mirle.WinPLCCommu.Properties.Resources.Bottom;
-                }
-                else
-                {
-                    ptbA04.Tag = "IN";
-                    ptbA04.Image = global::Mirle.WinPLCCommu.Properties.Resources.Top;
-                }
+               
             }
         }
 
@@ -1863,16 +1852,7 @@ namespace Mirle.WinPLCCommu
             if (MessageBox.Show("確定更換站口(A05)方向?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
 
-                if (ptbA05.Tag == "IN")
-                {
-                    ptbA05.Tag = "OUT";
-                    ptbA05.Image = global::Mirle.WinPLCCommu.Properties.Resources.Bottom;
-                }
-                else
-                {
-                    ptbA05.Tag = "IN";
-                    ptbA05.Image = global::Mirle.WinPLCCommu.Properties.Resources.Top;
-                }
+               
             }
         }
 
@@ -1881,16 +1861,7 @@ namespace Mirle.WinPLCCommu
             if (MessageBox.Show("確定更換站口(A06)方向?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
 
-                if (ptbA06.Tag == "IN")
-                {
-                    ptbA06.Tag = "OUT";
-                    ptbA06.Image = global::Mirle.WinPLCCommu.Properties.Resources.Bottom;
-                }
-                else
-                {
-                    ptbA06.Tag = "IN";
-                    ptbA06.Image = global::Mirle.WinPLCCommu.Properties.Resources.Top;
-                }
+                
             }
         }
 
