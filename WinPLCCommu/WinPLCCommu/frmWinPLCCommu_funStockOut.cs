@@ -624,7 +624,7 @@ namespace Mirle.WinPLCCommu
                         string strCmdMode = objDataTable.Rows[intCount1]["CMD_MODE"].ToString();
 
                         strSQL = "SELECT * FROM EQUCMD WHERE CMDSNO='" + strCmdSno + "'";
-                        strSQL += " AND RENEWFLAG <> 'F' AND CMDSTS='9'";
+                        strSQL += " AND RENEWFLAG <> 'F' AND CMDSTS in ('8','9')";
                         if (clsSystem.gobjDB.funGetDT(strSQL, ref objCmd, ref strEM) == ErrDef.ProcSuccess)
                         {
                             for (int intCount2 = 0; intCount2 < objCmd.Rows.Count; intCount2++)
@@ -632,14 +632,15 @@ namespace Mirle.WinPLCCommu
                                 string strCmdSts = objCmd.Rows[intCount2]["CmdSts"].ToString();
                                 string strCompleteCode = objCmd.Rows[intCount2]["CompleteCode"].ToString();
 
-                                if (strCmdSts == clsCmdSts.cstrCmdSts_Completed && strCompleteCode.Substring(0, 1) == "W")
+                                //if (strCmdSts == clsCmdSts.cstrCmdSts_Completed && strCompleteCode.Substring(0, 1) == "W")
+                                if (strCompleteCode.Substring(0, 1) == "W")
                                 {
                                     #region Update Equ Cmd CmdSts
-                                    strSQL = "UPDATE EQUCMD SET CMDSTS='0' WHERE CMDSNO='" + strCmdSno + "'";
+                                    strSQL = "UPDATE EQUCMD SET CMDSTS='0' , CompleteCode=' ' WHERE CMDSNO='" + strCmdSno + "'";
                                     if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
                                     {
                                         SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-                                        SystemTraceLog.LogMessage = "Crane Stock Out Cmd Retry Success!";
+                                        SystemTraceLog.LogMessage = "(W1) Crane Stock Out Cmd Retry Success!";
                                         SystemTraceLog.LeftCmdSno = strCmdSno;
                                         SystemTraceLog.CmdSts = clsCmdSts.cstrCmdSts_Init;
                                         funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
@@ -647,7 +648,7 @@ namespace Mirle.WinPLCCommu
                                     else
                                     {
                                         SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-                                        SystemTraceLog.LogMessage = "Crane Stock Out Cmd Retry Fail!";
+                                        SystemTraceLog.LogMessage = "(W1) Crane Stock Out Cmd Retry Fail!";
                                         SystemTraceLog.LeftCmdSno = strCmdSno;
                                         SystemTraceLog.CmdSts = clsCmdSts.cstrCmdSts_Init;
                                         funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
@@ -706,7 +707,7 @@ namespace Mirle.WinPLCCommu
                                 {
                                     #region Update Cmd Trace CompletedWaitPost
                                     //v1.0.0.18 -2
-                                    if (funUpdateCmdTrace_Abnormal(strCmdSno, clsCmdSts.cstrCmdSts_CompletedWaitPost, clsTrace.cstrStoreOutTrace_ReleaseCraneCmd, clsCmdAbnormal.cstrEF))
+                                    if (funUpdateCmdTrace_Abnormal(strCmdSno, clsCmdSts.cstrCmdSts_CompletedWaitPost, clsTrace.cstrStoreOutTrace_ReleaseCraneCmd, clsCmdAbnormal.cstrFF))
                                     {
                                         SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
                                         SystemTraceLog.LogMessage = "Stock Out Cmd Finish![地上盤強制完成]";

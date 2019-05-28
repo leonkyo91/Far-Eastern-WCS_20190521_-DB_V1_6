@@ -174,7 +174,7 @@ namespace Mirle.WinPLCCommu
                         if (!objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_CargoLoad &&
                             !objBufferData.PLC2PCBuffer[objBCRData[intStn, clsBCR.enuBCRLoc.Once].PLC2PCBufferIndex].StnModeCode_PalletLoad)
                         {
-                            objDataTable = null;
+                            objDataTable = new DataTable();
                             strSQL = "SELECT BCR_Sts FROM IN_BUF WHERE BCR_NO IN";
                             strSQL += " ('" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo + "')";
                             if (clsSystem.gobjDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
@@ -311,7 +311,7 @@ namespace Mirle.WinPLCCommu
                             //臨時記帳程式默認讀取成功。 By Leon
                             if (bolPassReadBCR == true)
                             {
-                                objDataTable = null;
+                                objDataTable = new DataTable();
                                 strSQL = "SELECT BCR_Sts FROM IN_BUF WHERE BCR_NO IN";
                                 strSQL += " ('" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRNo + "')";
                                 if (clsSystem.gobjDB.funGetDT(strSQL, ref objDataTable, ref strEM) == ErrDef.ProcSuccess)
@@ -363,7 +363,7 @@ namespace Mirle.WinPLCCommu
 
                                                 #region 字幕機顯示--異常情況
 
-                                                dtStnNo = null;
+                                                dtStnNo = new DataTable();
                                                 strSQL = "Select StnNo From stndef where buffer ='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName + "'";
                                                 clsSystem.gobjSystemDB.funGetDT(strSQL, ref dtStnNo);
                                                 funMvsData(dtStnNo.Rows[0]["StnNo"].ToString(), "", "1", "1", "BCR 讀取失敗");
@@ -442,7 +442,7 @@ namespace Mirle.WinPLCCommu
                             int intCraneNo = (iBuffindex / 4) + 1;
 
                             //找尋站口是否有命令 By Leon
-                            dtTmp = null;
+                            dtTmp = new DataTable();
                             strSQL = "SELECT COUNT(*) as iCount FROM CMD_MST WHERE Cmd_Sno<>'' and STN_NO='" +
                                      objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo + "' AND CMD_STS <'3' ";
                             //strSQL += " GROUP BY CMD_SNO";
@@ -476,7 +476,7 @@ namespace Mirle.WinPLCCommu
                                             funInsertEmptyPltInCmd(strCmdSno, strStnNo, strCraneNo);
 
                                             //有命令判斷是入庫還是庫對庫，填值 By Leon
-                                            dtTmp = null;
+                                            dtTmp = new DataTable();
                                             strSQL = "SELECT TOP(1) * FROM CMD_MST WHERE Cmd_Sno<>'' and STN_NO ='" +
                                                      objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo +
                                                      "' AND CMD_STS <'3'";
@@ -584,7 +584,7 @@ namespace Mirle.WinPLCCommu
 
                                         #region 字幕機顯示--異常情況
 
-                                        dtStnNo = null;
+                                        dtStnNo = new DataTable();
                                         strSQL = "Select StnNo From stndef where buffer ='" +
                                                  objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName + "'";
                                         clsSystem.gobjSystemDB.funGetDT(strSQL, ref dtStnNo);
@@ -605,7 +605,7 @@ namespace Mirle.WinPLCCommu
                                 else
                                 {
                                     //有命令判斷是入庫還是庫對庫，填值 By Leon
-                                    dtTmp = null;
+                                    dtTmp = new DataTable();
                                     strSQL = "SELECT TOP(1) * FROM CMD_MST WHERE Cmd_Sno<>'' and STN_NO ='" +
                                              objBCRData[intStn, clsBCR.enuBCRLoc.Once].StnNo + "' AND CMD_STS <'3'";
                                     if (clsSystem.gobjDB.funGetDT(strSQL, ref dtTmp, ref strEM) == ErrDef.ProcSuccess)
@@ -645,7 +645,7 @@ namespace Mirle.WinPLCCommu
                             }
 
                             // 判斷是否已有相同棧板ID 在儲位裡
-                            dtTmp = null;
+                            dtTmp = new DataTable();
                             strSQL = "SELECT * FROM Loc_MST WHERE PLT_ID ='" +
                                      objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID + "'";
                             if (clsSystem.gobjDB.funGetDT(strSQL, ref dtTmp, ref strEM) == ErrDef.ProcSuccess)
@@ -672,7 +672,7 @@ namespace Mirle.WinPLCCommu
 
                                 #region 字幕機顯示--異常情況
 
-                                dtStnNo = null;
+                                dtStnNo = new DataTable();
                                 strSQL = "Select StnNo From stndef where buffer ='" +
                                          objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName + "'";
                                 clsSystem.gobjSystemDB.funGetDT(strSQL, ref dtStnNo);
@@ -786,10 +786,12 @@ namespace Mirle.WinPLCCommu
                                     strSQL += ",TRACE ='" + clsTrace.cstrStoreInTrace_ReleaseEquPLCCmd + "' ";
                                     strSQL += ",trn_user ='WCS' ";
                                     // 再看看是否要設成1 By Leon
-                                    //strSQL += ",CMD_STS = '1' ";
+                                    strSQL += ",CMD_STS = '1' ";
                                     strSQL += " WHERE Cmd_Sno<>'' and 1=1  "; 
                                     strSQL += "AND Plt_Id ='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].BCRID + "' ";
                                     strSQL += " AND CMD_SNO='" + objBCRData[intStn, clsBCR.enuBCRLoc.Once].CmdSno + "' ";
+                                    strSQL += " AND TRACE ='0'";
+
                                     clsSystem.funWriteExceptionLog("[第一次找UPDATE CMD_MST]:  ", "strSQL:----    " + strSQL + " Loc= " + strLoc + " Trace= " + clsTrace.cstrStoreInTrace_ReleaseEquPLCCmd, "");
                                     if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
                                     {
@@ -835,7 +837,7 @@ namespace Mirle.WinPLCCommu
 
                                         #region 字幕機顯示--異常情況
 
-                                        dtStnNo = null;
+                                        dtStnNo  = new DataTable();
                                         strSQL = "Select StnNo From stndef where buffer ='" +
                                                  objBCRData[intStn, clsBCR.enuBCRLoc.Once].BufferName + "'";
                                         clsSystem.gobjSystemDB.funGetDT(strSQL, ref dtStnNo);
@@ -1413,13 +1415,13 @@ namespace Mirle.WinPLCCommu
                                                 strSQL = "UPDATE Loc_Mst Set Loc_Sts = 'I',Old_sts = loc_sts , Trn_Date='" + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "'";
                                                 strSQL += ",MEMO='WCS'";
                                                 strSQL += " Where Loc = '" + strLoc + "' AND LOC_STS='N' ";
-                                                clsSystem.funWriteExceptionLog("[第2次找UPDATE Loc_Mst]:  ", "strSQL:----    " + strSQL + " Loc= " + strLoc, "");
+                                                clsSystem.funWriteExceptionLog("[第2次找UPDATE Loc_Mst]:[funStockIn_ItemOnStn]  ", "strSQL:----    " + strSQL + " Loc= " + strLoc, "");
                                                 if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
                                                 {
                                                     //更新CMD_MST
                                                     strSQL = "UPDATE CMD_MST SET LOC='" + strLoc + "',TRACE='" + clsTrace.cstrStoreInTrace_ItemOnStn + "',Equ_No='" + intCraneNo + "'";
                                                     strSQL += " WHERE CMD_SNO='" + strCmdSno + "' AND TRACE='" + clsTrace.cstrStoreInTrace_ReleaseEquPLCCmd + "'";
-                                                    clsSystem.funWriteExceptionLog("[第2次找UPDATE CMD_MST]:  ", "strSQL:----    " + strSQL + " Loc= " + strLoc+ "iCrane =" + intCraneNo, "");
+                                                    clsSystem.funWriteExceptionLog("[第2次找UPDATE CMD_MST]:  [funStockIn_ItemOnStn]", "strSQL:----    " + strSQL + " Loc= " + strLoc+ "iCrane =" + intCraneNo, "");
                                                     if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
                                                     {
                                                         //更新CMD_DTL
@@ -1428,6 +1430,8 @@ namespace Mirle.WinPLCCommu
 
                                                         if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
                                                         {
+                                                            clsSystem.funWriteExceptionLog("[funStockIn_ItemOnStn]", "預約儲位、更新CMD [Commit-Start]", " CmdSno=" + objBufferData.PLC2PCBuffer[StnDef.BufferIndex].LeftCmdSno.PadLeft(5, '0'));
+
                                                             clsSystem.gobjDB.funCommitCtrl(DB.enuTrnType.Commit);
                                                             strMessage = "預約儲位-Success! 更新CMD_MST、DTL 成功 Trace[" + clsTrace.cstrStoreInTrace_ItemOnStn + "]";
                                                         }
@@ -1728,9 +1732,9 @@ namespace Mirle.WinPLCCommu
 
                         string strCmdSno = objDataTable.Rows[intCount1]["CMD_SNO"].ToString();
                         string strStnNo = objDataTable.Rows[intCount1]["STN_NO"].ToString();
-                        objCmd = null;
+                        objCmd  = new DataTable();
                         strSQL = "SELECT * FROM EQUCMD WHERE CMDSNO='" + strCmdSno + "'";
-                        strSQL += " AND RENEWFLAG <> 'F' AND CMDSTS='9'";
+                        strSQL += " AND RENEWFLAG <> 'F' AND CMDSTS in ('8','9')";
                         if (clsSystem.gobjDB.funGetDT(strSQL, ref objCmd, ref strEM) == ErrDef.ProcSuccess)
                         {
                             for (int intCount2 = 0; intCount2 < objCmd.Rows.Count; intCount2++)
@@ -1738,15 +1742,16 @@ namespace Mirle.WinPLCCommu
                                 string strCmdSts = objCmd.Rows[intCount2]["CmdSts"].ToString();
                                 string strCompleteCode = objCmd.Rows[intCount2]["CompleteCode"].ToString();
 
-                                if (strCmdSts == clsCmdSts.cstrCmdSts_Completed && strCompleteCode.Substring(0, 1) == "W")
+                                //if (strCmdSts == clsCmdSts.cstrCmdSts_Completed && strCompleteCode.Substring(0, 1) == "W")
+                                if (strCompleteCode.Substring(0, 1) == "W")
                                 {
                                     #region Update Equ Cmd CmdSts
 
-                                    strSQL = "UPDATE EQUCMD SET CMDSTS='0' WHERE CMDSNO='" + strCmdSno + "'";
+                                    strSQL = "UPDATE EQUCMD SET CMDSTS='0', CompleteCode=' ' WHERE CMDSNO='" + strCmdSno + "'";
                                     if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
                                     {
                                         SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-                                        SystemTraceLog.LogMessage = "Crane Stock In Cmd Retry Success!";
+                                        SystemTraceLog.LogMessage = "(W1) Crane Stock In Cmd Retry Success!";
                                         SystemTraceLog.LeftCmdSno = strCmdSno;
                                         SystemTraceLog.CmdSts = clsCmdSts.cstrCmdSts_Init;
                                         funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);
@@ -1754,7 +1759,7 @@ namespace Mirle.WinPLCCommu
                                     else
                                     {
                                         SystemTraceLog = new clsTraceLogEventArgs(enuTraceLog.System);
-                                        SystemTraceLog.LogMessage = "Crane Stock In Cmd Retry Fail!";
+                                        SystemTraceLog.LogMessage = "(W1) Crane Stock In Cmd Retry Fail!";
                                         SystemTraceLog.LeftCmdSno = strCmdSno;
                                         SystemTraceLog.CmdSts = clsCmdSts.cstrCmdSts_Init;
                                         funShowSystemTrace(lsbSystemTrace, SystemTraceLog, true);

@@ -10,7 +10,13 @@
 ///     Date            Editor      Version         Description
 ///	***********************************************************************************************
 ///     2019.04.18      Leon       v1.0.0.0         臨時記帳程式用 (1F MRS 區)
-///     2019.05.22      Leon       v1.0.0.4         所有DB Begin,Commit,Rollback 加 ExceptionLog 追查 DB 不穩問題
+///     2019.05.22      Leon       v1.0.4.0         所有DB Begin,Commit,Rollback 加 ExceptionLog 追查 DB 不穩問題 
+///     2019.05.23      Leon       v1.0.4.1         入庫 trace 更新置 11 時增加 where 條件 trace=0 (防止命令trace=13 又回到 11 重做問題)
+///     2019.05.23      Leon       v1.0.4.2         更新 clsDB_C.dll DB 斷線時重連
+///     2019.05.24      Leon       v1.0.4.3         修改 BUG 讀 BUFFER 訊號時，找命令異常(多執行緒宣告全域變數造成)
+///     2019.05.26      Leon       v1.0.4.4         更新 clsDB_C.dll funGetDT timeout 時重新連線判斷。
+///     2019.05.26      Leon       v1.0.4.5         地上盤 顯示尚未允許連線，新增equcmd格式錯誤(completecode = W1)時，更新equcmd狀態cmd_sts=0，重走一次流程。
+///     2019.05.28      Leon       v1.0.5.0         修正 地上盤強制完成 後，命令卻顯示 EF 強制取消、更新 clsDB_C.dll 超時重連機制
 ///
 /// 
 ///----------------------------------------------------------------------------------------------------
@@ -58,8 +64,7 @@ namespace Mirle.WinPLCCommu
         private frmPLCModify PLCModify = null;
         private frmEquCmd EquCmd = null;
         private frmBufferInfo BufferInfo = null;
-        // --------------
-        DataTable dtTmp = new DataTable();
+        // ----------------------------
         string strStnNo = string.Empty;
         string strSQL = string.Empty;
         string strEM = string.Empty;
@@ -142,325 +147,313 @@ namespace Mirle.WinPLCCommu
                         #region Read Success
                         //v1.0.0.13
                         Parallel.For(0, objBufferData.PLC2PCBuffer.Length, intItem =>
+                        {
+                            if (dicBufferMap.ContainsKey(intItem))
                             {
-                                if (dicBufferMap.ContainsKey(intItem))
+                                uclBuffer BufferControl = (uclBuffer)dicBufferMap[intItem];
+                                BufferControl.StnMode = clsTool.funGetEnumValue<uclBuffer.enuStnMode>(objBufferData.PLC2PCBuffer[intItem].StnMode);
+                                // = clsTool.funGetEnumValue<uclBuffer.enuCmdMode>(objBufferData.PLC2PCBuffer[intItem].CmdMode);
+                                BufferControl.LeftCmdSno = objBufferData.PLC2PCBuffer[intItem].LeftCmdSno;
+                                BufferControl.StnChange = clsTool.funGetEnumValue<uclBuffer.enuStnChange>(((int)objBufferData.PLC2PCBuffer[intItem].StnChange).ToString());
+                                BufferControl.Ready = clsTool.funGetEnumValue<uclBuffer.enuReady>(((int)objBufferData.PLC2PCBuffer[intItem].Ready).ToString());
+                                BufferControl.ReadNotice =
+                                    clsTool.funGetEnumValue<uclBuffer.enuReadNotice>(((int)objBufferData.PLC2PCBuffer[intItem].ReadNotice).ToString());
+                                BufferControl.FunNotice = objBufferData.PLC2PCBuffer[intItem].StnModeCode_PalletLoad;
+                                BufferControl.Error = objBufferData.PLC2PCBuffer[intItem].Error.ToString();
+                                BufferControl.CargoLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_CargoLoad;
+                                //BufferControl.RightLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_RightLoad;
+                                BufferControl.OverSize = clsTool.funGetEnumValue<uclBuffer.enuOverSize>(((int)objBufferData.PLC2PCBuffer[intItem].OverSize).ToString());
+                                BufferControl.Auto = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Auto;
+                                BufferControl.Manual = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Manual;
+
+                                #region Show 字幕機
+
+                                //v1.0.0.9決定顯示字幕機的時機
+
+                                int iBuffer_IN_Out = intItem % 2;//等於1為外Buffer，等於0為內Buffer
+
+                                //if (objBufferData.PLC2PCBuffer[intItem].StnModeCode_In && iBuffer_IN_Out == 1 &&
+                                //    !string.IsNullOrEmpty(objBufferData.PLC2PCBuffer[intItem].LeftCmdSno))
+                                //{
+                                //    if (objBufferData.PLC2PCBuffer[intItem].StnModeCode_CargoLoad)
+                                //    {
+                                //        //內Buffer有序號時顯示於字幕機                                     
+                                //        funMvsData(BufferControl.BufferName, objBufferData.PLC2PCBuffer[intItem].LeftCmdSno, "1", "1", "", true);
+                                //    }
+                                //    else if (objBufferData.PLC2PCBuffer[intItem].Error == 0)
+                                //    {
+                                //        funMvsData(BufferControl.BufferName, "", "3", "1", "", true);
+                                //    }
+                                //}
+                                //else if (objBufferData.PLC2PCBuffer[intItem].StnModeCode_Out && iBuffer_IN_Out == 0 &&
+                                //    !string.IsNullOrEmpty(objBufferData.PLC2PCBuffer[intItem].LeftCmdSno))
+                                //{
+                                //    if (objBufferData.PLC2PCBuffer[intItem].StnModeCode_CargoLoad)
+                                //    {
+                                //        //外Buffer有序號時顯示於字幕機
+                                //        funMvsData(BufferControl.BufferName, objBufferData.PLC2PCBuffer[intItem].LeftCmdSno, "1", "1", "", true);
+                                //    }
+                                //    else if (objBufferData.PLC2PCBuffer[intItem].Error == 0)
+                                //    {
+                                //        funMvsData(BufferControl.BufferName, "", "3", "1", "", true);
+                                //    }
+                                //}
+                                //else if (!objBufferData.PLC2PCBuffer[intItem].StnModeCode_CargoLoad)
+                                //{
+                                //}
+
+                                #region   遠紡字幕機用顯示入庫資訊(當棧板放到外儲位時)
+
+                                // 0 是外Buffer By Leon
+                                if (iBuffer_IN_Out == 0)
                                 {
-                                    uclBuffer BufferControl = (uclBuffer)dicBufferMap[intItem];
-                                    BufferControl.StnMode = clsTool.funGetEnumValue<uclBuffer.enuStnMode>(objBufferData.PLC2PCBuffer[intItem].StnMode);
-                                    // = clsTool.funGetEnumValue<uclBuffer.enuCmdMode>(objBufferData.PLC2PCBuffer[intItem].CmdMode);
-                                    BufferControl.LeftCmdSno = objBufferData.PLC2PCBuffer[intItem].LeftCmdSno;
-                                    BufferControl.StnChange = clsTool.funGetEnumValue<uclBuffer.enuStnChange>(((int)objBufferData.PLC2PCBuffer[intItem].StnChange).ToString());
-                                    BufferControl.Ready = clsTool.funGetEnumValue<uclBuffer.enuReady>(((int)objBufferData.PLC2PCBuffer[intItem].Ready).ToString());
-                                    BufferControl.ReadNotice =
-                                        clsTool.funGetEnumValue<uclBuffer.enuReadNotice>(((int)objBufferData.PLC2PCBuffer[intItem].ReadNotice).ToString());
-                                    BufferControl.FunNotice = objBufferData.PLC2PCBuffer[intItem].StnModeCode_PalletLoad;
-                                    BufferControl.Error = objBufferData.PLC2PCBuffer[intItem].Error.ToString();
-                                    BufferControl.CargoLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_CargoLoad;
-                                    //BufferControl.RightLoad = objBufferData.PLC2PCBuffer[intItem].StnModeCode_RightLoad;
-                                    BufferControl.OverSize = clsTool.funGetEnumValue<uclBuffer.enuOverSize>(((int)objBufferData.PLC2PCBuffer[intItem].OverSize).ToString());
-                                    BufferControl.Auto = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Auto;
-                                    BufferControl.Manual = objBufferData.PLC2PCBuffer[intItem].StnModeCode_Manual;
-
-                                    #region Show 字幕機
-                                    
-                                    //v1.0.0.9決定顯示字幕機的時機
-                                    int iBuffer_IN_Out = intItem % 2;//等於1為外Buffer，等於0為內Buffer
-                                    if (objBufferData.PLC2PCBuffer[intItem].StnModeCode_In && iBuffer_IN_Out == 1 &&
-                                        !string.IsNullOrEmpty(objBufferData.PLC2PCBuffer[intItem].LeftCmdSno))
+                                    if (objBufferData.PLC2PCBuffer[intItem].StnModeCode_In)
                                     {
-                                        if (objBufferData.PLC2PCBuffer[intItem].StnModeCode_CargoLoad)
-                                        {
-                                            //內Buffer有序號時顯示於字幕機                                     
-                                            funMvsData(BufferControl.BufferName, objBufferData.PLC2PCBuffer[intItem].LeftCmdSno, "1", "1", "", true);
-                                        }
-                                        else if (objBufferData.PLC2PCBuffer[intItem].Error == 0)
-                                        {
-                                            funMvsData(BufferControl.BufferName, "", "3", "1", "", true);
-                                        }
-                                    }
-                                    else if (objBufferData.PLC2PCBuffer[intItem].StnModeCode_Out && iBuffer_IN_Out == 0 &&
-                                        !string.IsNullOrEmpty(objBufferData.PLC2PCBuffer[intItem].LeftCmdSno))
-                                    {
-                                        if (objBufferData.PLC2PCBuffer[intItem].StnModeCode_CargoLoad)
-                                        {
-                                            //外Buffer有序號時顯示於字幕機
-                                            funMvsData(BufferControl.BufferName, objBufferData.PLC2PCBuffer[intItem].LeftCmdSno, "1", "1", "", true);
-                                        }
-                                        else if (objBufferData.PLC2PCBuffer[intItem].Error == 0)
-                                        {
-                                            funMvsData(BufferControl.BufferName, "", "3", "1", "", true);
-                                        }
-                                    }
-                                    else if (!objBufferData.PLC2PCBuffer[intItem].StnModeCode_CargoLoad)
-                                    {
-                                    }
+                                        string strBuffName = BufferControl.BufferName;
+                                        string strStnName = "";
 
-                                    #region   遠紡字幕機用顯示入庫資訊
-
-                                    // 0 是外Buffer By Leon
-                                    if (iBuffer_IN_Out == 0)
-                                    {
-                                        if (objBufferData.PLC2PCBuffer[intItem].StnModeCode_In)
+                                        // 依靠Buffer編號換算站口編號
+                                        switch (strBuffName)
                                         {
-                                            string strBuffName = BufferControl.BufferName;
-                                            string strStnName = "";
+                                            case "A01":
+                                                strStnName = "A101";
+                                                break;
+                                            case "A02":
+                                                strStnName = "A101";
+                                                break;
+                                            case "A05":
+                                                strStnName = "A103";
+                                                break;
+                                            case "A06":
+                                                strStnName = "A103";
+                                                break;
+                                            case "A09":
+                                                strStnName = "A105";
+                                                break;
+                                            case "A10":
+                                                strStnName = "A105";
+                                                break;
+                                            case "A13":
+                                                strStnName = "A107";
+                                                break;
+                                            case "A14":
+                                                strStnName = "A107";
+                                                break;
+                                            case "A17":
+                                                strStnName = "A109";
+                                                break;
+                                            case "A18":
+                                                strStnName = "A109";
+                                                break;
+                                            case "A21":
+                                                strStnName = "A111";
+                                                break;
+                                            case "A22":
+                                                strStnName = "A111";
+                                                break;
+                                            case "A25":
+                                                strStnName = "A113";
+                                                break;
+                                            case "A26":
+                                                strStnName = "A113";
+                                                break;
+                                            case "A29":
+                                                strStnName = "A115";
+                                                break;
+                                            case "A30":
+                                                strStnName = "A115";
+                                                break;
+                                            case "A33":
+                                                strStnName = "A117";
+                                                break;
+                                            case "A34":
+                                                strStnName = "A117";
+                                                break;
+                                            case "A37":
+                                                strStnName = "A119";
+                                                break;
+                                            case "A38":
+                                                strStnName = "A119";
+                                                break;
+                                            case "A41":
+                                                strStnName = "A121";
+                                                break;
+                                            case "A42":
+                                                strStnName = "A121";
+                                                break;
+                                        }
+                                        if (objBufferData.PLC2PCBuffer[intItem].StnModeCode_CargoLoad || objBufferData.PLC2PCBuffer[intItem].StnModeCode_PalletLoad)
+                                        {
+                                            DataTable dtTmp2 = new DataTable();
 
-                                            // 依靠Buffer編號換算站口編號
-                                            switch (strBuffName)
+                                            dtTmp2.Clear();
+                                            dtTmp2.Dispose();
+                                            //dtTmp2 = null;
+
+                                            strSQL = "SELECT TOP(1) * FROM CMD_MST WHERE Cmd_Sno<>'' and STN_NO ='" +
+                                                     strStnName +
+                                                     "' AND CMD_STS <'3'";
+
+                                            if (clsSystem.gobjDB.funGetDT(strSQL, ref dtTmp2, ref strEM) ==
+                                                ErrDef.ProcSuccess)
                                             {
-                                                case "A01":
-                                                    strStnName = "A101";
-                                                    break;
-                                                case "A02":
-                                                    strStnName = "A101";
-                                                    break;
-                                                case "A05":
-                                                    strStnName = "A103";
-                                                    break;
-                                                case "A06":
-                                                    strStnName = "A103";
-                                                    break;
-                                                case "A09":
-                                                    strStnName = "A105";
-                                                    break;
-                                                case "A10":
-                                                    strStnName = "A105";
-                                                    break;
-                                                case "A13":
-                                                    strStnName = "A107";
-                                                    break;
-                                                case "A14":
-                                                    strStnName = "A107";
-                                                    break;
-                                                case "A17":
-                                                    strStnName = "A109";
-                                                    break;
-                                                case "A18":
-                                                    strStnName = "A109";
-                                                    break;
-                                                case "A21":
-                                                    strStnName = "A111";
-                                                    break;
-                                                case "A22":
-                                                    strStnName = "A111";
-                                                    break;
-                                                case "A25":
-                                                    strStnName = "A113";
-                                                    break;
-                                                case "A26":
-                                                    strStnName = "A113";
-                                                    break;
-                                                case "A29":
-                                                    strStnName = "A115";
-                                                    break;
-                                                case "A30":
-                                                    strStnName = "A115";
-                                                    break;
-                                                case "A33":
-                                                    strStnName = "A117";
-                                                    break;
-                                                case "A34":
-                                                    strStnName = "A117";
-                                                    break;
-                                                case "A37":
-                                                    strStnName = "A119";
-                                                    break;
-                                                case "A38":
-                                                    strStnName = "A119";
-                                                    break;
-                                                case "A41":
-                                                    strStnName = "A121";
-                                                    break;
-                                                case "A42":
-                                                    strStnName = "A121";
-                                                    break;
-                                            }
-                                            if (objBufferData.PLC2PCBuffer[intItem].StnModeCode_CargoLoad || objBufferData.PLC2PCBuffer[intItem].StnModeCode_PalletLoad)
-                                            {
-                                                //dtTmp = null;
-                                                dtTmp.Clear();
-                                                dtTmp.Dispose();
-
-                                                string strCmdSno;
-                                                strSQL = "SELECT TOP(1) * FROM CMD_MST WHERE Cmd_Sno<>'' and STN_NO ='" +
-                                                         strStnName +
-                                                         "' AND CMD_STS <'3'";
-
-                                                
-
-                                                if (clsSystem.gobjDB.funGetDT(strSQL, ref dtTmp, ref strEM) ==
-                                                    ErrDef.ProcSuccess)
+                                                if (dtTmp2.Rows[0]["Cmd_Sno"].ToString() != "")
                                                 {
-                                                    if (dtTmp.Rows[0]["Cmd_Sno"].ToString() != "")
+                                                    string strSQL;
+
+                                                    //UPDATE Mvs_Mst Set CMD_SNO = (select top(1) cmd_sno from cmd_mst where stn_no = 'A103'  AND CMD_STS<'3' ) ,DSP_FLAG = '1' ,Error_Flag = '0' ,Error_Msg = '' Where STN_NO = 'A103'
+                                                    // 防止相鄰的兩個站口同時有命令，同時棧板荷有。字幕機亂顯示問題。
+                                                    strSQL = "UPDATE Mvs_Mst Set ";
+                                                    strSQL += "CMD_SNO = (select top(1) cmd_sno from cmd_mst where stn_no = '" + strStnName + "'  AND CMD_STS<'3' ) ,";
+                                                    strSQL += "DSP_FLAG ='1' ,";
+                                                    strSQL += "Error_Flag ='0' ,";
+                                                    strSQL += "Error_Msg ='' ";
+                                                    strSQL += "Where STN_NO ='" + strStnName + "' ";
+                                                    if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
                                                     {
-                                                    //objBufferData.PLC2PCBuffer[intItem].LeftCmdSno =
-                                                    //    dtTmp.Rows[0]["Cmd_Sno"].ToString();
-
-
-                                                    //strCmdSno = dtTmp.Rows[0]["Cmd_Sno"].ToString();
-                                                    //    funMvsData(strStnName,
-                                                    //        strCmdSno, "1", "0",
-                                                    //        "", true);
-                                                        string strSQL;
-
-                                                        //UPDATE Mvs_Mst Set CMD_SNO = (select top(1) cmd_sno from cmd_mst where stn_no = 'A103'  AND CMD_STS<'3' ) ,DSP_FLAG = '1' ,Error_Flag = '0' ,Error_Msg = '' Where STN_NO = 'A103'
-                                                        // 防止相鄰的兩個站口同時有命令，同時棧板荷有。字幕機亂顯示問題。
-                                                        strSQL = "UPDATE Mvs_Mst Set ";
-                                                        strSQL += "CMD_SNO = (select top(1) cmd_sno from cmd_mst where stn_no = '"+ strStnName + "'  AND CMD_STS<'3' ) ,";
-                                                        strSQL += "DSP_FLAG ='1' ,";
-                                                        strSQL += "Error_Flag ='0' ,";
-                                                        strSQL += "Error_Msg ='' ";
-                                                        strSQL += "Where STN_NO ='" + strStnName + "' ";
-                                                        if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == ErrDef.ProcSuccess)
-                                                        {
-                                                        }
-
-                                                    //clsSystem.funWriteExceptionLog("show字幕機:  ","funMvsData:-----1   " + strStnName + ",Cmd_Sno=" + dtTmp.Rows[0]["Cmd_Sno"].ToString()," ");
                                                     }
-                                                    dtTmp.Clear();
-                                                    dtTmp.Clone();
-                                                    //dtTmp = null;
+                                                    //clsSystem.funWriteExceptionLog("show字幕機:  ","funMvsData:-----1   " + strStnName + ",Cmd_Sno=" + dtTmp.Rows[0]["Cmd_Sno"].ToString()," ");
                                                 }
-                                            }
-                                            else
-                                            {
-
+                                                dtTmp2.Clear();
+                                                dtTmp2.Dispose();
+                                                //dtTmp2 = null;
                                             }
                                         }
                                     }
-
-                                    #endregion
-
-                                    #region  show err msg  //Julia 
-                                    //if (objBufferData.PLC2PCBuffer[intItem].Error > 0)
-                                    //{
-                                    //    if (intItem % 2 == 0)
-                                    //    {
-                                    //        string strAlarmMsg = funAlarmLog(intItem, objBufferData.PLC2PCBuffer[intItem].Error);
-                                    //        if (objBufferData.PLC2PCBuffer[intItem + 1].Error > 0)
-                                    //        {
-                                    //            strAlarmMsg += funAlarmLog(intItem + 1, objBufferData.PLC2PCBuffer[intItem + 1].Error);
-                                    //        }
-
-                                    //        //v1.0.0.11 異常時
-                                    //        string strStnNo = string.Empty;
-                                    //        switch (strAlarmMsg.Substring(0, 1))
-                                    //        {
-                                    //            case "A":
-                                    //                strStnNo = "A10" + strAlarmMsg.Substring(4, 1);
-                                    //                break;
-                                    //            case "B":
-                                    //                strStnNo = "B20" + strAlarmMsg.Substring(4, 1);
-                                    //                break;
-                                    //            case "C":
-                                    //                strStnNo = "C30" + strAlarmMsg.Substring(4, 1);
-                                    //                break;
-                                    //            case "D":
-                                    //                strStnNo = "D40" + strAlarmMsg.Substring(4, 1);
-                                    //                break;
-                                    //            case "E":
-                                    //                strStnNo = "E50" + strAlarmMsg.Substring(4, 1);
-                                    //                break;
-                                    //            case "F":
-                                    //                strStnNo = "F60" + strAlarmMsg.Substring(4, 1);
-                                    //                break;
-                                    //            case "G":
-                                    //                strStnNo = "G70" + strAlarmMsg.Substring(4, 1);
-                                    //                break;
-                                    //        }
-                                    //        string strSQL = "Update MVS_MST SET Dsp_Flag='1',Error_Flag = '1',Error_Msg ='" + strAlarmMsg + "' Where Stn_No ='" + strStnNo + "'";
-                                    //        string strEM = string.Empty;
-                                    //        if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == 0)
-                                    //        {
-                                    //        }
-                                    //    }
-                                    //}
-                                    //else if (objBufferData.PLC2PCBuffer[intItem].Error == 0)
-                                    //{
-                                    //    //v1.0.0.12
-                                    //    if (intItem % 2 == 0)
-                                    //    {
-                                    //        string strAlarmMsg = string.Empty;
-                                    //        if (objBufferData.PLC2PCBuffer[intItem + 1].Error > 0)
-                                    //        {
-                                    //            strAlarmMsg += funAlarmLog(intItem + 1, objBufferData.PLC2PCBuffer[intItem + 1].Error);
-                                    //            //v1.0.0.11 異常時
-                                    //            string strStnNo = string.Empty;
-                                    //            switch (strAlarmMsg.Substring(0, 1))
-                                    //            {
-                                    //                case "A":
-                                    //                    strStnNo = "A10" + strAlarmMsg.Substring(4, 1);
-                                    //                    break;
-                                    //                case "B":
-                                    //                    strStnNo = "B20" + strAlarmMsg.Substring(4, 1);
-                                    //                    break;
-                                    //                case "C":
-                                    //                    strStnNo = "C30" + strAlarmMsg.Substring(4, 1);
-                                    //                    break;
-                                    //                case "D":
-                                    //                    strStnNo = "D40" + strAlarmMsg.Substring(4, 1);
-                                    //                    break;
-                                    //                case "E":
-                                    //                    strStnNo = "E50" + strAlarmMsg.Substring(4, 1);
-                                    //                    break;
-                                    //                case "F":
-                                    //                    strStnNo = "F60" + strAlarmMsg.Substring(4, 1);
-                                    //                    break;
-                                    //                case "G":
-                                    //                    strStnNo = "G70" + strAlarmMsg.Substring(4, 1);
-                                    //                    break;
-                                    //            }
-                                    //            string strSQL = "Update MVS_MST SET Dsp_Flag='1',Error_Flag = '1',Error_Msg ='" + strAlarmMsg + "' Where Stn_No ='" + strStnNo + "'";
-                                    //            string strEM = string.Empty;
-                                    //            if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == 0)
-                                    //            {
-                                    //            }
-
-                                    //        }
-                                    //        else if (objBufferData.PLC2PCBuffer[intItem + 1].Error == 0 &&
-                                    //        string.IsNullOrEmpty(objBufferData.PLC2PCBuffer[intItem].LeftCmdSno)
-                                    //            &&
-                                    //        string.IsNullOrEmpty(objBufferData.PLC2PCBuffer[intItem + 1].LeftCmdSno))
-                                    //        {
-                                    //            string strBufferName = objBufferData.PLC2PCBuffer[intItem + 1].AlarmSignal[1].BufferName;
-                                    //            string strStnNo = string.Empty;
-                                    //            switch (strBufferName.Substring(0, 1))
-                                    //            {
-                                    //                case "A":
-                                    //                    strStnNo = "A10" + strBufferName.Substring(4, 1);
-                                    //                    break;
-                                    //                case "B":
-                                    //                    strStnNo = "B20" + strBufferName.Substring(4, 1);
-                                    //                    break;
-                                    //                case "C":
-                                    //                    strStnNo = "C30" + strBufferName.Substring(4, 1);
-                                    //                    break;
-                                    //                case "D":
-                                    //                    strStnNo = "D40" + strBufferName.Substring(4, 1);
-                                    //                    break;
-                                    //                case "E":
-                                    //                    strStnNo = "E50" + strBufferName.Substring(4, 1);
-                                    //                    break;
-                                    //                case "F":
-                                    //                    strStnNo = "F60" + strBufferName.Substring(4, 1);
-                                    //                    break;
-                                    //                case "G":
-                                    //                    strStnNo = "G70" + strBufferName.Substring(4, 1);
-                                    //                    break;
-                                    //            }
-                                    //            string strSQL = "Update MVS_MST SET Dsp_Flag='1',Error_Flag = '1',Error_Msg ='' Where Stn_No ='" + strStnNo + "'";
-                                    //            string strEM = string.Empty;
-                                    //            if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == 0)
-                                    //            {
-                                    //            }
-                                    //        }
-                                    //    }
-                                    //}
-
-                                    #endregion
-                                    #endregion
                                 }
-                            });
+
+                                #endregion
+
+                                #region  show err msg  //Julia 
+                                //if (objBufferData.PLC2PCBuffer[intItem].Error > 0)
+                                //{
+                                //    if (intItem % 2 == 0)
+                                //    {
+                                //        string strAlarmMsg = funAlarmLog(intItem, objBufferData.PLC2PCBuffer[intItem].Error);
+                                //        if (objBufferData.PLC2PCBuffer[intItem + 1].Error > 0)
+                                //        {
+                                //            strAlarmMsg += funAlarmLog(intItem + 1, objBufferData.PLC2PCBuffer[intItem + 1].Error);
+                                //        }
+
+                                //        //v1.0.0.11 異常時
+                                //        string strStnNo = string.Empty;
+                                //        switch (strAlarmMsg.Substring(0, 1))
+                                //        {
+                                //            case "A":
+                                //                strStnNo = "A10" + strAlarmMsg.Substring(4, 1);
+                                //                break;
+                                //            case "B":
+                                //                strStnNo = "B20" + strAlarmMsg.Substring(4, 1);
+                                //                break;
+                                //            case "C":
+                                //                strStnNo = "C30" + strAlarmMsg.Substring(4, 1);
+                                //                break;
+                                //            case "D":
+                                //                strStnNo = "D40" + strAlarmMsg.Substring(4, 1);
+                                //                break;
+                                //            case "E":
+                                //                strStnNo = "E50" + strAlarmMsg.Substring(4, 1);
+                                //                break;
+                                //            case "F":
+                                //                strStnNo = "F60" + strAlarmMsg.Substring(4, 1);
+                                //                break;
+                                //            case "G":
+                                //                strStnNo = "G70" + strAlarmMsg.Substring(4, 1);
+                                //                break;
+                                //        }
+                                //        string strSQL = "Update MVS_MST SET Dsp_Flag='1',Error_Flag = '1',Error_Msg ='" + strAlarmMsg + "' Where Stn_No ='" + strStnNo + "'";
+                                //        string strEM = string.Empty;
+                                //        if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == 0)
+                                //        {
+                                //        }
+                                //    }
+                                //}
+                                //else if (objBufferData.PLC2PCBuffer[intItem].Error == 0)
+                                //{
+                                //    //v1.0.0.12
+                                //    if (intItem % 2 == 0)
+                                //    {
+                                //        string strAlarmMsg = string.Empty;
+                                //        if (objBufferData.PLC2PCBuffer[intItem + 1].Error > 0)
+                                //        {
+                                //            strAlarmMsg += funAlarmLog(intItem + 1, objBufferData.PLC2PCBuffer[intItem + 1].Error);
+                                //            //v1.0.0.11 異常時
+                                //            string strStnNo = string.Empty;
+                                //            switch (strAlarmMsg.Substring(0, 1))
+                                //            {
+                                //                case "A":
+                                //                    strStnNo = "A10" + strAlarmMsg.Substring(4, 1);
+                                //                    break;
+                                //                case "B":
+                                //                    strStnNo = "B20" + strAlarmMsg.Substring(4, 1);
+                                //                    break;
+                                //                case "C":
+                                //                    strStnNo = "C30" + strAlarmMsg.Substring(4, 1);
+                                //                    break;
+                                //                case "D":
+                                //                    strStnNo = "D40" + strAlarmMsg.Substring(4, 1);
+                                //                    break;
+                                //                case "E":
+                                //                    strStnNo = "E50" + strAlarmMsg.Substring(4, 1);
+                                //                    break;
+                                //                case "F":
+                                //                    strStnNo = "F60" + strAlarmMsg.Substring(4, 1);
+                                //                    break;
+                                //                case "G":
+                                //                    strStnNo = "G70" + strAlarmMsg.Substring(4, 1);
+                                //                    break;
+                                //            }
+                                //            string strSQL = "Update MVS_MST SET Dsp_Flag='1',Error_Flag = '1',Error_Msg ='" + strAlarmMsg + "' Where Stn_No ='" + strStnNo + "'";
+                                //            string strEM = string.Empty;
+                                //            if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == 0)
+                                //            {
+                                //            }
+
+                                //        }
+                                //        else if (objBufferData.PLC2PCBuffer[intItem + 1].Error == 0 &&
+                                //        string.IsNullOrEmpty(objBufferData.PLC2PCBuffer[intItem].LeftCmdSno)
+                                //            &&
+                                //        string.IsNullOrEmpty(objBufferData.PLC2PCBuffer[intItem + 1].LeftCmdSno))
+                                //        {
+                                //            string strBufferName = objBufferData.PLC2PCBuffer[intItem + 1].AlarmSignal[1].BufferName;
+                                //            string strStnNo = string.Empty;
+                                //            switch (strBufferName.Substring(0, 1))
+                                //            {
+                                //                case "A":
+                                //                    strStnNo = "A10" + strBufferName.Substring(4, 1);
+                                //                    break;
+                                //                case "B":
+                                //                    strStnNo = "B20" + strBufferName.Substring(4, 1);
+                                //                    break;
+                                //                case "C":
+                                //                    strStnNo = "C30" + strBufferName.Substring(4, 1);
+                                //                    break;
+                                //                case "D":
+                                //                    strStnNo = "D40" + strBufferName.Substring(4, 1);
+                                //                    break;
+                                //                case "E":
+                                //                    strStnNo = "E50" + strBufferName.Substring(4, 1);
+                                //                    break;
+                                //                case "F":
+                                //                    strStnNo = "F60" + strBufferName.Substring(4, 1);
+                                //                    break;
+                                //                case "G":
+                                //                    strStnNo = "G70" + strBufferName.Substring(4, 1);
+                                //                    break;
+                                //            }
+                                //            string strSQL = "Update MVS_MST SET Dsp_Flag='1',Error_Flag = '1',Error_Msg ='' Where Stn_No ='" + strStnNo + "'";
+                                //            string strEM = string.Empty;
+                                //            if (clsSystem.gobjDB.funExecSql(strSQL, ref strEM) == 0)
+                                //            {
+                                //            }
+                                //        }
+                                //    }
+                                //}
+
+                                #endregion
+                                #endregion
+                            }
+                        });
                         //for(int intItem = 0; intItem < objBufferData.PLC2PCBuffer.Length; intItem++)
                         //{
 
@@ -867,7 +860,7 @@ namespace Mirle.WinPLCCommu
                 #endregion Release 暫存儲位
 
                 #region 站對站
-               // funStnToStn();
+                // funStnToStn();
                 #endregion 站對站
             }
             catch (Exception ex)
@@ -1817,7 +1810,7 @@ namespace Mirle.WinPLCCommu
             if (MessageBox.Show("確定更換站口(A01)方向?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
 
-        
+
             }
         }
         private void ptbA02_DoubleClick(object sender, EventArgs e)
@@ -1825,7 +1818,7 @@ namespace Mirle.WinPLCCommu
             if (MessageBox.Show("確定更換站口(A02)方向?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
 
-               
+
             }
         }
 
@@ -1834,7 +1827,7 @@ namespace Mirle.WinPLCCommu
             if (MessageBox.Show("確定更換站口(A03)方向?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
 
-                
+
             }
         }
 
@@ -1843,7 +1836,7 @@ namespace Mirle.WinPLCCommu
             if (MessageBox.Show("確定更換站口(A04)方向?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
 
-               
+
             }
         }
 
@@ -1852,7 +1845,7 @@ namespace Mirle.WinPLCCommu
             if (MessageBox.Show("確定更換站口(A05)方向?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
 
-               
+
             }
         }
 
@@ -1861,7 +1854,7 @@ namespace Mirle.WinPLCCommu
             if (MessageBox.Show("確定更換站口(A06)方向?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
 
-                
+
             }
         }
 

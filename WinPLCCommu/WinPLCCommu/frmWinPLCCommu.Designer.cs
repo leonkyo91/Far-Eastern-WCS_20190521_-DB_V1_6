@@ -2600,7 +2600,7 @@
             this.groupBox1.Controls.Add(this.txtBCR);
             this.groupBox1.Controls.Add(this.chkWeight);
             this.groupBox1.Controls.Add(this.chkBCR);
-            this.groupBox1.Location = new System.Drawing.Point(9, 206);
+            this.groupBox1.Location = new System.Drawing.Point(10, 322);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
@@ -2608,6 +2608,7 @@
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Pass";
+            this.groupBox1.Visible = false;
             // 
             // txtBCR
             // 
@@ -2643,7 +2644,7 @@
             // 
             this.gpbCommand.Controls.Add(this.btnAutoPause);
             this.gpbCommand.Controls.Add(this.btnCraneCommand);
-            this.gpbCommand.Location = new System.Drawing.Point(11, 334);
+            this.gpbCommand.Location = new System.Drawing.Point(10, 200);
             this.gpbCommand.Name = "gpbCommand";
             this.gpbCommand.Size = new System.Drawing.Size(142, 117);
             this.gpbCommand.TabIndex = 11;
@@ -2681,7 +2682,7 @@
             this.gpbConnection.Controls.Add(this.btnReconnectDB);
             this.gpbConnection.Location = new System.Drawing.Point(10, 3);
             this.gpbConnection.Name = "gpbConnection";
-            this.gpbConnection.Size = new System.Drawing.Size(168, 197);
+            this.gpbConnection.Size = new System.Drawing.Size(168, 191);
             this.gpbConnection.TabIndex = 10;
             this.gpbConnection.TabStop = false;
             this.gpbConnection.Text = "Connection";
@@ -2696,6 +2697,7 @@
             this.btnReconnectWeight.TabIndex = 10;
             this.btnReconnectWeight.Text = "Reconnect Weight";
             this.btnReconnectWeight.UseVisualStyleBackColor = true;
+            this.btnReconnectWeight.Visible = false;
             this.btnReconnectWeight.Click += new System.EventHandler(this.btnReconnectWeight_Click);
             // 
             // chkAutoReconnect
